@@ -1,0 +1,7 @@
+*
+!public/
+!public/attachments/
+!public/attachments/index.php
+!public/avatars/
+!public/avatars/index.php
+!.gitignore
