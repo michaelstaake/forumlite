@@ -23,19 +23,10 @@ class SearchController extends Controller
     	$type = $request->type;
     	if ($type === "discussions_only") {
 			$discussions = Discussion::search($query)->raw();
-			foreach ($discussions as $discussion) {
-                //$discussion['type'] = "discussion";
-			}
 			$results = $discussions;
     	} else {
     		$discussions = Discussion::search($query)->raw();
-    		foreach ($discussions as $discussion) {
-                //$discussion['type'] = "discussion";
-			}
     		$comments = Comment::search($query)->raw();
-    		foreach ($comments as $comment) {
-                //$comment['type'] = "comment";
-			}
     		$results = array_merge($discussions,$comments);
     	}
     	return $results;
