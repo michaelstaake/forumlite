@@ -13,6 +13,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Section;
+use App\Models\Watched;
 use Carbon\Carbon;
 use App\Jobs\NewReplyMail;
 
@@ -43,6 +44,18 @@ class DiscussionController extends Controller
                 $discViews = $discussion->views;
                 $discViewsPlus = $discViews + 1;
                 $updateViewCounter = DB::table('discussions')->where('slug', $slug)->update(['views' => $discViewsPlus]);
+                $currentUser = Auth::user()->id;
+                if ($discussion->member == $currentUser) {
+                    $discussion['can_watch'] = 'FALSE';
+                } else {
+                    $count_watched = DB::table('watched')->where('member', $currentUser)->where('discussion', $discID)->count();
+                    if ($count_watched > 0) {
+                        $discussion['can_watch'] = 'FALSE';
+                    } else {
+                        $discussion['can_watch'] = 'TRUE';
+                    }
+                }
+                
                 
             }
             $comments = Comment::where('discussion',$discID)->get();
@@ -54,7 +67,7 @@ class DiscussionController extends Controller
                 $comment['datetime'] = $cDateTime->toDayDateTimeString();
                 
             }
-            return view('discussion', compact('discussions'), compact('comments'));
+            return view('discussion', compact('discussions', 'comments'));
         } else {
             App::abort(404);
         }

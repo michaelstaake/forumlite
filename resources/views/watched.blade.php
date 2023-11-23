@@ -12,7 +12,7 @@
       <th scope="col">Title</th>
       <th scope="col">Category</th>
       <th scope="col">Author</th>
-      <th scope="col">Watched on</th>
+      <th scope="col">Watched since</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -21,15 +21,21 @@
   	<tr>
       <td scope="row">
       	@foreach ($w->discussion as $wd)
-      		<a href="#">{{ $wd->title }}</a>
+      		<a href="/discussion/{{ $wd->slug }}">{{ $wd->title }}</a>
       	@endforeach
       </a></td>
-      <td>Example Category</td>
+      <td>
+	  	@foreach ($w->category as $wc)
+      		<a href="/category/{{ $wc->slug }}">{{ $wc->name }}</a>
+      	@endforeach
+	  </td>
       <td>
       	@if($w->type === "my")
       		You
       	@else
-      		Other
+			@foreach ($w->author as $wa)
+      			<a href="/member/{{ $wa->username }}">{{ $wa->username }}</a>
+      		@endforeach
       	@endif
       </td>
       <td>{{ $w->created_at }}</td>

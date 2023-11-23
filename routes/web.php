@@ -103,6 +103,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/watched', 'WatchedController@show');
         Route::post('/watched/unwatch', 'WatchedController@unwatch')->name('watched.unwatch');
+        Route::get('/watch/{slug}', 'WatchedController@watch');
     });
 
 

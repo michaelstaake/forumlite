@@ -23,6 +23,11 @@
 	 @if ($d->is_hidden == TRUE)
 	 	<span class="badge bg-secondary">Hidden</span>
 	 @endif
+	 @auth
+	 	@if ($d->can_watch == "TRUE")
+        <div class="float-sm-end"><a class="btn btn-secondary" href="/watch/{{ $d->slug }}" role="button"><i class="bi bi-eye"></i> Watch Discussion</a></div><br>
+		@endif
+    @endauth
 </div>
 
 <div class="row">
