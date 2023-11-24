@@ -10,49 +10,46 @@
 
 <div class="page-title">
 	Categories and Sections
+	<div class="float-sm-end"><button type="button" class="btn btn-primary">New Section</button></div><br>
 </div>
 
 @foreach($sections as $s)
 	<div class="card cp-category-card" id="{{ $s->slug }}">
+		<div class="card-header">
+			<i class="bi bi-arrows-move"></i>&nbsp;&nbsp;&nbsp;Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i>
+			<div class="float-sm-end"><button type="button" class="btn btn-secondary btn-sm">Manage Section</button> <button type="button" class="btn btn-primary btn-sm">New Category</button></div>
+		</div>
 		<div class="card-body">
-			<h4>Section: {{ $s->name }} <button type="button" class="btn btn-primary btn-sm">Edit Section</button> <button type="button" class="btn btn-primary btn-sm">Add Section</button></h4>
+			
 			<table class="table">
-			  <thead>
-			    <tr>
-			      <th scope="col"></th>
-			      <th scope="col">Category</th>
-			      <th scope="col">Slug</th>
-			      <th scope="col">Description</th>
-			      <th scope="col"></th>
-
-			    </tr>
-			  </thead>
 			  <tbody>
 			   @foreach($categories as $c)
 					@if ($c->section === "$s->id")
 						<tr>
-					      <td><i class="bi bi-arrows-move"></i></td>
 					      <th scope="row">
-					      	{{ $c->name }}
+						  	<i class="bi bi-arrows-move"></i>
+					      	<font style="font-weight:normal;">&nbsp;&nbsp;Category:</font> {{ $c->name }}
 					      	@if ($c->is_readonly != NULL)
 					      		<i class="bi bi-lock"></i>
 					      	@endif
 					      	@if ($c->is_hidden != NULL)
 					      		<i class="bi bi-eye-slash"></i>
 					      	@endif
+							 <font style="font-weight:normal;"><i>({{ $c->slug }})</i></font>
 					      </th>
-					      <td>{{ $c->slug }}</td>
 					      <td>{{ $c->description }}</td>
-					      <td><button type="button" class="btn btn-primary btn-sm">Edit</button></td>
+					      <td><button type="button" class="float-sm-end btn btn-secondary btn-sm">Manage Category</button></td>
 					    </tr>
 					@endif
 				</a>
 				@endforeach
 			  </tbody>
 			</table>
-			<button type="button" class="btn btn-primary">Save</button>
 		</div>
 	</div>
+	<br>
 @endforeach
+<p>Drop and drop items to rearrange them, then click Save Order prior to making any other changes such as adding or editing sections or categories.</p>
+<button type="button" class="btn btn-primary">Save Order</button>
 
 @include('includes.footer')

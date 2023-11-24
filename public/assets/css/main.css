@@ -458,6 +458,18 @@
 	max-width: 300px;
 }
 
+.cp-category-card .card-header {
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.cp-category-card .card-body{
+	padding: 0;
+}
+
+.cp-category-card .card-body table {
+	margin-bottom: -1px;
+}
 
 /* search page */
 
