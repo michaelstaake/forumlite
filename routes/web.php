@@ -37,8 +37,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     /* Install Routes */
 
-    Route::get('/install', 'InstallController@show');
-    Route::post('/install', 'InstallController@submit')->name('install.submit');
+    Route::get('/start', 'StartController@show');
+    Route::post('/start/install', 'StartController@install')->name('start.install');
+    Route::post('/start/update', 'StartController@update')->name('start.update');
 
     /* Contact Routes */
 

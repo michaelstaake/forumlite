@@ -26,10 +26,10 @@
 
 <div class="tab-content" id="userTabsContent">
 	<div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
-		<p>forum name, base URL, enabled/disabled, allow signatures, allow registration</p>
+		<p>maintenance mode, allow signatures, allow registration, contact link</p>
 	</div>
 	<div class="tab-pane fade" id="pages-tab-pane" role="tabpanel" aria-labelledby="pages-tab" tabindex="0">
-		<p>Terms and rules, privacy policy, contact</p>
+		<p>Terms and rules, privacy policy</p>
 	</div>
 	<div class="tab-pane fade" id="integration-tab-pane" role="tabpanel" aria-labelledby="integration-tab" tabindex="0">
 		<p>header, footer</p>

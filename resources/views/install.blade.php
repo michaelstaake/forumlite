@@ -23,7 +23,7 @@
 
 <div class="content"><!-- closed in footer -->
 	<div class="container"> <!-- closed in footer -->
-        <form method="post" action="{{ route('settings.submit') }}" class="">
+        <form method="post" action="{{ route('start.install') }}" class="">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
             <h4>Step 1: Update .env</h4>
