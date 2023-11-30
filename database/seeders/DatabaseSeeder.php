@@ -35,5 +35,9 @@ class DatabaseSeeder extends Seeder
             ['element' => 'header', 'content' => ''],
             ['element' => 'footer', 'content' => ''],
         ]);
+
+        DB::table('sections')->insert([
+            ['name' => 'Forums', 'slug' => 'forums', 'order' => '100'],
+        ]);
     }
 }
