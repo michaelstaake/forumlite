@@ -51,8 +51,8 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.3
 
-RUN groupadd --force -g $WWWGROUP sail
-RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+#RUN groupadd --force -g $WWWGROUP sail
+#RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 COPY firstTimeSetup.sh /usr/local/bin/firstTimeSetup.sh
 RUN chmod +x /usr/local/bin/firstTimeSetup.sh
