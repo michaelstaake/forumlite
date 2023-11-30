@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-TARGET_FILE="/initialized.txt"
-
 sleep 5
-echo "Checking for first time setup..."
+echo "Welcome to Forumlite!"
 php artisan key:generate
 php artisan migrate
 php artisan db:seed
