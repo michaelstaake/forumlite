@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-sleep 5
-echo "Welcome to Forumlite!"
-php artisan key:generate
-php artisan migrate
-php artisan db:seed
-php artisan storage:link
+echo "Welcome to Forumlite..."
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+sail artisan key:generate
+sail artisan migrate
+sail artisan db:seed
+sail artisan storage:link

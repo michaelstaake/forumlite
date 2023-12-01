@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-/usr/local/bin/firstTimeSetup.sh
+/usr/local/bin/forumliteStartup.sh
 
 if [ ! -z "$WWWUSER" ]; then
     usermod -u $WWWUSER sail
