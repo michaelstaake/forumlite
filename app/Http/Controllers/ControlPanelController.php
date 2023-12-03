@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Settings;
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Category;
@@ -22,7 +23,8 @@ class ControlPanelController extends Controller
 	        		$users = User::all();
 	        		return view('controlpanel.users', compact('users'));
 	        	} elseif ($page === "settings") {
-	        		return view('controlpanel.settings');
+	        		$settings = Settings::all();
+	        		return view('controlpanel.settings', compact('settings'));
 	        	} elseif ($page === "categories") {
 	        		$sections = Section::all();
 			    	$categories = Category::all();
@@ -52,5 +54,6 @@ class ControlPanelController extends Controller
 
     	
     }
+
 
 }
