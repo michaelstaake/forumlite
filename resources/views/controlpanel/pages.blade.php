@@ -1,17 +1,17 @@
-@php ($pageTitle = "Backup")
+@php ($pageTitle = "Pages")
 @include('includes.header')
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/controlpanel">Control Panel</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Backup</li>
+    <li class="breadcrumb-item active" aria-current="page">Pages</li>
   </ol>
 </nav>
 
 <div class="page-title">
-	Backup
+	Pages
 </div>
 
-<p>Note: Backup does not include passwords, so if you restore a backup your users will need to reset their passwords.</p>
+<p>Terms and rules, privacy policy</p>
 
 @include('includes.footer')
