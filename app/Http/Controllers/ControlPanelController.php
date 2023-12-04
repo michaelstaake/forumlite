@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Settings;
 use App\Models\User;
 use App\Models\Section;
@@ -56,15 +57,23 @@ class ControlPanelController extends Controller
     	
     }
 
-    public function showUser($page = null) 
+    public function showUser($user = null) 
     {
-    	if (Auth::check())
-    		if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
-	        	return view('controlpanel.user');
-	        else
+    	if (Auth::check()) {
+    		if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$count = DB::table('users')->where('username', $user)->count();
+    			if ($count == 1) {
+					$user = User::where('username', $user)->get();
+	        		return view('controlpanel.user', compact('user'));
+				} else {
+	        		App::abort(404);
+	        	}
+			} else {
 	        	App::abort(403);
-    	else
+			}
+		} else {
     		App::abort(403);
+		}
 
     	
     }
