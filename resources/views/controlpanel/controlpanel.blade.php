@@ -52,7 +52,7 @@
             </a>
         </div>
     </div>
-    -<div class="row">
+    <div class="row">
         <div class="col-3 control-panel-item">
             <a href="/controlpanel/pages">
                 <center><h1><i class="bi bi-copy"></i></h1></center>
