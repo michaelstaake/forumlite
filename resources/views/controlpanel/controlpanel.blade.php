@@ -66,10 +66,7 @@
             </a>
         </div>
         <div class="col-3 control-panel-item">
-            <a href="/controlpanel/backup">
-                <center><h1><i class="bi bi-database"></i></h1></center>
-                <center><h4>Backup</h4></center>
-            </a>
+           
         </div>
     </div>
 

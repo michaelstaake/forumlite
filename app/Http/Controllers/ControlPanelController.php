@@ -33,9 +33,7 @@ class ControlPanelController extends Controller
 	        		return view('controlpanel.pages');
 	        	} elseif ($page === "integrations") {
 	        		return view('controlpanel.integrations');
-	        	} elseif ($page === "backup") {
-	        		return view('controlpanel.backup');
-	        	} else {
+				 } else {
 	        		App::abort(404);
 	        	}
 			} else if (auth()->user()->group === "mod") {
