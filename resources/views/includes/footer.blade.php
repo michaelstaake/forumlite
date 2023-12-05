@@ -2,7 +2,7 @@
 </div> <!-- closes .content from header -->
 
 <div class="footer">
-	<center><p>Copyright &copy; <?php echo date("Y"); ?> {{ config('app.name'); }}<a href="/">Home</a> <a href="#">Terms and Rules</a> <a href="#">Privacy Policy</a> <a href="/contact">Contact</a> <a href="http://forumlite.com/" target="_blank">Powered by Forumlite</a> </p></center>
+	<center><p>Copyright &copy; <?php echo date("Y"); ?> {{ config('app.name'); }}<a href="/">Home</a> <a href="/terms-rules">Terms and Rules</a> <a href="/privacy-policy">Privacy Policy</a> <a href="/contact">Contact</a> <a href="http://forumlite.com/" target="_blank">Powered by Forumlite</a> </p></center>
 </div>
 
 @auth

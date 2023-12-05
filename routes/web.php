@@ -63,6 +63,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/controlpanel/{page}', 'ControlPanelController@show');
     Route::get('/controlpanel/user/{user}', 'ControlPanelController@showUser');
 
+    Route::post('/controlpanel/settings', 'ControlPanelController@settingsSubmit')->name('controlpanel.settingsSubmit');
+
     /* Messages Routes */
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/messages', function () {
