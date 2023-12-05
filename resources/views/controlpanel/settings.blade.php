@@ -12,7 +12,7 @@
 	Settings
 </div>
 
-<p>maintenance mode, allow signatures, allow registration, contact link</p>
+<p>maintenance mode, allow signatures, allow registration, contact link, header/footer, terms/policies</p>
 	
 
 @include('includes.footer')

@@ -30,11 +30,7 @@ class ControlPanelController extends Controller
 	        		$sections = Section::all();
 			    	$categories = Category::all();
 			    	return view('controlpanel.categories', compact('sections'), compact('categories'));
-				} elseif ($page === "pages") {
-	        		return view('controlpanel.pages');
-	        	} elseif ($page === "integrations") {
-	        		return view('controlpanel.integrations');
-				 } else {
+				} else {
 	        		App::abort(404);
 	        	}
 			} else if (auth()->user()->group === "mod") {

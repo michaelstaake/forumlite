@@ -13,4 +13,6 @@
 	Users
 </div>
 
+<p>username, email, avatars, discussions, comments, force pw reset, last login time, when created, location, signature, banned.</p>
+
 @include('includes.footer')
