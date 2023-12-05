@@ -52,23 +52,6 @@
             </a>
         </div>
     </div>
-    <div class="row">
-        <div class="col-3 control-panel-item">
-            <a href="/controlpanel/pages">
-                <center><h1><i class="bi bi-copy"></i></h1></center>
-                <center><h4>Pages</h4></center>
-            </a>
-        </div>
-        <div class="col-3 control-panel-item">
-            <a href="/controlpanel/integrations">
-                <center><h1><i class="bi bi-code-slash"></i></h1></center>
-                <center><h4>Integrations</h4></center>
-            </a>
-        </div>
-        <div class="col-3 control-panel-item">
-           
-        </div>
-    </div>
 
 @endif
 
