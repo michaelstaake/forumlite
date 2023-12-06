@@ -35,15 +35,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         return redirect('/');
     });
 
+    /* Page Routes */
+
+    Route::get('/terms-rules', 'PageController@showTermsRules');
+    Route::get('/privacy-policy', 'PageController@showPrivacyPolicy');
+
+    Route::get('/contact', 'ContactController@show');
+
     /* Install Routes */
 
     Route::get('/start', 'StartController@show');
     Route::post('/start/install', 'StartController@install')->name('start.install');
     Route::post('/start/update', 'StartController@update')->name('start.update');
-
-    /* Contact Routes */
-
-    Route::get('/contact', 'ContactController@show');
 
     /* Notifications Routes */
 
@@ -62,6 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/controlpanel', 'ControlPanelController@show');
     Route::get('/controlpanel/{page}', 'ControlPanelController@show');
     Route::get('/controlpanel/user/{user}', 'ControlPanelController@showUser');
+    Route::get('/controlpanel/report/{report}', 'ControlPanelController@showReport');
 
     Route::post('/controlpanel/settings', 'ControlPanelController@settingsSubmit')->name('controlpanel.settingsSubmit');
 

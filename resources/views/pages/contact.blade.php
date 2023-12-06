@@ -3,7 +3,7 @@
 @include('includes.header')
 
 <div class="page-title">
-	 Contact
+	Contact
 </div>
 
 <div class="row">

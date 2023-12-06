@@ -69,9 +69,6 @@
 	width: 100%;
 }
 
-.nav-item-user {
-}
-
 /* footer */
 
 .footer {
@@ -469,6 +466,11 @@
 
 .cp-category-card .card-body table {
 	margin-bottom: -1px;
+}
+
+.cp-member-avatar {
+	margin-bottom: 15px;
+	max-width: 100%;
 }
 
 /* search page */
