@@ -17,7 +17,19 @@
 	<div class="card cp-category-card" id="{{ $s->slug }}">
 		<div class="card-header">
 			<i class="bi bi-arrows-move"></i>&nbsp;&nbsp;&nbsp;Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i>
-			<div class="float-sm-end"><button type="button" class="btn btn-secondary btn-sm">Manage Section</button> <button type="button" class="btn btn-primary btn-sm">New Category</button></div>
+			<div class="float-sm-end">
+				<div class="dropdown">
+					<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-three-dots"></i>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Manage Section</a></li>
+						<li><a class="dropdown-item" href="#">Delete Section</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#">New Category</a></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<div class="card-body">
 			
@@ -38,7 +50,19 @@
 							 <font style="font-weight:normal;"><i>({{ $c->slug }})</i></font>
 					      </th>
 					      <td>{{ $c->description }}</td>
-					      <td><button type="button" class="float-sm-end btn btn-secondary btn-sm">Manage Category</button></td>
+					      <td>
+						  	<div class="float-sm-end">
+						  		<div class="dropdown">
+									<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<i class="bi bi-three-dots"></i>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">Manage Category</a></li>
+										<li><a class="dropdown-item" href="#">Delete Category</a></li>
+									</ul>
+								</div>
+							</div>
+						  </td>
 					    </tr>
 					@endif
 				</a>

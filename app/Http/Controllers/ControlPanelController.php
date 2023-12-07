@@ -60,7 +60,7 @@ class ControlPanelController extends Controller
 			    	$categories = Category::all();
 			    	return view('controlpanel.categories', compact('sections'), compact('categories'));
 				} else {
-	        		App::abort(404);
+	        		abort(404);
 	        	}
 			} else if (auth()->user()->group === "mod") {
 				if ($page == null) {
@@ -71,13 +71,13 @@ class ControlPanelController extends Controller
 	        		$users = User::all();
 	        		return view('controlpanel.users', compact('users'));
 	        	} else {
-	        		App::abort(404);
+	        		abort(404);
 	        	}
 			} else {
-	        	App::abort(403);
+	        	abort(403);
 			}
     	else
-    		App::abort(403);
+    		abort(403);
 
     	
     }
@@ -156,7 +156,7 @@ class ControlPanelController extends Controller
 		DB::table('settings')->where('setting', 'contact_link')->update(['value' => $request->contact_link]);
 		DB::table('settings')->where('setting', 'header')->update(['value' => $request->header]);
 		DB::table('settings')->where('setting', 'footer')->update(['value' => $request->footer]);
-		
+
        return redirect('/controlpanel/settings');
 	}
 		

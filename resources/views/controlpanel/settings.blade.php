@@ -24,6 +24,13 @@
 	</li>
 </ul>
 
+<script type="text/javascript" >
+   $(document).ready(function() {
+      $("#termsContent").markItUp(mySettings);
+	  $("#privacyContent").markItUp(mySettings);
+   });
+</script>
+
 <form method="post" action="{{ route('controlpanel.settingsSubmit') }}" class="">
 
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -89,15 +96,15 @@
 		<br>
 		<p>Here you can set the content for your <a href="/terms-rules" target="_blank">Terms and Rules</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a> pages. Forumlite requires users to check they agree to both upon registering and these links are always displayed in the footer as well.</p>
 		<p><strong>Terms and Rules</strong></p>
-		<p><textarea class="form-control" rows="10" name="terms_content">{{ $terms_content }} </textarea></p>
+		<p><textarea class="form-control" rows="10" name="terms_content" id="termsContent">{{ $terms_content }} </textarea></p>
 		<p><strong>Privacy Policy</strong></p>
-		<p><textarea class="form-control" rows="10" name="privacy_content">{{ $privacy_content }}</textarea></p>
+		<p><textarea class="form-control" rows="10" name="privacy_content" id="privacyContent">{{ $privacy_content }}</textarea></p>
 	</div>
 	<div class="tab-pane fade" id="integration-tab-pane" role="tabpanel" aria-labelledby="integration-tab" tabindex="0">
 		<br>
 		<p>Use the default header and footer or replace them with your own code to easily integrate your forum with the rest of your website or customize it.</p>
 		<p><strong>Header</strong></p>
-		<p><select class="form-select" style="max-width:300px;" name="header">
+		<p><select class="form-select" style="max-width:300px;" name="header" id="headerSelect">
 			<option value="default" 
 			@if($header == 'default')
 			selected
@@ -109,9 +116,9 @@
 			@endif
 			>Custom</option>
 		</select></p>
-		<p><textarea class="form-control" rows="10" name="header_content">{{ $header_content }}</textarea></p>
+		<p><textarea class="form-control" rows="10" name="header_content" id="headerContent">{{ $header_content }}</textarea></p>
 		<p><strong>Footer</strong></p>
-		<p><select class="form-select" style="max-width:300px;" name="footer">
+		<p><select class="form-select" style="max-width:300px;" name="footer" id="footerSelect">
 			<option value="default" 
 			@if($footer == 'default')
 			selected
@@ -123,7 +130,7 @@
 			@endif
 			>Custom</option>
 		</select></p>
-		<p><textarea class="form-control" rows="10" name="footer_content" disabled>{{ $footer_content }}</textarea></p>
+		<p><textarea class="form-control" rows="10" name="footer_content" id="footerContent">{{ $footer_content }}</textarea></p>
 	</div>
 </div>
 <hr>
@@ -131,5 +138,46 @@
 
 </form>
 	
+<script>
+const selectElementHeader = document.getElementById('headerSelect');
+const textareaElementHeader = document.getElementById('headerContent');
+const selectElementFooter = document.getElementById('footerSelect');
+const textareaElementFooter = document.getElementById('footerContent');
+
+textareaElementHeader.disabled = selectElementHeader.value === 'default';
+textareaElementFooter.disabled = selectElementFooter.value === 'default';
+
+selectElementHeader.addEventListener('change', function() {
+  if (selectElementHeader.value === 'default') {
+    toggleTextArea('#headerContent', false);
+  } else {
+    toggleTextArea('#headerContent', true);
+  }
+});
+
+selectElementFooter.addEventListener('change', function() {
+  if (selectElementFooter.value === 'default') {
+    toggleTextArea('#footerContent', false);
+  } else {
+    toggleTextArea('#footerContent', false);
+  }
+});
+
+function toggleTextArea(selector, state){
+    let textArea = document.querySelector(selector);
+    if(state){
+        textArea.disabled = false;
+        if(textArea.hasAttribute("linked-data-copy")){
+            let linkedData = document.querySelector('textarea[linked-data-from="'+selector+'"]');
+            linkedData.remove();
+            textArea.removeAttribute("linked-data-copy");
+        }
+    }else{
+        textArea.disabled = true;
+        textArea.setAttribute("linked-data-copy", selector);
+        textArea.insertAdjacentHTML("afterend", `<textarea style="display:none;" name="${textArea.name}" linked-data-from="${selector}">${textArea.value}</textarea>`)
+    }
+}
+</script>
 
 @include('includes.footer')
