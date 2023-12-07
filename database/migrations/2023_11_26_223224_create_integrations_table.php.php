@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('integrations', function (Blueprint $table) {
             $table->string('element')->unique();
-            $table->binary('content')->nullable();
+            $table->longtext('content')->nullable();
         });
     }
 

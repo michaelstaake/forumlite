@@ -8,7 +8,7 @@
 
 <div class="row">
 	<div class="col-9">
-        <p></p>
+    <p>@foreach($content as $c) {{ $c->content}}  @endforeach</p>
 	</div>
 	<div class="col-3">
         @include('includes.sidebar')

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->string('page')->unique();
-            $table->binary('content')->nullable();
+            $table->longtext('content')->nullable();
         });
     }
 
