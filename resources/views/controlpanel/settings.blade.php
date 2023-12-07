@@ -56,7 +56,7 @@
 			<label class="form-check-label" for="can_signature">Allow Signatures</label>
 		</div>
 		<p><strong>Maintenance Mode</strong></p>
-		<p><select class="form-select" name="maintenance_mode" style="max-width:300px;">
+		<p><select class="form-select" name="maintenance_mode" style="max-width:300px;" id="maintenanceMode">
 			<option value="enabled" 
 			@if($maintenance_mode == 'enabled')
 			selected
@@ -70,11 +70,11 @@
 		</select></p>
 		<div class="mb-3">
 			<label for="maintenance_message" class="form-label">Maintenance Mode Message</label>
-			<input type="text" class="form-control" id="maintenance_message" aria-describedby="maintenance_message_help" name="maintenance_message" value="{{ $maintenance_message }}">
+			<input type="text" class="form-control" aria-describedby="maintenance_message_help" name="maintenance_message" value="{{ $maintenance_message }}" id="maintenanceMessage">
 			<div id="maintenance_message_help" class="form-text">You can add a custom message here that will display if maintenance mode is enabled.</div>
 		</div>
 		<p><strong>Contact Link</strong></p>
-		<p><select class="form-select" name="contact_type" style="max-width:300px;">
+		<p><select class="form-select" name="contact_type" style="max-width:300px;"  id="contactType">
 			<option value="default" 
 			@if($contact_type == 'default')
 			selected
@@ -88,7 +88,7 @@
 		</select></p>
 		<div class="mb-3">
 			<label for="contact_link" class="form-label">Custom Contact Link</label>
-			<input type="text" class="form-control" id="contact_link" aria-describedby="contact_link_help" name="contact_link" value="{{ $contact_link }}">
+			<input type="text" class="form-control" aria-describedby="contact_link_help" name="contact_link" value="{{ $contact_link }}"  id="contactLink">
 			<div id="contact_link_help" class="form-text">If you wish to use a Custom Contact Link, enter the complete URL here, like https://www.example.com/contact.php</div>
 		</div>
 	</div>
@@ -139,13 +139,61 @@
 </form>
 	
 <script>
+
+const selectElementMaintenance = document.getElementById('maintenanceMode');
+const inputElementMaintenance = document.getElementById('maintenanceMessage');
+const selectElementContact = document.getElementById('contactType');
+const inputElementContact = document.getElementById('contactLink');
+
 const selectElementHeader = document.getElementById('headerSelect');
 const textareaElementHeader = document.getElementById('headerContent');
 const selectElementFooter = document.getElementById('footerSelect');
 const textareaElementFooter = document.getElementById('footerContent');
 
+inputElementMaintenance.disabled = selectElementMaintenance.value === 'disabled';
+inputElementContact.disabled = selectElementContact.value === 'default';
+
 textareaElementHeader.disabled = selectElementHeader.value === 'default';
 textareaElementFooter.disabled = selectElementFooter.value === 'default';
+
+window.addEventListener('load', function() {
+	if (selectElementMaintenance.value === 'disabled') {
+		toggleInputArea('#maintenanceMessage', false);
+	} else {
+		toggleInputArea('#maintenanceMessage', true);
+	}
+	if (selectElementContact.value === 'default') {
+		toggleInputArea('#contactLink', false);
+	} else {
+		toggleInputArea('#contactLink', true);
+	}
+	if (selectElementHeader.value === 'default') {
+		toggleTextArea('#headerContent', false);
+	} else {
+		toggleTextArea('#headerContent', true);
+	}
+	if (selectElementFooter.value === 'default') {
+		toggleTextArea('#footerContent', false);
+	} else {
+		toggleTextArea('#footerContent', true);
+	}
+});
+
+selectElementMaintenance.addEventListener('change', function() {
+  if (selectElementMaintenance.value === 'disabled') {
+	toggleInputArea('#maintenanceMessage', false);
+  } else {
+	toggleInputArea('#maintenanceMessage', true);
+  }
+});
+
+selectElementContact.addEventListener('change', function() {
+  if (selectElementContact.value === 'default') {
+	toggleInputArea('#contactLink', false);
+  } else {
+	toggleInputArea('#contactLink', true);
+  }
+});
 
 selectElementHeader.addEventListener('change', function() {
   if (selectElementHeader.value === 'default') {
@@ -159,9 +207,25 @@ selectElementFooter.addEventListener('change', function() {
   if (selectElementFooter.value === 'default') {
     toggleTextArea('#footerContent', false);
   } else {
-    toggleTextArea('#footerContent', false);
+    toggleTextArea('#footerContent', true);
   }
 });
+
+function toggleInputArea(selector, state){
+    let inputArea = document.querySelector(selector);
+    if(state){
+        inputArea.disabled = false;
+        if(inputArea.hasAttribute("linked-data-copy")){
+            let linkedData = document.querySelector('input[linked-data-from="'+selector+'"]');
+            linkedData.remove();
+            inputArea.removeAttribute("linked-data-copy");
+        }
+    }else{
+        inputArea.disabled = true;
+        inputArea.setAttribute("linked-data-copy", selector);
+		inputArea.insertAdjacentHTML("afterend", `<input style="display:none;" name="${inputArea.name}" type="text" linked-data-from="${selector}" value="${inputArea.value}">`)
+    }
+}
 
 function toggleTextArea(selector, state){
     let textArea = document.querySelector(selector);

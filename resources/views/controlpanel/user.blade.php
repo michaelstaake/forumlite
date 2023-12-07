@@ -98,11 +98,6 @@
                       @endif
                     </tr>
                   @endforeach
-                  <tr>
-                    <td><i class="bi bi-cloud-arrow-up"></i></td>
-                    <td>Upload Avatar</td>
-                    <td><button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#avatarUploadModal">Upload</button></td>
-                  </tr>
                 </tbody>
               </table>
             </div>

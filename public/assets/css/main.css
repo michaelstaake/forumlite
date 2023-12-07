@@ -8,6 +8,14 @@
 	border-radius: 0 !important;
 }
 
+/* error page */
+
+.error-image {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	max-width: 350px;
+}
+
 /* tinymce */
 
 .tox-menubar {

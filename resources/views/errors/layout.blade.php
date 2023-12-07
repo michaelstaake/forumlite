@@ -47,6 +47,14 @@
     Error @yield('code')
 </div>
 
-@yield('message')
+<div class="error-message">
+    @yield('message')
+</div>
+
+<div class="error-image">
+    <img src="{{ asset('assets/img/') }}/@yield('code').jpg" class="img-fluid rounded" alt="">
+</div>
+
+
 
 @include('includes.footer')
