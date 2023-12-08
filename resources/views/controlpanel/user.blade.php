@@ -14,16 +14,14 @@
     @if ($m->is_banned == TRUE)
       <span class="badge bg-warning">Banned</span>
     @endif
-    @if ($m->username != auth()->user()->username)
-        <div class="float-sm-end"><a class="btn btn-primary" href="/message/new/{{ $m->username }}" role="button"><i class="bi bi-send"></i> Message User</a></div><br>
-    @endif
+    <div class="float-sm-end"><a class="btn btn-primary" href="/member/{{ $m->username }}" role="button"><i class="bi bi-binoculars"></i> View Profile</a></div><br>
 </div>
 
 <div class="row">
   <div class="col">
     <div class="card">
       <div class="card-body">
-        <a href="/member/{{ $m->username }}" target="_blank">View Profile</a>&nbsp; &nbsp; &nbsp; Discussions: <strong>{{ $m->numDiscussions }}</strong>&nbsp; &nbsp; &nbsp; Comments: <strong>{{ $m->numComments }}</strong>&nbsp; &nbsp; &nbsp;  Joined: <strong>{{ $m->dateTimeCreated }}</strong>. Last Active: <strong>{{ $m->dateTimeActive }}</strong>
+        Discussions: <strong>{{ $m->numDiscussions }}</strong>&nbsp; &nbsp; &nbsp; Comments: <strong>{{ $m->numComments }}</strong>&nbsp; &nbsp; &nbsp;  Joined: <strong>{{ $m->dateTimeCreated }}</strong>&nbsp; &nbsp; &nbsp; Last Active: <strong>{{ $m->dateTimeActive }}</strong>
       </div>
     </div>
   </div>

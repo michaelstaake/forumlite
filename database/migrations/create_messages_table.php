@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('from');
             $table->string('to');
             $table->string('subject');
-            $table->binary('content');
+            $table->longtext('content');
             $table->string('status');
             $table->timestamps();
         });

@@ -14,7 +14,7 @@
 
 <ul class="nav nav-tabs" id="reportsTabs" role="tablist">
 	<li class="nav-item" role="presentation">
-		<button class="nav-link active" id="new-tab" data-bs-toggle="tab" data-bs-target="#new-tab-pane" type="button" role="tab" aria-controls="new-tab-pane" aria-selected="true">New Reports <span class="badge bg-secondary">7</span></button>
+		<button class="nav-link active" id="new-tab" data-bs-toggle="tab" data-bs-target="#new-tab-pane" type="button" role="tab" aria-controls="new-tab-pane" aria-selected="true">New Reports</button>
 	</li>
 	<li class="nav-item" role="presentation">
 		<button class="nav-link" id="handled-tab" data-bs-toggle="tab" data-bs-target="#handled-tab-pane" type="button" role="tab" aria-controls="handled-tab-pane" aria-selected="false">Handled Reports</button>
@@ -26,16 +26,13 @@
 		<div class="row">
 			<div class="col">
 				<ul class="list-group list-group-flush reports-all">
-					<a href="/controlpanel/report/1" class="list-group-item list-group-item-action notifications-item">
-						<h6>Reported User</h6>
-						<p>Test has reported user example.</p>
-						<span>August 11th, 2023 at 4:44PM</span>
-					</a>
-					<a href="/controlpanel/report/1" class="list-group-item list-group-item-action">
-						<h6>Reported Discussion</h6>
-						<p>Test has reported Discussion by example.</p>
-						<span>August 11th, 2023 at 4:44PM</span>
-					</a>
+					@foreach($rn as $rn)
+						<a href="/controlpanel/report/{{ $rn->id }}" class="list-group-item list-group-item-action">
+							<h6>Reported {{ $rn->type }}</h6>
+							<p>{{ $rn->summary }}</p>
+							<span>Reported: {{ $rn->created_at }}</span>
+						</a>
+					@endforeach
 				</ul>
 			</div>
 		</div>
@@ -44,16 +41,13 @@
 		<div class="row">
 			<div class="col">
 				<ul class="list-group list-group-flush reports-all">
-					<a href="/controlpanel/report/1" class="list-group-item list-group-item-action">
-						<h6>Reported Comment</h6>
-						<p>Test has reported a comment by example.</p>
-						<span>August 11th, 2023 at 4:44PM</span>
-					</a>
-					<a href="/controlpanel/report/1" class="list-group-item list-group-item-action">
-						<h6>Reported Message</h6>
-						<p>a_user has reported a message from example..</p>
-						<span>August 11th, 2023 at 4:44PM</span>
-					</a>
+					@foreach($rh as $rh)
+						<a href="/controlpanel/report/{{ $rh->id }}" class="list-group-item list-group-item-action">
+							<h6>Reported {{ $rh->type }}</h6>
+							<p>{{ $rh->summary }}</p>
+							<span>Reported: {{ $rh->created_at }}</span><span>Handled: {{ $rh->updated_at }}</span>
+						</a>
+					@endforeach
 				</ul>
 			</div>
 		</div>

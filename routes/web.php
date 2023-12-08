@@ -60,6 +60,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
     Route::get('/category/{c}', 'CategoryController@show');
 
+    /* Report Routes */
+
+    Route::post('/report/comment', 'ReportController@reportComment')->name('report.comment');
+    Route::post('/report/discussion', 'ReportController@reportDiscussion')->name('report.discussion');
+    Route::post('/report/message', 'ReportController@reportMessage')->name('report.message');
+    Route::post('/report/user', 'ReportController@reportUser')->name('report.user');
+
     /* Control Panel Routes */
 
     Route::get('/controlpanel', 'ControlPanelController@show');
@@ -68,7 +75,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/controlpanel/report/{report}', 'ControlPanelController@showReport');
 
     Route::post('/controlpanel/settings', 'ControlPanelController@settingsSubmit')->name('controlpanel.settingsSubmit');
-
+    Route::post('/controlpanel/report/handle', 'ControlPanelController@reportHandle')->name('controlpanel.reportHandle');
+    Route::post('/controlpanel/report/delete', 'ControlPanelController@reportDelete')->name('controlpanel.reportDelete');
     /* Messages Routes */
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/messages', function () {

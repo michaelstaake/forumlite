@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ControlPanelSettingsSaveRequest;
+use App\Http\Requests\ReportHandleRequest;
+use App\Http\Requests\ReportDeleteRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -25,7 +27,9 @@ class ControlPanelController extends Controller
 	        	if ($page == null) {
 	        		return view('controlpanel.controlpanel');
 	        	} elseif ($page === "reports") {
-	        		return view('controlpanel.reports');
+	        		$rn = Report::where('status','new')->orderBy('id', 'desc')->get();
+					$rh = Report::where('status','handled')->orderBy('id', 'desc')->get();
+	        		return view('controlpanel.reports', compact('rn'), compact('rh'));
 	        	} elseif ($page === "users") {
 	        		$users = User::all();
 	        		return view('controlpanel.users', compact('users'));
@@ -66,7 +70,9 @@ class ControlPanelController extends Controller
 				if ($page == null) {
 	        		return view('controlpanel.controlpanel');
 	        	} elseif ($page === "reports") {
-	        		return view('controlpanel.reports');
+					$rn = Report::where('status','new')->orderBy('id', 'desc')->get();
+					$rh = Report::where('status','handled')->orderBy('id', 'desc')->get();
+	        		return view('controlpanel.reports', compact('rn'), compact('rh'));
 	        	} elseif ($page === "users") {
 	        		$users = User::all();
 	        		return view('controlpanel.users', compact('users'));
@@ -158,6 +164,18 @@ class ControlPanelController extends Controller
 		DB::table('settings')->where('setting', 'footer')->update(['value' => $request->footer]);
 
        return redirect('/controlpanel/settings');
+	}
+
+	public function reportHandle(ReportHandleRequest $request) 
+	{
+		Report::where('id', $request->report_id)->update(['status' => 'handled']);
+		return redirect('/controlpanel/report/'.$request->report_id);
+	}
+
+	public function reportDelete(ReportDeleteRequest $request) 
+	{
+		Report::where('id', $request->report_id)->delete();
+		return redirect('/controlpanel/reports');
 	}
 		
 

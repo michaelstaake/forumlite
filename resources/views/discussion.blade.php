@@ -68,7 +68,7 @@
 						@endif
 						<a href="#" data-bs-toggle="modal" data-bs-target="#discussionDeleteModal">Delete</a>
 					@endif
-					<a href="#">Report</a>
+					<a href="#" data-bs-toggle="modal" data-bs-target="#reportDiscussionModal">Report</a>
 				</div>
 				@endauth
 			</li>
@@ -97,7 +97,7 @@
 							<a href="#" data-bs-toggle="modal" data-bs-target="#commentEditModal" data-bs-comment="{{ $c->id }}">Edit</a>
 							<a href="#" data-bs-toggle="modal" data-bs-target="#commentDeleteModal" data-bs-comment="{{ $c->id }}">Delete</a>
 						@endif
-						<a href="#">Report</a>
+						<a href="#" data-bs-toggle="modal" data-bs-target="#reportCommentModal" data-bs-comment="{{ $c->id }}">Report</a>
 					</div>
 					@endauth
 				</li>
@@ -164,6 +164,54 @@
 	</div>
 
 	@auth
+		<!-- #reportCommentModal -->
+		<div class="modal modal-lg fade" id="reportCommentModal" tabindex="-1" aria-labelledby="reportCommentLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<form method="post" action="{{ route('report.comment') }}" class="">
+					<div class="modal-header">
+					<h1 class="modal-title fs-5" id="reportCommentLabel">Report Comment</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					<input type="hidden" id="commentID" value="" name="id_of_reported" />
+					<input type="hidden" name="who_reported" value="{{ auth()->user()->username }}" />
+					<p>Report reason:</p>
+					<textarea class="form-control" name="reason" rows="3" required></textarea>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+		<!-- #reportDiscussionModal -->
+		<div class="modal modal-lg fade" id="reportDiscussionModal" tabindex="-1" aria-labelledby="reportDiscussionLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<form method="post" action="{{ route('report.discussion') }}" class="">
+					<div class="modal-header">
+					<h1 class="modal-title fs-5" id="reportDiscussionLabel">Report Discussion</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+						<input type="hidden" name="id_of_reported" value="{{ $d->id }}" />
+						<input type="hidden" name="who_reported" value="{{ auth()->user()->username }}" />
+						<p>Report reason:</p>
+						<textarea class="form-control" name="reason" rows="3" required></textarea>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
 		@if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
 			<!-- #discussionLockModal -->
 			<div class="modal fade" id="discussionLockModal" tabindex="-1" aria-labelledby="discussionLockLabel" aria-hidden="true">
@@ -392,6 +440,16 @@
 
 	</script>
 	<script>
+		const reportCommentModal = document.getElementById('reportCommentModal')
+		if (reportCommentModal) {
+			reportCommentModal.addEventListener('show.bs.modal', event => {
+		    const button = event.relatedTarget;
+		    const comment = button.getAttribute('data-bs-comment');
+		    const modalComment = reportCommentModal.querySelector('#commentID');
+		    modalComment.value = comment;
+		  });
+		}
+		
 		const commentEditModal = document.getElementById('commentEditModal')
 		if (commentEditModal) {
 		  commentEditModal.addEventListener('show.bs.modal', event => {

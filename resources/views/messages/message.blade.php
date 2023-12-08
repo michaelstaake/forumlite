@@ -43,7 +43,7 @@
 @if ($m->folder === "inbox")
   <div class="float-sm-end message-buttons">
   <a class="btn btn-primary" href="/message/new/{{ $u->username }}" role="button"><i class="bi bi-reply"></i> Reply</a>
-  <a class="btn btn-danger" href="#" role="button"><i class="bi bi-exclamation-triangle"></i> Report</a>
+  <btn class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportMessageModal"><i class="bi bi-exclamation-triangle"></i> Report</btn>
 </div>
 @else
   <p>Sent to: 
@@ -56,5 +56,30 @@
 <br>
 <br>
 <br>
+
+<!-- #reportMessageModal -->
+<div class="modal modal-lg fade" id="reportMessageModal" tabindex="-1" aria-labelledby="reportMessageLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" action="{{ route('report.message') }}" class="">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="reportMessageLabel">Report Message</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+            <input type="hidden" name="id_of_reported" value="{{ $m->id }}" />
+            <input type="hidden" name="who_reported" value="{{ auth()->user()->username }}" />
+            <p>Report reason:</p>
+            <textarea class="form-control" name="reason" rows="3" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 @include('includes.footer')

@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('content');
+            $table->string('id_of_reported');
+            $table->longtext('summary');
+            $table->longtext('content');
             $table->string('who_reported');
             $table->string('status');
             $table->timestamps();
