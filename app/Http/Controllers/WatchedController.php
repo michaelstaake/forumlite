@@ -63,11 +63,11 @@ class WatchedController extends Controller
 
     public function unwatch(UnwatchRequest $request)
     {
-        $user = Auth::user()->username;
+        $user = Auth::user()->id;
         $watch_id = $request->watch_id;
         $count = DB::table('watched')->where('member', $user)->where('id', $watch_id)->count();
         if ($count == 1) {
-        	$deleted = DB::table('watched')->where('watch_id', $watch_id)->delete();
+        	$deleted = DB::table('watched')->where('id', $watch_id)->delete();
             return redirect('/watched');
         } else {
             return redirect('/watched');

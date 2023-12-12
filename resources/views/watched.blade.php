@@ -6,48 +6,42 @@
 </div>
 <p>You receive notifications for watched discussions, and depending on <a href="/settings">settings</a>, may receive an email as well.</p>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Category</th>
-      <th scope="col">Author</th>
-      <th scope="col">Watched since</th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-  	@foreach($watched as $w)
-  	<tr>
-      <td scope="row">
-      	@foreach ($w->discussion as $wd)
-      		<a href="/discussion/{{ $wd->slug }}">{{ $wd->title }}</a>
-      	@endforeach
-      </a></td>
-      <td>
-	  	@foreach ($w->category as $wc)
-      		<a href="/category/{{ $wc->slug }}">{{ $wc->name }}</a>
-      	@endforeach
-	  </td>
-      <td>
-      	@if($w->type === "my")
-      		You
+<ul class="forum-discussion-list">
+@foreach($watched as $w)
+	<li class="forum-discussion-li">
+		<div class="forum-discussion-li-left">
+		@if($w->type === "my")
+		<img class="forum-discussion-li-avatar" src="{{asset('storage/avatars')}}/{{auth()->user()->avatar}}" />
       	@else
+			@foreach ($w->author as $wa)
+			<img class="forum-discussion-li-avatar" src="{{asset('storage/avatars')}}/{{ $wa->avatar }}" />
+      		@endforeach
+      	@endif
+		</div>
+		<div class="forum-discussion-li-right">
+		<h6>
+			 @foreach ($w->discussion as $wd)
+			 	<a href="/discussion/{{ $wd->slug }}">{{ $wd->title }}</a>
+			@endforeach
+		</h6>
+		<span>Started by
 			@foreach ($w->author as $wa)
       			<a href="/member/{{ $wa->username }}">{{ $wa->username }}</a>
       		@endforeach
-      	@endif
-      </td>
-      <td>{{ $w->created_at }}</td>
-      @if($w->type === "watched")
-      	<td><button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#unwatchModal-{{ $w->id }}">Unwatch</button></td>
-      @endif
-      
-    </tr>
-  	@endforeach
-    
-  </tbody>
-</table>
+			@foreach ($w->category as $wc)
+      			in <a href="/category/{{ $wc->slug }}">{{ $wc->name }}</a>
+      		@endforeach
+			on {{ $wd->created_at }}</span>
+		@if($w->type === "watched")
+		<span>Watched since {{ $w->created_at }}</span><span><a href="#" data-bs-toggle="modal" data-bs-target="#unwatchModal-{{ $w->id }}">Unwatch</a></span>
+    	@endif
+			
+		</div>
+		<div class="clear"></div>
+		
+	</li>
+	@endforeach
+</ul>
 
 @foreach($watched as $w)
   	@if($w->type === "watched")

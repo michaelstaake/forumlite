@@ -124,8 +124,6 @@ class DiscussionController extends Controller
         }
     }
 
-    /* new discussion form submit */
-
     public function submit(NewDiscussionRequest $request)
     {
         $discussion = Discussion::create($request->validated());

@@ -14,7 +14,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\Report;
 use Carbon\Carbon;
-use App\Events\NewReport;
+use App\Jobs\NewReportMail;
 
 class ReportController extends Controller
 {
@@ -113,7 +113,13 @@ class ReportController extends Controller
 
             $report = Report::where('id', $report->id)->first();
 
-            //event(new NewReport($report));
+            $report_recipients = User::where('group', 'admin')->orWhere('group', 'mod')->get();
+
+            foreach ($report_recipients as $rr) {
+                $user_id = $rr->id;
+                $report_id = $report->id;
+                NewReportMail::dispatch($user_id,$report_id);
+            }
 
             $url = '/member/'.$user->username;
             return redirect($url);
