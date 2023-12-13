@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ControlPanelSettingsSaveRequest;
+use App\Http\Requests\ControlPanelUserModifyActionRequest;
 use App\Http\Requests\ReportHandleRequest;
 use App\Http\Requests\ReportDeleteRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Settings;
 use App\Models\User;
@@ -122,8 +124,134 @@ class ControlPanelController extends Controller
 		} else {
     		abort(403);
 		}
+    }
 
-    	
+	public function userSubmit(ControlPanelUserModifyActionRequest $request)
+    {
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$username = $request->username;
+				$user_id = $request->user_id;
+				$count = DB::table('users')->where('id', $user_id)->count();
+				if ($count == 1) {
+					$user = User::find($user_id);
+					$user->email = $request->email;
+					$user->avatar = $request->avatar;
+        			$user->signature = $request->signature;
+        			$user->location = $request->location;
+					$user->save();
+					$url = '/controlpanel/user/'.$username;
+        			return redirect($url);
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+
+    }
+
+	public function userModifyGroup(ControlPanelUserModifyActionRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$username = $request->username;
+				$user_id = $request->user_id;
+				$count = DB::table('users')->where('id', $user_id)->count();
+				if ($count == 1) {
+					$user = User::find($user_id);
+					$user->group = $request->group;
+					$user->save();
+					$url = '/controlpanel/user/'.$username;
+        			return redirect($url);
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	public function userBan(ControlPanelUserModifyActionRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$username = $request->username;
+				$user_id = $request->user_id;
+				$count = DB::table('users')->where('id', $user_id)->count();
+				if ($count == 1) {
+					$user = User::find($user_id);
+					$user->is_banned = TRUE;
+					$user->save();
+					$url = '/controlpanel/user/'.$username;
+        			return redirect($url);
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	public function userUnban(ControlPanelUserModifyActionRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$username = $request->username;
+				$user_id = $request->user_id;
+				$count = DB::table('users')->where('id', $user_id)->count();
+				if ($count == 1) {
+					$user = User::find($user_id);
+					$user->is_banned = FALSE;
+					$user->save();
+					$url = '/controlpanel/user/'.$username;
+        			return redirect($url);
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	public function userDeleteAvatar(ControlPanelUserModifyActionRequest $request)
+    {
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$username = $request->username;
+				$filename = $request->avatar;
+				$count1 = DB::table('users')->where('username', $username)->count();
+				if ($count1 == 1) {
+					$count2 = DB::table('avatars')->where('user', $username)->where('filename', $filename)->count();
+					if ($count2 == 1) {
+						$delete = UserAvatar::where('filename', $filename)->delete();
+						Storage::delete('public/avatars/'.$filename);
+						$url = '/controlpanel/user/'.$username;
+        				return redirect($url);
+					} else {
+						abort(404);
+					}
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
     }
 
 	public function showReport($report = null) 
@@ -144,8 +272,6 @@ class ControlPanelController extends Controller
 		} else {
     		abort(403);
 		}
-
-    	
     }
 
 	public function settingsSubmit(ControlPanelSettingsSaveRequest $request) 

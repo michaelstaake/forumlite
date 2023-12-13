@@ -30,7 +30,7 @@
 						<a href="/controlpanel/report/{{ $rn->id }}" class="list-group-item list-group-item-action">
 							<h6>Reported {{ $rn->type }}</h6>
 							<p>{{ $rn->summary }}</p>
-							<span>Reported: {{ $rn->created_at }}</span>
+							<span>Report {{ $rn->id }}</span><span>Reported: {{ $rn->created_at }}</span>
 						</a>
 					@endforeach
 				</ul>
@@ -45,7 +45,7 @@
 						<a href="/controlpanel/report/{{ $rh->id }}" class="list-group-item list-group-item-action">
 							<h6>Reported {{ $rh->type }}</h6>
 							<p>{{ $rh->summary }}</p>
-							<span>Reported: {{ $rh->created_at }}</span><span>Handled: {{ $rh->updated_at }}</span>
+							<span>Report {{ $rh->id }}</span><span>Reported: {{ $rh->created_at }}</span><span>Handled: {{ $rh->updated_at }}</span>
 						</a>
 					@endforeach
 				</ul>

@@ -77,6 +77,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::post('/controlpanel/settings', 'ControlPanelController@settingsSubmit')->name('controlpanel.settingsSubmit');
     Route::post('/controlpanel/report/handle', 'ControlPanelController@reportHandle')->name('controlpanel.reportHandle');
     Route::post('/controlpanel/report/delete', 'ControlPanelController@reportDelete')->name('controlpanel.reportDelete');
+
+    Route::post('/controlpanel/user/group', 'ControlPanelController@userModifyGroup')->name('controlpanel.userModifyGroup');
+    Route::post('/controlpanel/user/ban', 'ControlPanelController@userBan')->name('controlpanel.userBan');
+    Route::post('/controlpanel/user/unban', 'ControlPanelController@userUnban')->name('controlpanel.userUnban');
+    Route::post('/controlpanel/user/avatardelete', 'ControlPanelController@userDeleteAvatar')->name('controlpanel.userDeleteAvatar');
+
+    Route::post('/controlpanel/user/submit', 'ControlPanelController@userSubmit')->name('controlpanel.userSubmit');
+
     /* Messages Routes */
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/messages', function () {
