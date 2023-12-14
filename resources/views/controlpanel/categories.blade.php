@@ -23,7 +23,7 @@
 						<i class="bi bi-three-dots"></i>
 					</button>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">Manage Section</a></li>
+						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sectionManageModal-{{ $s->id }}">Manage Section</a></li>
 						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sectionDeleteModal-{{ $s->id }}">Delete Section</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#categoryNewModal" data-bs-section="{{ $s->id }}">New Category</a></li>
@@ -60,7 +60,7 @@
 											<i class="bi bi-three-dots"></i>
 										</button>
 										<ul class="dropdown-menu">
-											<li><a class="dropdown-item" href="#">Manage Category</a></li>
+											<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#categoryManageModal-{{ $c->id }}">Manage Category</a></li>
 											<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#categoryDeleteModal-{{ $c->id }}">Delete Category</a></li>
 										</ul>
 									</div>
@@ -106,6 +106,31 @@
 </div>
 
 @foreach($sections as $s)
+<!-- #sectionManageModal -->
+<div class="modal modal-lg fade" id="sectionManageModal-{{ $s->id }}" tabindex="-1" aria-labelledby="sectionManageLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="post" action="{{ route('controlpanel.sectionManage') }}" class="">
+				<div class="modal-header">
+				<h1 class="modal-title fs-5" id="sectionManageLabel">Manage Section</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					<input type="hidden" id="section_id" name="section_id" value="{{ $s->id }}" />
+					<div class="mb-3">
+						<label for="name" class="form-label">Name</label>
+						<input class="form-control" type="text" id="name" name="name" value="{{ $s->name }}" >
+					</div>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <!-- #sectionDeleteModal -->
 <div class="modal modal-lg fade" id="sectionDeleteModal-{{ $s->id }}" tabindex="-1" aria-labelledby="sectionDeleteLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -162,6 +187,34 @@
 </div>
 
 @foreach($categories as $c)
+<!-- #categoryManageModal -->
+<div class="modal modal-lg fade" id="categoryManageModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryManageLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="post" action="{{ route('controlpanel.categoryManage') }}" class="">
+				<div class="modal-header">
+				<h1 class="modal-title fs-5" id="categoryManageLabel">Manage Section</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					<input type="hidden" id="category_id" name="category_id" value="{{ $c->id }}" />
+					<div class="mb-3">
+						<label for="name" class="form-label">Name</label>
+						<input class="form-control" type="text" id="name" name="name" value="{{ $c->name }}" >
+					</div>
+					<div class="mb-3">
+						<label for="description" class="form-label">Description</label>
+						<textarea class="form-control" id="description" name="description">{{ $c->description }}</textarea>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <!-- #categoryDeleteModal -->
 <div class="modal modal-lg fade" id="categoryDeleteModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryDeleteLabel" aria-hidden="true">
 	<div class="modal-dialog">

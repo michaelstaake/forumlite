@@ -368,12 +368,13 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$section_id = $request->section_id;
+				$name = $request->name;
 				$slug = Str::slug($name, '-');
 				$order = rand(100000, 999999);
-				$count = DB::table('sectionss')->where('id', $section_id)->count();
+				$count = DB::table('sections')->where('id', $section_id)->count();
 				if ($count == 1) {
 					$section = Section::find($section_id);
-					$section->name = $request->name;
+					$section->name = $name;
 					$section->slug = $slug;
 					$section->order = $order;
 					$section->save();
@@ -455,11 +456,17 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$category_id = $request->category_id;
-				$count = DB::table('categoriess')->where('id', $category_id)->count();
+				$name = $request->name;
+				$slug = Str::slug($name, '-');
+				$order = rand(100000, 999999);
+				$description = $request->description;
+				$count = DB::table('categories')->where('id', $category_id)->count();
 				if ($count == 1) {
 					$category = Category::find($category_id);
-					$category->name = $request->name;
-					$category->slug = Str::slug($request->name, '-');
+					$category->name = $name;
+					$category->slug = $slug;
+					$category->order = $order;
+					$category->description = $description;
 					$category->save();
 					return redirect('/controlpanel/categories');
 				} else {
