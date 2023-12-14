@@ -38,7 +38,7 @@ class CategoryController extends Controller
             }
 			return view('category', compact('category'), compact('results'));
     	} else {
-    		return redirect('/');
+    		abort(404);
     	}
 
     }

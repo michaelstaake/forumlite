@@ -82,10 +82,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::post('/controlpanel/user/ban', 'ControlPanelController@userBan')->name('controlpanel.userBan');
     Route::post('/controlpanel/user/unban', 'ControlPanelController@userUnban')->name('controlpanel.userUnban');
     Route::post('/controlpanel/user/avatardelete', 'ControlPanelController@userDeleteAvatar')->name('controlpanel.userDeleteAvatar');
-
     Route::post('/controlpanel/user/submit', 'ControlPanelController@userSubmit')->name('controlpanel.userSubmit');
 
+    Route::post('/controlpanel/section/new', 'ControlPanelController@sectionNew')->name('controlpanel.sectionNew');
+    Route::post('/controlpanel/section/manage', 'ControlPanelController@sectionManage')->name('controlpanel.sectionManage');
+    Route::post('/controlpanel/section/delete', 'ControlPanelController@sectionDelete')->name('controlpanel.sectionDelete');
+
+    Route::post('/controlpanel/category/new', 'ControlPanelController@categoryNew')->name('controlpanel.categoryNew');
+    Route::post('/controlpanel/category/manage', 'ControlPanelController@categoryManage')->name('controlpanel.categoryManage');
+    Route::post('/controlpanel/category/delete', 'ControlPanelController@categoryDelete')->name('controlpanel.categoryDelete');
+
     /* Messages Routes */
+
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/messages', function () {
             return redirect('/messages/inbox');
@@ -100,7 +108,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::post('/messages', 'MessagesController@submit')->name('message.submit');
     
-
     /* Search Routes */
 
     Route::get('/search', 'SearchController@showForm');
@@ -115,6 +122,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/member/{username}', 'MemberController@show');
 
     /* Settings Routes */
+
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/settings', 'SettingsController@show');
         Route::post('/settings/submit', 'SettingsController@submitSettings')->name('settings.submit');
@@ -123,6 +131,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     /* Watched Routes */
+    
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/watched', 'WatchedController@show');
         Route::post('/watched/unwatch', 'WatchedController@unwatch')->name('watched.unwatch');

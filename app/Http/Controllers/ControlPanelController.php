@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ControlPanelSettingsSaveRequest;
 use App\Http\Requests\ControlPanelUserModifyActionRequest;
+use App\Http\Requests\ControlPanelCategoryDeleteRequest;
+use App\Http\Requests\ControlPanelCategoryManageRequest;
+use App\Http\Requests\ControlPanelCategoryNewRequest;
+use App\Http\Requests\ControlPanelSectionDeleteRequest;
+use App\Http\Requests\ControlPanelSectionManageRequest;
+use App\Http\Requests\ControlPanelSectionNewRequest;
 use App\Http\Requests\ReportHandleRequest;
 use App\Http\Requests\ReportDeleteRequest;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +28,9 @@ use App\Models\Report;
 
 class ControlPanelController extends Controller
 {
-    public function show($page = null) 
+    /* Control Panel: Show Pages */
+	
+	public function show($page = null) 
     {
     	if (Auth::check())
     		if (auth()->user()->group === "admin") {
@@ -90,6 +98,8 @@ class ControlPanelController extends Controller
     	
     }
 
+	/* User: Show */
+
     public function showUser($user = null) 
     {
     	if (Auth::check()) {
@@ -126,6 +136,8 @@ class ControlPanelController extends Controller
 		}
     }
 
+	/* User: Save */
+
 	public function userSubmit(ControlPanelUserModifyActionRequest $request)
     {
 		if (Auth::check()) {
@@ -154,6 +166,8 @@ class ControlPanelController extends Controller
 
     }
 
+	/* User: Change Group */
+
 	public function userModifyGroup(ControlPanelUserModifyActionRequest $request) 
 	{
 		if (Auth::check()) {
@@ -177,6 +191,8 @@ class ControlPanelController extends Controller
 			abort(403);
 		}
 	}
+
+	/* User: Ban */
 
 	public function userBan(ControlPanelUserModifyActionRequest $request) 
 	{
@@ -202,6 +218,8 @@ class ControlPanelController extends Controller
 		}
 	}
 
+	/* User: Unban */
+
 	public function userUnban(ControlPanelUserModifyActionRequest $request) 
 	{
 		if (Auth::check()) {
@@ -225,6 +243,8 @@ class ControlPanelController extends Controller
 			abort(403);
 		}
 	}
+
+	/* User: Delete Avatar */
 
 	public function userDeleteAvatar(ControlPanelUserModifyActionRequest $request)
     {
@@ -254,6 +274,200 @@ class ControlPanelController extends Controller
 		}
     }
 
+	/* Categories: Section: New */
+
+	public function sectionNew(ControlPanelSectionNewRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$name = $request->name;
+				$slug = Str::slug($name, '-');
+				$order = rand(100000, 999999);
+				$sectionCreate = Section::create([
+					'name' => $name,
+					'slug' => $slug,
+					'order' => $order,
+				]);
+				return redirect('/controlpanel/categories');
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	/* Categories: Section: Manage */
+
+	public function sectionManage(ControlPanelSectionManageRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$section_id = $request->section_id;
+				$count = DB::table('sections')->where('id', $section_id)->count();
+				if ($count == 1) {
+					$section = Section::find($section_id);
+					$section->name = $request->name;
+					$section->save();
+					return redirect('/controlpanel/categories');
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	/* Categories: Section: Delete */
+
+	public function sectionDelete(ControlPanelSectionDeleteRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin") {
+				$section_id = $request->section_id;
+				$count1 = DB::table('sections')->where('id', $section_id)->count();
+				if ($count1 == 1) {
+					$count2 = DB::table('categories')->where('section', $section_id)->count();
+					if ($count2 == 0) {
+						$section = Section::find($section_id);
+						$section->delete();
+						return redirect('/controlpanel/categories');
+					} else {
+						abort(500);
+					}
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	/* Categories: Category: New */
+
+	public function categoryNew(ControlPanelCategoryNewRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$section = $request->section;
+				$name = $request->name;
+				$description = $request->description;
+				$slug = Str::slug($name, '-');
+				$order = rand(100000, 999999);
+				$is_readonly = FALSE;
+				$is_hidden = FALSE;
+				$categoryCreate = Category::create([
+					'section' => $section,
+					'name' => $name,
+					'description' => $description,
+					'slug' => $slug,
+					'order' => $order,
+					'is_readonly' => $is_readonly,
+					'is_hidden' => $is_hidden,
+				]);
+				return redirect('/controlpanel/categories');
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	/* Categories: Category: Manage */
+
+	public function categoryManage(ControlPanelCategoryManageRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$category_id = $request->category_id;
+				$count = DB::table('categories')->where('id', $category_id)->count();
+				if ($count == 1) {
+					$category = Category::find($category_id);
+					$category->name = $request->name;
+					$category->slug = Str::slug($request->name, '-');
+					$category->save();
+					return redirect('/controlpanel/categories');
+				} else {
+	        		abort(404);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	/* Categories: Category: Delete */
+
+	public function categoryDelete(ControlPanelCategoryDeleteRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin") {
+				$category_id = $request->category_id;
+				$do_what_with_discussions = $request->do_what_with_discussions;
+				$count1 = DB::table('categories')->where('id', $category_id)->count();
+				if ($count1 == 1) {
+					if ($do_what_with_discussions == "delete") {
+						$discussions = Discussion::where('category', $category_id)->get();
+						foreach ($discussions as $d) {
+							$discussion_id = $d->id;
+							$comments = Comment::where('discussion', $discussion_id)->get();
+							foreach ($comments as $c) {
+								$comment_id = $c->id;
+								$comment = Comment::find($comment_id);
+								$comment->delete();
+							}
+							$discussion = Discussion::find($discussion_id);
+							$discussion->delete();
+						}
+						$category = Category::find($category_id);
+						$category->delete();
+						return redirect('/controlpanel/categories');
+					} else {
+						$count2 = DB::table('categories')->where('id', $do_what_with_discussions)->count();
+						if ($count2 == 1) {
+							$discussions = Discussion::where('category', $category_id)->get();
+							foreach ($discussions as $d) {
+								$discussion_id = $d->id;
+								$discussion = Discussion::find($discussion_id);
+								$discussion->category = $do_what_with_discussions;
+								$discussion->save();
+								$comments = Comment::where('discussion', $discussion_id)->get();
+								foreach ($comments as $c) {
+									$comment_id = $c->id;
+									$comment = Comment::find($comment_id);
+									$comment->category = $do_what_with_discussions;
+									$comment->save();
+								}
+							}
+						} else {
+							abort(500);
+						}
+						$category = Category::find($category_id);
+						$category->delete();
+						return redirect('/controlpanel/categories');
+					}
+				} else {
+	        		abort(500);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
+	/* Report: Show */
+
 	public function showReport($report = null) 
     {
     	if (Auth::check()) {
@@ -274,6 +488,24 @@ class ControlPanelController extends Controller
 		}
     }
 
+	/* Report: Handle */
+	
+	public function reportHandle(ReportHandleRequest $request) 
+	{
+		Report::where('id', $request->report_id)->update(['status' => 'handled']);
+		return redirect('/controlpanel/report/'.$request->report_id);
+	}
+
+	/* Report: Delete */
+
+	public function reportDelete(ReportDeleteRequest $request) 
+	{
+		Report::where('id', $request->report_id)->delete();
+		return redirect('/controlpanel/reports');
+	}
+
+	/* Settings: Save */
+
 	public function settingsSubmit(ControlPanelSettingsSaveRequest $request) 
 	{
 		DB::table('pages')->where('page', 'terms')->update(['content' => $request->terms_content]);
@@ -291,19 +523,6 @@ class ControlPanelController extends Controller
 
        return redirect('/controlpanel/settings');
 	}
-
-	public function reportHandle(ReportHandleRequest $request) 
-	{
-		Report::where('id', $request->report_id)->update(['status' => 'handled']);
-		return redirect('/controlpanel/report/'.$request->report_id);
-	}
-
-	public function reportDelete(ReportDeleteRequest $request) 
-	{
-		Report::where('id', $request->report_id)->delete();
-		return redirect('/controlpanel/reports');
-	}
-		
 
 
 }
