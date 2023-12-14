@@ -42,7 +42,7 @@
 								<i class="bi bi-arrows-move"></i>
 							</th>
 							<td>
-								Category: {{ $c->name }}
+								Category: <strong>{{ $c->name }}</strong>
 								@if ($c->is_readonly != NULL)
 									<i class="bi bi-lock"></i>
 								@endif
