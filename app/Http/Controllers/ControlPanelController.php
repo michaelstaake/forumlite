@@ -35,7 +35,25 @@ class ControlPanelController extends Controller
     	if (Auth::check())
     		if (auth()->user()->group === "admin") {
 	        	if ($page == null) {
-	        		return view('controlpanel.controlpanel');
+					$version = Settings::where('setting', 'version')->first();
+					$version = $version->value;
+					function addDecimals($string) {
+						$result = '';
+						$length = strlen($string);
+						
+						for ($i = 0; $i < $length; $i++) {
+							$result .= $string[$i];
+							
+							if ($i < $length - 1) {
+								$result .= '.';
+							}
+						}
+						
+						return $result;
+					}
+
+					$version = addDecimals($version); // Output: h.e.l.l.o
+	        		return view('controlpanel.controlpanel')->with('version', $version);
 	        	} elseif ($page === "reports") {
 	        		$rn = Report::where('status','new')->orderBy('id', 'desc')->get();
 					$rh = Report::where('status','handled')->orderBy('id', 'desc')->get();
@@ -304,7 +322,7 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$section_id = $request->section_id;
-				$count = DB::table('sections')->where('id', $section_id)->count();
+				$count = DB::table('sectionss')->where('id', $section_id)->count();
 				if ($count == 1) {
 					$section = Section::find($section_id);
 					$section->name = $request->name;
@@ -387,7 +405,7 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$category_id = $request->category_id;
-				$count = DB::table('categories')->where('id', $category_id)->count();
+				$count = DB::table('categoriess')->where('id', $category_id)->count();
 				if ($count == 1) {
 					$category = Category::find($category_id);
 					$category->name = $request->name;

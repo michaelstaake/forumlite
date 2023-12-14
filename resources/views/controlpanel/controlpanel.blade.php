@@ -55,4 +55,6 @@
 
 @endif
 
+<p><center><em>Forumlite {{ $version }}</em></center></p>
+
 @include('includes.footer')
