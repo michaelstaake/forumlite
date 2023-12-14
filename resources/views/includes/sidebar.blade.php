@@ -30,6 +30,5 @@
 				<button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
 			</div>
 	    </form>
-	    <p><a href="/search">Advanced Search</a></p>
 	</div>
 </div>

@@ -33,6 +33,10 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/index"><i class="bi bi-house"></i> Home</a>
 						</li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search"><i class="bi bi-search"></i> Search</a>
+                        </li>
                         
                         @auth
                             @if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
