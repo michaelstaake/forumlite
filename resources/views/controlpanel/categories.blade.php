@@ -215,6 +215,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- #categoryDeleteModal -->
 <div class="modal modal-lg fade" id="categoryDeleteModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryDeleteLabel" aria-hidden="true">
 	<div class="modal-dialog">
