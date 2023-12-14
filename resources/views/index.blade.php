@@ -2,7 +2,7 @@
 @include('includes.header')
 
 <div class="page-title">
-	Forum Name
+	{{ config('app.name'); }}
 	@auth
         <div class="float-sm-end"><a class="btn btn-primary" href="newdiscussion" role="button"><i class="bi bi-pencil-square"></i> New Discussion</a></div><br>
     @endauth
