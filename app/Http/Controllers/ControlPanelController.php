@@ -262,6 +262,52 @@ class ControlPanelController extends Controller
 		}
 	}
 
+	/* User: Delete */
+
+	public function userDelete(ControlPanelUserModifyActionRequest $request) 
+	{
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin") {
+				$username = $request->username;
+				$user_id = $request->user_id;
+				$count1 = DB::table('users')->where('id', $user_id)->count();
+				if ($count1 == 1) {
+					$count2 = DB::table('discussions')->where('member', $user_id)->count();
+					if ($count2 > 0) {
+						abort(500);
+					} else {
+						$count3 = DB::table('comments')->where('member', $user_id)->count();
+						if ($count3 > 0) {
+							abort(500);
+						} else {
+							$count4 = DB::table('messages')->where('from', $user_id)->orWhere('to', $user_id)->count();
+							if ($count4 > 0) {
+								abort(500);
+							} else {
+								$count5 = DB::table('reports')->where('who_reported', $shovenose)->count();
+								if ($count5 > 0) {
+									abort(500);
+								} else {
+									$user = User::find($user_id);
+									$user->delete();
+									$url = '/controlpanel/users';
+									return redirect($url);
+								}
+							}
+						}
+					}
+					
+				} else {
+	        		abort(500);
+	        	}
+			} else {
+	        	abort(403);
+			}
+		} else {
+			abort(403);
+		}
+	}
+
 	/* User: Delete Avatar */
 
 	public function userDeleteAvatar(ControlPanelUserModifyActionRequest $request)
@@ -322,10 +368,14 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$section_id = $request->section_id;
+				$slug = Str::slug($name, '-');
+				$order = rand(100000, 999999);
 				$count = DB::table('sectionss')->where('id', $section_id)->count();
 				if ($count == 1) {
 					$section = Section::find($section_id);
 					$section->name = $request->name;
+					$section->slug = $slug;
+					$section->order = $order;
 					$section->save();
 					return redirect('/controlpanel/categories');
 				} else {

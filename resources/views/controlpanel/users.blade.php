@@ -13,8 +13,8 @@
 </div>
 
 <form class="cp-user-search" role="search">
-  <input type="text" class="form-control" placeholder="Search Users" aria-label="Search Users" aria-describedby="">
-  <p>Search by Username or Email</p>
+  <input type="text" class="form-control" placeholder="Search Users" aria-label="Search Users" aria-describedby="searchHelp">
+  <div id="searchHelp" class="form-text">Search by Username, Email, or User Group</div>
 </form>
 <table class="table control-panel-user-table">
   <thead>

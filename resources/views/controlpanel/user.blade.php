@@ -56,8 +56,8 @@
     @endif
     
     <p><strong>Delete</strong></p>
-    <p><div id="delete_help" class="form-text">When you delete a member, you can select whether their content is deleted or moved to another member.</div></p>
-    <p><button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-describedby="delete_help">Delete Member</button></p>
+    <p><div id="delete_help" class="form-text">Deleting a member is permanent. You will not be able to delete a user that has any type of content associated with them, including discussions, comments, messages, and reports.</div></p>
+    <p><button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#userDeleteModal" aria-describedby="delete_help">Delete Member</button></p>
     
     
   </div>
@@ -227,6 +227,30 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-warning">Unban</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- #userDeleteModal -->
+<div class="modal fade" id="userDeleteModal" tabindex="-1" aria-labelledby="userDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{{ route('controlpanel.userDelete') }}" class="">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userDeletenLabel">Delete User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this user?</p>
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="hidden" id="username" name="username" value="{{ $m->username }}">
+          <input type="hidden" id="user_id" name="user_id" value="{{ $m->id }}">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
         </div>
       </form>
     </div>

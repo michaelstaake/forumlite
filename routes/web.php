@@ -83,6 +83,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::post('/controlpanel/user/unban', 'ControlPanelController@userUnban')->name('controlpanel.userUnban');
     Route::post('/controlpanel/user/avatardelete', 'ControlPanelController@userDeleteAvatar')->name('controlpanel.userDeleteAvatar');
     Route::post('/controlpanel/user/submit', 'ControlPanelController@userSubmit')->name('controlpanel.userSubmit');
+    Route::post('/controlpanel/user/delete', 'ControlPanelController@userDelete')->name('controlpanel.userDelete');
 
     Route::post('/controlpanel/section/new', 'ControlPanelController@sectionNew')->name('controlpanel.sectionNew');
     Route::post('/controlpanel/section/manage', 'ControlPanelController@sectionManage')->name('controlpanel.sectionManage');
@@ -131,7 +132,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     /* Watched Routes */
-    
+
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/watched', 'WatchedController@show');
         Route::post('/watched/unwatch', 'WatchedController@unwatch')->name('watched.unwatch');
