@@ -38,31 +38,34 @@
 			   @foreach($categories as $c)
 					@if ($c->section === "$s->id")
 						<tr>
-					      <th scope="row">
-						  	<i class="bi bi-arrows-move"></i>
-					      	<font style="font-weight:normal;">&nbsp;&nbsp;Category:</font> {{ $c->name }}
-					      	@if ($c->is_readonly != NULL)
-					      		<i class="bi bi-lock"></i>
-					      	@endif
-					      	@if ($c->is_hidden != NULL)
-					      		<i class="bi bi-eye-slash"></i>
-					      	@endif
-							 <font style="font-weight:normal;"><i>({{ $c->slug }})</i></font>
-					      </th>
-					      <td>{{ $c->description }}</td>
-					      <td>
-						  	<div class="float-sm-end">
-						  		<div class="dropdown">
-									<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-										<i class="bi bi-three-dots"></i>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">Manage Category</a></li>
-										<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#categoryDeleteModal-{{ $c->id }}">Delete Category</a></li>
-									</ul>
+							<th scope="row">
+								<i class="bi bi-arrows-move"></i>
+							</th>
+							<td>
+								Category: {{ $c->name }}
+								@if ($c->is_readonly != NULL)
+									<i class="bi bi-lock"></i>
+								@endif
+								@if ($c->is_hidden != NULL)
+									<i class="bi bi-eye-slash"></i>
+								@endif
+									<i>({{ $c->slug }})</i>
+									<br>
+									<p>{{ $c->description }}</p>
+							</td>
+					    	<td>
+								<div class="float-sm-end">
+									<div class="dropdown">
+										<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+											<i class="bi bi-three-dots"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#">Manage Category</a></li>
+											<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#categoryDeleteModal-{{ $c->id }}">Delete Category</a></li>
+										</ul>
+									</div>
 								</div>
-							</div>
-						  </td>
+							</td>
 					    </tr>
 					@endif
 				</a>
