@@ -13,7 +13,7 @@ class BadgeController extends Controller
     	$user = auth()->user()->id;
     	$countNotifications = DB::table('notifications')->where('member', $user)->count();
     	$countMessages = DB::table('messages')->where('to', $user)->where('status', 'unread')->count();
-    	$countReports = DB::table('reports')->count();
+    	$countReports = DB::table('reports')->where('status', 'new')->count();
         return response()->json([
         	'numNotifications'=> $countNotifications,
         	'numMessages'=> $countMessages,
