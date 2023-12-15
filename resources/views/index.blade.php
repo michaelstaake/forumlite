@@ -8,8 +8,10 @@
     @endauth
 </div>
 
+@guest
 <div class="row">
 	<div class="col-9">
+@endguest
 		@foreach($sections as $s)
 			<div class="card forum-category-card" id="{{ $s->slug }}">
 				<div class="card-header">
@@ -45,10 +47,12 @@
 				</ul>
 			</div>
 		@endforeach
+@guest
 	</div>
 	<div class="col-3">
         @include('includes.sidebar')
 	</div>
 </div>
+@endguest
 
 @include('includes.footer')

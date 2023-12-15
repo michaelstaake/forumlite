@@ -8,8 +8,7 @@
     @endauth
 </div>
 
-<div class="row">
-	<div class="col-9">
+
 		<div class="card forum-category-card">
 			<div class="card-header">
 				Example One
@@ -44,11 +43,7 @@
 				</a>
 			</ul>
 		</div>
-	</div>
-	<div class="col-3">
-        @include('includes.sidebar')
-	</div>
-</div>
+
 
 
 

@@ -24,8 +24,6 @@
   @endauth
 </div>
 
-<div class="row">
-	<div class="col-9">
     <!--<nav class="page-navigation">
       <ul class="pagination pagination-sm justify-content-center">
         <li class="page-item disabled">
@@ -80,11 +78,6 @@
       @endforeach
     </ul>
 		
-	</div>
-	<div class="col-3">
-        @include('includes.sidebar')
-	</div>
-</div>
 
 
 

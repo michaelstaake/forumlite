@@ -30,8 +30,7 @@
     @endauth
 </div>
 
-<div class="row">
-	<div class="col-9">
+
 		<ul class="forum-discussion-replies">
 			<li class="forum-discussion-reply" id="comment-0">
 			@foreach ($d['user'] as $u)
@@ -158,10 +157,6 @@
 			<br><p><a href="/login">Sign in</a> or <a href="/register">Create account</a> to comment.</p>
 		@endguest
 		
-	</div>
-	<div class="col-3">
-        @include('includes.sidebar')
-	</div>
 
 	@auth
 		<!-- #reportCommentModal -->
