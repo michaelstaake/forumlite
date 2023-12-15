@@ -67,7 +67,14 @@ class DiscussionController extends Controller
                 $comment['datetime'] = $cDateTime->toDayDateTimeString();
                 
             }
-            return view('discussion', compact('discussions', 'comments'));
+            $categories = Category::all();
+            foreach ($categories as $cats) {
+                $sec_id = $cats->section;
+                $section_id = Section::where('id',$sec_id)->first();
+                $section_name = $section_id->name;
+                $cats['section_name'] = $section_name;
+            }
+            return view('discussion')->with('discussions', $discussions)->with('comments', $comments)->with('categories', $categories);
         } else {
             App::abort(404);
         }
@@ -233,8 +240,9 @@ class DiscussionController extends Controller
     public function edit(ManageDiscussionRequest $request)
     {
         $slug = $request->slug;
+        $title = $request->title;
         $content = $request->content;
-        $update = Discussion::where('slug', $slug)->update(['content' => $content]);
+        $update = Discussion::where('slug', $slug)->update(['title' => $title, 'content' => $content]);
         $url = '/discussion/'.$slug;
         return redirect($url);
     }

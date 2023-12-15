@@ -309,9 +309,10 @@
 						<p>Select a different category to which you wish to move this discussion:</p>
 						<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 						<input type="hidden" name="slug" value="{{ $d->slug }}" />
-						<label for="category">Category</label>
 						<select class="form-select" name="category" aria-label="Category">
-							<option selected value="2">Forums - Test Category 2</option>
+							@foreach ($categories as $cat)
+								<option selected value="{{ $cat->id }}">{{ $cat->section_name }} - {{ $cat->name }}</option>
+							@endforeach
 						</select>
 				      </div>
 				      <div class="modal-footer">
@@ -354,7 +355,15 @@
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
 				      <div class="modal-body">
-						<textarea class="form-control" id="edit" name="content" rows="4">{!! $d->content !!}</textarea>
+					  	<div class="mb-3">
+							<label for="name" class="form-label">Name</label>
+							<input class="form-control" type="text" id="title" name="title" value="{{ $d->title }}">
+						</div>
+						<div class="mb-3">
+							<label for="edit" class="form-label">Content</label>
+							<textarea class="form-control" id="edit" name="content" rows="4">{!! $d->content !!}</textarea>
+						</div>
+						
 						<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 						<input type="hidden" name="slug" value="{{ $d->slug }}" />
 				      </div>
