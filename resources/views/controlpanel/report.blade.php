@@ -23,9 +23,9 @@
     <div class="card">
       <div class="card-body">
         @if ($r->status == "new")
-          Reported: <strong>{{ $r->created_at }}</strong>
+          Reported: <strong>{{ $r->dateTimeCreated }}</strong>
         @else
-          Reported: <strong>{{ $r->created_at }}</strong>&nbsp; &nbsp; &nbsp; Handled: <strong>{{ $r->updated_at }}</strong>
+          Reported: <strong>{{ $r->dateTimeCreated }}</strong>&nbsp; &nbsp; &nbsp; Handled: <strong>{{ $r->dateTimeUpdated }}</strong>
         @endif
       </div>
     </div>

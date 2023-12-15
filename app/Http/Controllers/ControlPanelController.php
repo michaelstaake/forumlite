@@ -25,6 +25,7 @@ use App\Models\Comment;
 use App\Models\Section;
 use App\Models\Category;
 use App\Models\Report;
+use Carbon\Carbon;
 
 class ControlPanelController extends Controller
 {
@@ -56,10 +57,28 @@ class ControlPanelController extends Controller
 	        		return view('controlpanel.controlpanel')->with('version', $version);
 	        	} elseif ($page === "reports") {
 	        		$rn = Report::where('status','new')->orderBy('id', 'desc')->get();
+					foreach ($rn as $n) {
+						$nDateTimeCreated = $n->created_at;
+						$n['dateTimeCreated'] = $nDateTimeCreated->toDayDateTimeString();
+						$nDateTimeUpdated = $n->updated_at;
+						$n['dateTimeUpdated'] = $nDateTimeUpdated->toDayDateTimeString();
+					}
 					$rh = Report::where('status','handled')->orderBy('id', 'desc')->get();
+					foreach ($rh as $h) {
+						$hDateTimeCreated = $h->created_at;
+						$h['dateTimeCreated'] = $hDateTimeCreated->toDayDateTimeString();
+						$hDateTimeUpdated = $h->updated_at;
+						$h['dateTimeUpdated'] = $hDateTimeUpdated->toDayDateTimeString();
+					}
 	        		return view('controlpanel.reports', compact('rn'), compact('rh'));
 	        	} elseif ($page === "users") {
 	        		$users = User::all();
+					foreach ($users as $user) {
+						$created_at = $user->created_at;
+						$last_active = Carbon::parse($user->last_active);
+						$user['created_datetime'] = $created_at->toDayDateTimeString();
+						$user['active_datetime'] = $last_active->toDayDateTimeString();
+					}
 	        		return view('controlpanel.users', compact('users'));
 	        	} elseif ($page === "settings") {
 	        		$maintenance_mode = Settings::where('setting', 'maintenance_mode')->first();
@@ -131,7 +150,7 @@ class ControlPanelController extends Controller
 						foreach ($member as $m) {
 							$mDateTimeCreated = $m->created_at;
 							$m['dateTimeCreated'] = $mDateTimeCreated->toDayDateTimeString();
-							$mDateTimeActive = $m->created_at;
+							$mDateTimeActive = Carbon::parse($m->last_active);
 							$m['dateTimeActive'] = $mDateTimeActive->toDayDateTimeString();
 							$memberID = $m->id;
 							$numDiscussions = DB::table('discussions')->where('member', $memberID)->count();
@@ -550,6 +569,12 @@ class ControlPanelController extends Controller
 				$count = DB::table('reports')->where('id', $report)->count();
     			if ($count == 1) {
 					$report = Report::where('id', $report)->get();
+					foreach ($report as $r) {
+						$rDateTimeCreated = $r->created_at;
+						$r['dateTimeCreated'] = $rDateTimeCreated->toDayDateTimeString();
+						$rDateTimeUpdated = $r->updated_at;
+						$r['dateTimeUpdated'] = $rDateTimeUpdated->toDayDateTimeString();
+					}
 					return view('controlpanel.report', compact('report'));
 					
 				} else {

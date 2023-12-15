@@ -45,8 +45,8 @@
 	      		<i class="bi bi-patch-check"></i>
 	      	@endif
 	      </td>
-	      <td>{{ $u->created_at }}</td>
-	      <td>{{ $u->last_active }}</td>
+	      <td>{{ $u->created_datetime }}</td>
+	      <td>{{ $u->active_datetime }}</td>
 	    </tr>
 	@endforeach
   </tbody>

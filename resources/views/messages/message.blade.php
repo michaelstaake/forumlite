@@ -28,7 +28,7 @@
         </div>
         <div class="messages-message-member-meta">
           <h6><a href="/member/{{ $u->username }}">{{ $u->username }}</a></h6>
-          <span>{{ $m->created_at }}</span>
+          <span>{{ $m->datetime }}</span>
         </div>
         @endforeach
       </div>

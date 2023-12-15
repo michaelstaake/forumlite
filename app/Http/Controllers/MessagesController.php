@@ -23,18 +23,22 @@ class MessagesController extends Controller
 	    		$messages = Message::where('to', auth()->user()->id)->orderBy('created_at', 'desc')->get();
 	    		foreach ($messages as $message) {
                     $userID = $message->from;
+					$dateTime = $message->created_at;
                 	$user = User::where('id',$userID)->get();
                 	$message['user'] = $user;
                     $message['content'] = Str::limit($message->content, 200, ' ...');
+					$message['datetime'] = $dateTime->toDayDateTimeString();
                 }
 	    		return view('messages.inbox',["folder"=>$m1], compact('messages'));
 	    	} elseif ($m1 === "sent") {
 	    		$messages = Message::where('from', auth()->user()->id)->orderBy('created_at', 'desc')->get();
 	    		foreach ($messages as $message) {
                     $userID = $message->to;
+					$dateTime = $message->created_at;
                 	$user = User::where('id',$userID)->get();
                 	$message['user'] = $user;
                     $message['content'] = Str::limit($message->content, 200, ' ...');
+					$message['datetime'] = $dateTime->toDayDateTimeString();
                 }
 	    		return view('messages.sent',["folder"=>$m1], compact('messages'));
 	    	} else {
@@ -61,6 +65,8 @@ class MessagesController extends Controller
     				foreach ($message as $mess) {
 	                    $userTo = $mess->to;
 	                    $userFrom = $mess->from;
+						$dateTime = $mess->created_at;
+						$mess['datetime'] = $dateTime->toDayDateTimeString();
 	                    if ($mess->to == auth()->user()->id) {
 							$user = User::where('id',$userFrom)->get();
 							$mess['user'] = $user;
