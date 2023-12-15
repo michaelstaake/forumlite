@@ -52,7 +52,7 @@ class ControlPanelController extends Controller
 						return $result;
 					}
 
-					$version = addDecimals($version); // Output: h.e.l.l.o
+					$version = addDecimals($version); // Version 100 in db = 1.0.0 displayed.
 	        		return view('controlpanel.controlpanel')->with('version', $version);
 	        	} elseif ($page === "reports") {
 	        		$rn = Report::where('status','new')->orderBy('id', 'desc')->get();
