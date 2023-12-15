@@ -13,13 +13,13 @@
 	            url: '/get-badges',
 	            dataType: 'json',
 	            success: function (badgeData) {
-	            	if (badgeData.numNotifications > "0") {
+	            	if (badgeData.numNotifications > 0) {
 	            		$('span#notifications-badge').html(badgeData.numNotifications);
 	            	}
-	            	if (badgeData.numMessages > "0") {
+	            	if (badgeData.numMessages > 0) {
 	            		$('span#messages-badge').html(badgeData.numMessages);
 	            	}
-	            	if (badgeData.numMessages > "0") {
+	            	if (badgeData.numReports > 0) {
 	            		$('span#reports-badge').html(badgeData.numReports);
 	            	}
 
