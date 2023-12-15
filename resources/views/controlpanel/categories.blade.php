@@ -206,6 +206,7 @@
 					<div class="mb-3">
 						<label for="description" class="form-label">Description</label>
 						<textarea class="form-control" id="description" name="description">{{ $c->description }}</textarea>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
