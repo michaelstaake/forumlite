@@ -112,8 +112,8 @@
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.sectionManage') }}" class="">
 				<div class="modal-header">
-				<h1 class="modal-title fs-5" id="sectionManageLabel">Manage Section</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h1 class="modal-title fs-5" id="sectionManageLabel">Manage Section</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -124,8 +124,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
 			</form>
 		</div>
@@ -137,8 +137,8 @@
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.sectionDelete') }}" class="">
 				<div class="modal-header">
-				<h1 class="modal-title fs-5" id="sectionDeleteLabel">Delete Section</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h1 class="modal-title fs-5" id="sectionDeleteLabel">Delete Section</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<p>Are you sure you want to delete this section?</p>
@@ -146,8 +146,8 @@
 					<input type="hidden" id="section_id" name="section_id" value="{{ $s->id }}" />
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-danger">Delete</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-danger">Delete</button>
 				</div>
 			</form>
 		</div>
@@ -193,8 +193,8 @@
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.categoryManage') }}" class="">
 				<div class="modal-header">
-				<h1 class="modal-title fs-5" id="categoryManageLabel">Manage Section</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h1 class="modal-title fs-5" id="categoryManageLabel">Manage Section</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -208,8 +208,8 @@
 						<textarea class="form-control" id="description" name="description">{{ $c->description }}</textarea>
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
 			</form>
 		</div>
@@ -222,8 +222,8 @@
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.categoryDelete') }}" class="">
 				<div class="modal-header">
-				<h1 class="modal-title fs-5" id="categoryDeleteLabel">Delete Category</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h1 class="modal-title fs-5" id="categoryDeleteLabel">Delete Category</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<p>Are you sure you want to delete this category?</p>
@@ -242,8 +242,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-danger">Submit</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-danger">Submit</button>
 				</div>
 			</form>
 		</div>
