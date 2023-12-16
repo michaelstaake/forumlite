@@ -491,12 +491,63 @@
 	margin-bottom: 10px;
 }
 
-#checkSearchTitlesHelp {
-	margin-bottom: 10px;
+.search-result-list {
+	list-style-type: none;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
-#accordionSearch h6 {
-	margin-top: 10px;
+.search-result-li {
+	border-bottom: solid 1px #dee2e6;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: block;
+}
+
+.search-result-li:first-child {
+	border-top: solid 1px #dee2e6;
+}
+
+.search-result-li a {
+	text-decoration: none !important;
+}
+
+.search-result-li a:hover {
+	text-decoration: underline !important;
+}
+
+.search-result-li h6 {
+	font-weight: normal;
+	font-size: 1.0em;
+}
+
+.search-result-li p {
+	margin-bottom: 0;
+	font-size: 0.8em;
+}
+
+.search-result-li span {
+	padding-right: 10px;
+	font-size: 0.8em;
+	color: #575757;
+}
+
+.search-result-li-left {
+	display: inline;
+	float: left;
+	margin-right: 10px;
+}
+
+.search-result-li-right {
+	display: inline;
+	float: left;
+}
+
+.search-result-li-avatar {
+	object-fit: cover;
+	width: 50px;
+	height: 50px;
 }
 
 /* messages */

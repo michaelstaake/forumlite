@@ -20,15 +20,43 @@
   </ul>
 </nav>-->
 
-<ul class="forum-discussion-list">
+<ul class="search-result-list">
   @foreach($results as $r)
-    <li class="forum-discussion-li">
-      <h6><a href="/discussion/{{ $r->slug }}">{{ $r->name }}</a></h6>
-      <span>Started by @foreach ($r['user'] as $ru) <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> @endforeach on August 10th, 2023</span><span>49.1K views</span><span>586 comments</span><span>Most recent reply <a href="discussion#lastreply">Today at 2:25 PM</a></span>
+    @if ($r->type === "discussion")
+    <li class="search-result-li">
+      <div class="search-result-li-left">
+        @foreach ($r['user'] as $ru)
+          <img class="search-result-li-avatar" src="{{asset('storage/avatars')}}/{{ $ru->avatar }}" />
+        @endforeach
+      </div>
+      <div class="search-result-li-right">
+        <h6>
+          <a href="/discussion/{{ $r->slug }}">{{ $r->title }}</a>
+        </h6>
+        <p>{{ $r->content_summary }}</p>
+        <span>Discussion by <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> in @foreach ($r['section'] as $rs) <a href="/#{{ $rs->slug }}">{{ $rs->name }}</a> @endforeach / @foreach ($r['category'] as $rc) <a href="/category/{{ $rc->slug }}">{{ $rc->name }}</a> @endforeach on {{ $r->datetime }}</span>
+      </div>
+      <div class="clear"></div>
     </li>
+    @else
+    <li class="search-result-li">
+      <div class="search-result-li-left">
+        @foreach ($r['user'] as $ru)
+          <img class="search-result-li-avatar" src="{{asset('storage/avatars')}}/{{ $ru->avatar }}" />
+        @endforeach
+      </div>
+      <div class="search-result-li-right">
+        <h6>
+          <a href="/discussion/{{ $r->slug }}#comment-{{ $r->id }}">{{ $r->title }}</a>
+        </h6>
+        <p>{{ $r->content_summary }}</p>
+        <span>Comment by <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> in @foreach ($r['section'] as $rs) <a href="/#{{ $rs->slug }}">{{ $rs->name }}</a> @endforeach / @foreach ($r['category'] as $rc) <a href="/category/{{ $rc->slug }}">{{ $rc->name }}</a> @endforeach on {{ $r->datetime }}</span>
+      </div>
+      <div class="clear"></div>
+    </li>
+    @endif
   @endforeach
 </ul>
-
 
 
 @include('includes.footer')

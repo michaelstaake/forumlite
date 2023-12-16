@@ -23,7 +23,6 @@ class SearchRequest extends FormRequest
     {
         return [
             'query' => 'required',
-            'type' => 'required',
         ];
     }
 }
