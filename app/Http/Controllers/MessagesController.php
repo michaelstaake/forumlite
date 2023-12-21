@@ -57,7 +57,7 @@ class MessagesController extends Controller
     		} elseif ($m2 === "new") {
 	    		return view('messages.new');
 	    	} elseif ($m2 === "new" && $m2r != null) {
-	    		return view('messages.new',["recipient"=>$m2r]);
+				return view('messages.new')->with('recipient', $m2r);
 	    	} else {
 	    		$count = DB::table('messages')->where('id', $m2)->count();
 	    		if ($count == 1) {

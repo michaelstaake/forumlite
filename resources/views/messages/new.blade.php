@@ -25,23 +25,40 @@
   <input type="hidden" name="status" value="unread" />
   <input type="hidden" name="from" value="{{auth()->user()->id}}" />
 
-  <div class="form-group mb-3">
+  <div class="form-group mb-3" style="max-width:400px;">
       <label for="recipient">Recipient Username</label>
-      <input type="text" class="form-control" name="to" value="{{ old('to') }}" placeholder="" required="required" autofocus>
+      <input type="text" class="form-control" name="to"
+      @if (isset($recipient))
+        value="{{ $recipient }}"
+      @endif
+      placeholder="" required="required" autofocus>
   </div>
 
-  <div class="form-group mb-3">
+  <div class="form-group mb-3" style="max-width:800px;">
       <label for="subject">Message Subject</label>
-      <input type="text" class="form-control" name="subject" value="{{ old('subject') }}" placeholder="" required="required" autofocus>
+      <input type="text" class="form-control" name="subject" value="" placeholder="" required="required" autofocus>
   </div>
 
   <div class="form-group mb-3">
     <label for="content">Message Content</label>
-    <textarea class="form-control" id="content" name="content" value="{{ old('content') }}" rows="10"></textarea>
+    <textarea class="form-control" id="content" name="content" value="" rows="10"></textarea>
   </div>
 
   <button class="btn btn-lg btn-primary" type="submit">Submit</button>
 
 </form>
+
+<script type="text/javascript">
+        var route = "{{ url('usersearch') }}";
+        $('#search').typeahead({
+            source: function (query, process) {
+                return $.get(route, {
+                    query: query
+                }, function (data) {
+                    return process(data);
+                });
+            }
+        });
+    </script>
 
 @include('includes.footer')

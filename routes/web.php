@@ -107,6 +107,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/message/{m2}/{m2r}', 'MessagesController@showMessage');
     });
 
+    Route::get('/usersearch', [UserSearchController::class, 'userSearch']);
+
     Route::post('/messages', 'MessagesController@submit')->name('message.submit');
     
     /* Search Routes */
