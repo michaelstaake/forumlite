@@ -41,7 +41,7 @@
 					<div class="reply-member-meta">
 						<h6><a href="/member/{{ $u->username }}" id="comment-0-username">{{ $u->username }}</a></h6>
 			@endforeach
-						<span>{{ $d->datetime }}</span>
+						<span timestamp="{{ $d->created_at }}"></span>
 					</div>
 				</div>
 				<div class="clearfix"></div>
@@ -82,7 +82,7 @@
 								<h6><a href="/member/{{ $m->username }}" id="comment-{{ $c->id }}-username">{{ $m->username }}</a></h6>
 								
 					@endforeach
-								<span>{{ $c->datetime }}</span>
+							<span timestamp="{{ $c->created_at }}"></span>
 							</div>
 						</div>
 					<div class="clearfix"></div>

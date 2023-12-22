@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\CaptchaServiceController;
+use App\Http\Controllers\UserSearchController;
 use App\Http\Controllers\BadgeController;
 
 /*

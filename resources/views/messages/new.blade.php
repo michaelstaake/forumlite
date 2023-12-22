@@ -27,11 +27,11 @@
 
   <div class="form-group mb-3" style="max-width:400px;">
       <label for="recipient">Recipient Username</label>
-      <input type="text" class="form-control" name="to"
+      <input type="text" class="form-control" id="to" name="to"
       @if (isset($recipient))
         value="{{ $recipient }}"
       @endif
-      placeholder="" required="required" autofocus>
+      placeholder="" required="required" autofocus autocomplete="off">
   </div>
 
   <div class="form-group mb-3" style="max-width:800px;">
@@ -48,17 +48,21 @@
 
 </form>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript">
-        var route = "{{ url('usersearch') }}";
-        $('#search').typeahead({
-            source: function (query, process) {
-                return $.get(route, {
-                    query: query
-                }, function (data) {
-                    return process(data);
-                });
-            }
-        });
-    </script>
+    var route = "{{ url('usersearch') }}";
+    $('#to').typeahead({
+        source: function (query, process) { 
+            return $.get(route, {
+                query: query
+            }, function (data) {
+              let username = data.map(function(item) {
+                return item.username;
+              })
+              return process(username);
+            });
+        }
+    });
+</script>
 
 @include('includes.footer')

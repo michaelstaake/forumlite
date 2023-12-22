@@ -21,7 +21,8 @@ class SearchController extends Controller
 
     public function showResults(SearchRequest $request) {
 
-    	$discussions = Discussion::search($request->query)->get();
+		$query = $request->input('query');
+    	$discussions = Discussion::search($query)->get();
 		foreach ($discussions as $discussion) {
 			$discussion['type'] = 'discussion';
 			$discID = $discussion->id;
@@ -40,7 +41,7 @@ class SearchController extends Controller
 			$discussion['datetime'] = $dDateTime->toDayDateTimeString();
 			$discussion['content_summary'] = Str::limit($discussion->content, 200);
 		}
-		$comments = Comment::search($request->query)->get();
+		$comments = Comment::search($query)->get();
 		foreach ($comments as $comment) {
 			$comment['type'] = 'comment';
 			$commID = $comment->id;
@@ -67,8 +68,8 @@ class SearchController extends Controller
 		}
 		$results = collect();
 		$results = $results->merge($discussions)->merge($comments);
+		$results = $results->sortByDesc('created_at');
 
-		//return $results;
-		return view('search.results')->with('results', $results);
+		return view('search.results')->with('results', $results)->with('query', $query);
     }
 }

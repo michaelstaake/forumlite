@@ -12,7 +12,7 @@
       <a href="{{ $n->link }}" class="list-group-item list-group-item-action notifications-item">
         <h6>{{ $n->typeFriendly }}</h6>
         <p>{{ $n->content }}</p>
-        <span>{{ $n->created_at }}</span>
+        <span timestamp="{{ $n->created_at }}"></span>
       </a>
     @endforeach
   </ul>

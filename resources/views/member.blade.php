@@ -22,7 +22,7 @@
                             <li class="list-group-item">
                                 <h6><a href="/discussion/{{ $d->slug }}">{{ $d->title }}</a></h6>
                                 <p>{!! $d->content !!}</p>
-                                <span>{{ $d->datetime }}</span>
+                                <span timestamp="{{ $d->created_at }}"></span>
                             </li>
                         @endforeach
                         
@@ -41,7 +41,7 @@
                                 <h6>in <a href="/discussion/{{ $cd->slug }}#comment-{{ $c->id }}">{{ $cd->title }}</a></h6>
                                 @endforeach
                                 <p>{!! $c->content !!}</p>
-                                <span>{{ $c->datetime }}</span>
+                                <span timestamp="{{ $c->created_at }}"></span>
                             </li>
                         @endforeach
                     </ul>
@@ -52,8 +52,8 @@
     <div class="col-3">
         <img class="member-avatar" src="{{asset('storage/avatars/' . $m->avatar)}}" />
         <ul class="member-stats">
-            <li>Joined: {{ $m->dateTimeCreated }}</li>
-            <li>Last Active: {{ $m->dateTimeActive }}</li>
+            <li timestamp="{{ $m->created_at }}">Joined: </li>
+            <li timestamp="{{ $m->last_active }}">Last Active: </li>
             <li>Location: {{ $m->location }}</li>
             @auth
                 @if ($m->username != auth()->user()->username)

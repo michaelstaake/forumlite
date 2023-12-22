@@ -53,7 +53,7 @@
                 <span class="badge bg-secondary" style="color:#FFFFFF;">Closed</span>
               @endif
             </h6>
-            <span>Started by <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> on {{ $r->datetime }}</span>
+            <span timestamp="{{ $r->created_at }}" >Started by <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> on </span>
             <span>
               {{ $r->views }}
               @if ($r->views == 1)
@@ -70,7 +70,7 @@
                 comments
               @endif
             </span>
-            <span>Most recent reply <a href="/discussion/{{ $r->slug }}#lastreply">{{ $r->datetime2 }}</a></span>
+            <span timestamp="{{ $r->updated_at }}"><a href="/discussion/{{ $r->slug }}#lastreply">Most recent reply</a> on </span>
           </div>
           <div class="clear"></div>
           

@@ -24,16 +24,16 @@
 			 	<a href="/discussion/{{ $wd->slug }}">{{ $wd->title }}</a>
 			@endforeach
 		</h6>
-		<span>Started by
+		<span timestamp="{{ $w->created_at }}">Started by
 			@foreach ($w->author as $wa)
       			<a href="/member/{{ $wa->username }}">{{ $wa->username }}</a>
       		@endforeach
 			@foreach ($w->category as $wc)
       			in <a href="/category/{{ $wc->slug }}">{{ $wc->name }}</a>
       		@endforeach
-			on {{ $wd->created_at }}</span>
+			on </span>
 		@if($w->type === "watched")
-		<span>Watched since {{ $w->created_at }}</span><span><a href="#" data-bs-toggle="modal" data-bs-target="#unwatchModal-{{ $w->id }}">Unwatch</a></span>
+		<span timestamp="{{ $w->created_at }}">Watched since </span><span><a href="#" data-bs-toggle="modal" data-bs-target="#unwatchModal-{{ $w->id }}">Unwatch</a></span>
     	@endif
 			
 		</div>

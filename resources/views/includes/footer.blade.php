@@ -33,6 +33,73 @@
 	</script>
 @endauth
 
+<script type="text/javascript">
+	const dateTimeOptions = {
+		weekday: 'long',
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		hour: 'numeric',
+		minute: '2-digit'
+	};
+
+	const formatter = new Intl.RelativeTimeFormat(undefined, {
+		numeric: "auto",
+	})
+
+	const DIVISIONS = [
+		{ amount: 60, name: "seconds" },
+		{ amount: 60, name: "minutes" },
+		{ amount: 24, name: "hours" },
+		{ amount: 7, name: "days" },
+		{ amount: 4.34524, name: "weeks" },
+		{ amount: 12, name: "months" },
+		{ amount: Number.POSITIVE_INFINITY, name: "years" },
+	]
+
+	function formatTimeAgo(date) {
+		let duration = (date - new Date()) / 1000
+
+		for (let i = 0; i < DIVISIONS.length; i++) {
+			const division = DIVISIONS[i]
+			if (Math.abs(duration) < division.amount) {
+			return formatter.format(Math.round(duration), division.name)
+			}
+			duration /= division.amount
+		}
+	}
+	
+	function updateTimestamps(){
+		document.querySelectorAll("[timestamp]").forEach((timeElement) => {
+			let timestampContents = "";
+			let absoluteTimestamp = "";
+			let timestamp = new Date(timeElement.getAttribute("timestamp")+" UTC");
+			if(((Math.abs(new Date().getTime() - timestamp.getTime())) / (1000*60*60)) <= 48){
+				timestampContents = formatTimeAgo(timestamp);
+				absoluteTimestamp = timestamp.toLocaleDateString(undefined, dateTimeOptions);
+			}else{
+				timestampContents = timestamp.toLocaleDateString(undefined, dateTimeOptions);
+				absoluteTimestamp = timestampContents;
+			}
+			if(timeElement.querySelectorAll("div.timestampContents").length == 0){
+				const timestampContentsElem = document.createElement("div");
+				timestampContentsElem.style.display = "inline-block";
+				timestampContentsElem.textContent = timestampContents;
+				timestampContentsElem.classList.add("timestampContents");
+				timeElement.insertAdjacentElement("beforeend", timestampContentsElem);
+			}else{
+				timeElement.querySelector("div.timestampContents").textContent = timestampContents;
+			}
+			timeElement.setAttribute("absolute-timestamp", absoluteTimestamp);
+		});
+	}
+
+	setInterval(() => {
+		updateTimestamps();
+	}, 60*1000);
+	updateTimestamps();
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>

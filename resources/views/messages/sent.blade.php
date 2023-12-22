@@ -32,7 +32,7 @@
               @foreach ($m['user'] as $mu)
                 {{ $mu->username }}
               @endforeach
-            </span><span>{{ $m->datetime }}</span>
+            </span><span timestamp="{{ $m->created_at }}"></span>
           </a>
         @endforeach
       </ul>

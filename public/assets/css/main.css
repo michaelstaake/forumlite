@@ -8,6 +8,18 @@
 	border-radius: 0 !important;
 }
 
+[timestamp][absolute-timestamp]:hover::after{
+	display: inline-block;
+	position: absolute;
+	margin-left: 10px;
+	margin-top: -4px;
+	border-radius: 4px;
+	background: #000000a8;
+	color: white;
+	padding: 4px;
+	content: attr(absolute-timestamp);
+}
+
 /* error page */
 
 .error-image {

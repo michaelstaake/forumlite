@@ -54,7 +54,7 @@ class MessagesController extends Controller
     	if (Auth::check())
     		if ($m2 == null) {
 	    		return redirect('/');
-    		} elseif ($m2 === "new") {
+    		} elseif ($m2 === "new" && $m2r == null) {
 	    		return view('messages.new');
 	    	} elseif ($m2 === "new" && $m2r != null) {
 				return view('messages.new')->with('recipient', $m2r);
@@ -66,7 +66,6 @@ class MessagesController extends Controller
 	                    $userTo = $mess->to;
 	                    $userFrom = $mess->from;
 						$dateTime = $mess->created_at;
-						$mess['datetime'] = $dateTime->toDayDateTimeString();
 	                    if ($mess->to == auth()->user()->id) {
 							$user = User::where('id',$userFrom)->get();
 							$mess['user'] = $user;
