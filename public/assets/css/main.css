@@ -476,12 +476,19 @@
 }
 
 .cp-category-card .card-header {
-	padding-left: 8px;
+	padding-left: 16px;
 	padding-right: 8px;
 }
 
 .cp-category-card .card-body{
 	padding: 0;
+	padding-left: 8px;
+}
+
+.cp-category-card .card-body p{
+	font-size: 0.8em;
+	padding-top: 4px;
+	margin: 0;
 }
 
 .cp-category-card .card-body table {

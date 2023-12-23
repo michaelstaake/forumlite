@@ -16,7 +16,7 @@
 @foreach($sections as $s)
 	<div class="card cp-category-card" id="{{ $s->slug }}">
 		<div class="card-header">
-			<i class="bi bi-arrows-move"></i>&nbsp;&nbsp;&nbsp;Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i>
+			Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i>
 			<div class="float-sm-end">
 				<div class="dropdown">
 					<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,13 +34,10 @@
 		<div class="card-body">
 			
 			<table class="table">
-			  <tbody>
+			  <tbody id="table-{{ $s->slug }}">
 			   @foreach($categories as $c)
 					@if ($c->section === "$s->id")
 						<tr>
-							<th scope="row">
-								<i class="bi bi-arrows-move"></i>
-							</th>
 							<td>
 								Category: <strong>{{ $c->name }}</strong>
 								@if ($c->is_readonly != NULL)
@@ -76,6 +73,7 @@
 	</div>
 	<br>
 @endforeach
+
 <p>Drop and drop items to rearrange them, then click Save prior to making any other changes such as adding or editing sections or categories.</p>
 <button type="button" class="btn btn-primary">Save</button>
 
