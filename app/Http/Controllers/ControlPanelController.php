@@ -93,6 +93,8 @@ class ControlPanelController extends Controller
 					$contact_type = $contact_type->value;
 					$contact_link = Settings::where('setting', 'contact_link')->first();
 					$contact_link = $contact_link->value;
+					$contact_email = Settings::where('setting', 'contact_email')->first();
+					$contact_email = $contact_email->value;
 					$header = Settings::where('setting', 'header')->first();
 					$header = $header->value;
 					$footer = Settings::where('setting', 'footer')->first();
@@ -105,7 +107,7 @@ class ControlPanelController extends Controller
 					$header_content = $header_content->content;
 					$footer_content = DB::table('integrations')->where('element', 'footer')->first();
 					$footer_content = $footer_content->content;
-					return view('controlpanel.settings')->with('maintenance_mode', $maintenance_mode)->with('maintenance_message', $maintenance_message)->with('can_register', $can_register)->with('can_signature', $can_signature)->with('contact_type', $contact_type)->with('contact_link', $contact_link)->with('header', $header)->with('footer', $footer)->with('terms_content', $terms_content)->with('privacy_content', $privacy_content)->with('header_content', $header_content)->with('footer_content', $footer_content);
+					return view('controlpanel.settings')->with('maintenance_mode', $maintenance_mode)->with('maintenance_message', $maintenance_message)->with('can_register', $can_register)->with('can_signature', $can_signature)->with('contact_type', $contact_type)->with('contact_link', $contact_link)->with('contact_email', $contact_email)->with('header', $header)->with('footer', $footer)->with('terms_content', $terms_content)->with('privacy_content', $privacy_content)->with('header_content', $header_content)->with('footer_content', $footer_content);
 	        	} elseif ($page === "categories") {
 	        		$sections = Section::all();
 			    	$categories = Category::all();
@@ -618,6 +620,7 @@ class ControlPanelController extends Controller
 		DB::table('settings')->where('setting', 'can_signature')->update(['value' => $request->can_signature]);
 		DB::table('settings')->where('setting', 'contact_type')->update(['value' => $request->contact_type]);
 		DB::table('settings')->where('setting', 'contact_link')->update(['value' => $request->contact_link]);
+		DB::table('settings')->where('setting', 'contact_email')->update(['value' => $request->contact_email]);
 		DB::table('settings')->where('setting', 'header')->update(['value' => $request->header]);
 		DB::table('settings')->where('setting', 'footer')->update(['value' => $request->footer]);
 

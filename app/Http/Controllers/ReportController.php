@@ -35,7 +35,13 @@ class ReportController extends Controller
 
             $report = Report::where('id', $report->id)->first();
 
-           //event(new NewReport($report));
+            $report_recipients = User::where('group', 'admin')->orWhere('group', 'mod')->get();
+
+            foreach ($report_recipients as $rr) {
+                $user_id = $rr->id;
+                $report_id = $report->id;
+                NewReportMail::dispatch($user_id,$report_id);
+            }
 
            $url = '/discussion/'.$discussion->slug;
             return redirect($url);
@@ -62,7 +68,13 @@ class ReportController extends Controller
 
             $report = Report::where('id', $report->id)->first();
 
-            //event(new NewReport($report));
+            $report_recipients = User::where('group', 'admin')->orWhere('group', 'mod')->get();
+
+            foreach ($report_recipients as $rr) {
+                $user_id = $rr->id;
+                $report_id = $report->id;
+                NewReportMail::dispatch($user_id,$report_id);
+            }
 
             $url = '/discussion/'.$discussion->slug.'#comment-'.$comment->id;
             return redirect($url);
@@ -88,7 +100,13 @@ class ReportController extends Controller
 
             $report = Report::where('id', $report->id)->first();
 
-            //event(new NewReport($report));
+            $report_recipients = User::where('group', 'admin')->orWhere('group', 'mod')->get();
+
+            foreach ($report_recipients as $rr) {
+                $user_id = $rr->id;
+                $report_id = $report->id;
+                NewReportMail::dispatch($user_id,$report_id);
+            }
 
             $url = '/message/'.$message->id;
             return redirect($url);

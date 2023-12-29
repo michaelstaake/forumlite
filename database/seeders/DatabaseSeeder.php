@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             ['setting' => 'can_register', 'value' => 'yes'],
             ['setting' => 'can_signature', 'value' => 'yes'],
             ['setting' => 'contact_type', 'value' => 'default'],
-            ['setting' => 'contact_link', 'value' => '/contact'],
+            ['setting' => 'contact_link', 'value' => 'https://www.example.com/contact.php'],
+            ['setting' => 'contact_email', 'value' => 'example@example.com'],
             ['setting' => 'header', 'value' => 'default'],
             ['setting' => 'footer', 'value' => 'default'],
             

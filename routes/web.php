@@ -42,6 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/privacy-policy', 'PageController@showPrivacyPolicy');
 
     Route::get('/contact', 'ContactController@show');
+    Route::post('/contact', 'ContactController@submit')->name('contact.submit');
 
     /* Install Routes */
 

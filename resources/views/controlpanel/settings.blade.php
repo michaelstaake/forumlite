@@ -87,6 +87,11 @@
 			>Custom Contact Link</option>
 		</select></p>
 		<div class="mb-3">
+			<label for="contact_link" class="form-label">Default Contact Email</label>
+			<input type="text" class="form-control" aria-describedby="contact_email_help" name="contact_email" value="{{ $contact_email }}"  id="contactEmail" style="max-width:300px;">
+			<div id="contact_email_help" class="form-text">If you use the Default Contact Page, this is the email the contact form will submit to.</div>
+		</div>
+		<div class="mb-3">
 			<label for="contact_link" class="form-label">Custom Contact Link</label>
 			<input type="text" class="form-control" aria-describedby="contact_link_help" name="contact_link" value="{{ $contact_link }}"  id="contactLink">
 			<div id="contact_link_help" class="form-text">If you wish to use a Custom Contact Link, enter the complete URL here, like https://www.example.com/contact.php</div>
@@ -143,7 +148,8 @@
 const selectElementMaintenance = document.getElementById('maintenanceMode');
 const inputElementMaintenance = document.getElementById('maintenanceMessage');
 const selectElementContact = document.getElementById('contactType');
-const inputElementContact = document.getElementById('contactLink');
+const inputElementContactLink = document.getElementById('contactLink');
+const inputElementContactEmail = document.getElementById('contactEmail');
 
 const selectElementHeader = document.getElementById('headerSelect');
 const textareaElementHeader = document.getElementById('headerContent');
@@ -151,7 +157,7 @@ const selectElementFooter = document.getElementById('footerSelect');
 const textareaElementFooter = document.getElementById('footerContent');
 
 inputElementMaintenance.disabled = selectElementMaintenance.value === 'disabled';
-inputElementContact.disabled = selectElementContact.value === 'default';
+inputElementContactLink.disabled = selectElementContact.value === 'default';
 
 textareaElementHeader.disabled = selectElementHeader.value === 'default';
 textareaElementFooter.disabled = selectElementFooter.value === 'default';
@@ -164,8 +170,10 @@ window.addEventListener('load', function() {
 	}
 	if (selectElementContact.value === 'default') {
 		toggleInputArea('#contactLink', false);
+		toggleInputArea('#contactEmail', true);
 	} else {
 		toggleInputArea('#contactLink', true);
+		toggleInputArea('#contactEmail', false);
 	}
 	if (selectElementHeader.value === 'default') {
 		toggleTextArea('#headerContent', false);
@@ -190,8 +198,10 @@ selectElementMaintenance.addEventListener('change', function() {
 selectElementContact.addEventListener('change', function() {
   if (selectElementContact.value === 'default') {
 	toggleInputArea('#contactLink', false);
+	toggleInputArea('#contactEmail', true);
   } else {
 	toggleInputArea('#contactLink', true);
+	toggleInputArea('#contactEmail', false);
   }
 });
 
