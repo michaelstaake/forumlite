@@ -24,7 +24,7 @@
         Sent
       </div>
       <ul class="list-group list-group-flush">
-        @foreach($messages as $m)
+        @forelse($messages as $m)
           <a href="/message/{{ $m->id }}" class="list-group-item list-group-item-action">
             <h6>{{ $m->subject }}</h6>
             <p>{{ $m->content }}</p>
@@ -34,7 +34,9 @@
               @endforeach
             </span><span timestamp="{{ $m->created_at }}"></span>
           </a>
-        @endforeach
+        @empty
+          No messages exist in this folder.
+        @endforelse
       </ul>
     </div>
 	</div>

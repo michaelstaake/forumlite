@@ -39,7 +39,7 @@
     </nav> -->
 
     <ul class="forum-discussion-list">
-      @foreach($results as $r)
+      @forelse($results as $r)
         <li class="forum-discussion-li">
           <div class="forum-discussion-li-left">
             @foreach ($r['user'] as $ru)
@@ -75,7 +75,9 @@
           <div class="clear"></div>
           
         </li>
-      @endforeach
+      @empty
+        No discussions exist in this category.
+      @endforelse
     </ul>
 		
 
