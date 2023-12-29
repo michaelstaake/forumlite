@@ -367,7 +367,7 @@ class ControlPanelController extends Controller
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$name = $request->name;
 				$slug = Str::slug($name, '-');
-				$order = rand(100000, 999999);
+				$order = $request->order;
 				$sectionCreate = Section::create([
 					'name' => $name,
 					'slug' => $slug,
@@ -391,7 +391,7 @@ class ControlPanelController extends Controller
 				$section_id = $request->section_id;
 				$name = $request->name;
 				$slug = Str::slug($name, '-');
-				$order = rand(100000, 999999);
+				$order = $request->order;
 				$count = DB::table('sections')->where('id', $section_id)->count();
 				if ($count == 1) {
 					$section = Section::find($section_id);
@@ -449,7 +449,7 @@ class ControlPanelController extends Controller
 				$name = $request->name;
 				$description = $request->description;
 				$slug = Str::slug($name, '-');
-				$order = rand(100000, 999999);
+				$order = $request->order;
 				$is_readonly = FALSE;
 				$is_hidden = FALSE;
 				$categoryCreate = Category::create([
@@ -479,7 +479,7 @@ class ControlPanelController extends Controller
 				$category_id = $request->category_id;
 				$name = $request->name;
 				$slug = Str::slug($name, '-');
-				$order = rand(100000, 999999);
+				$order = $request->order;
 				$description = $request->description;
 				$count = DB::table('categories')->where('id', $category_id)->count();
 				if ($count == 1) {

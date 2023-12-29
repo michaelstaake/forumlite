@@ -16,7 +16,7 @@
 @foreach($sections as $s)
 	<div class="card cp-category-card" id="{{ $s->slug }}">
 		<div class="card-header">
-			Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i>
+			Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i> order {{ $s->order }}
 			<div class="float-sm-end">
 				<div class="dropdown">
 					<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,6 +47,7 @@
 									<i class="bi bi-eye-slash"></i>
 								@endif
 									<i>({{ $c->slug }})</i>
+									order {{ $c->order }}
 									<br>
 									<p>{{ $c->description }}</p>
 							</td>
@@ -74,8 +75,8 @@
 	<br>
 @endforeach
 
-<p>Drop and drop items to rearrange them, then click Save prior to making any other changes such as adding or editing sections or categories.</p>
-<button type="button" class="btn btn-primary">Save</button>
+<!--<p>Drop and drop items to rearrange them, then click Save prior to making any other changes such as adding or editing sections or categories.</p>
+<button type="button" class="btn btn-primary">Save</button>-->
 
 <!-- #sectionNewModal -->
 <div class="modal fade" id="sectionNewModal" tabindex="-1" aria-labelledby="sectionNewLabel" aria-hidden="true">
@@ -93,6 +94,11 @@
 				<label for="name" class="form-label">Section Name</label>
 				<input class="form-control" type="text" id="name" name="name">
 			</div>
+			<div class="mb-3">
+				<label for="order" class="form-label">Order</label>
+				<input class="form-control" type="number" id="order" name="order" aria-describedby="order_help" style="max-width:150px;" required>
+				<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
+			</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -105,7 +111,7 @@
 
 @foreach($sections as $s)
 <!-- #sectionManageModal -->
-<div class="modal modal-lg fade" id="sectionManageModal-{{ $s->id }}" tabindex="-1" aria-labelledby="sectionManageLabel" aria-hidden="true">
+<div class="modal fade" id="sectionManageModal-{{ $s->id }}" tabindex="-1" aria-labelledby="sectionManageLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.sectionManage') }}" class="">
@@ -120,6 +126,11 @@
 						<label for="name" class="form-label">Name</label>
 						<input class="form-control" type="text" id="name" name="name" value="{{ $s->name }}" >
 					</div>
+					<div class="mb-3">
+						<label for="order" class="form-label">Order</label>
+						<input class="form-control" type="number" id="order" name="order" value="{{ $s->order }}" aria-describedby="order_help" style="max-width:150px;" required>
+						<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -130,7 +141,7 @@
 	</div>
 </div>
 <!-- #sectionDeleteModal -->
-<div class="modal modal-lg fade" id="sectionDeleteModal-{{ $s->id }}" tabindex="-1" aria-labelledby="sectionDeleteLabel" aria-hidden="true">
+<div class="modal fade" id="sectionDeleteModal-{{ $s->id }}" tabindex="-1" aria-labelledby="sectionDeleteLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.sectionDelete') }}" class="">
@@ -174,6 +185,11 @@
 				<label for="description" class="form-label">Description</label>
 				<textarea class="form-control" id="description" name="description"></textarea>
 			</div>
+			<div class="mb-3">
+				<label for="order" class="form-label">Order</label>
+				<input class="form-control" type="number" id="order" name="order" style="max-width:150px;" aria-describedby="order_help" required>
+				<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
+			</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -186,7 +202,7 @@
 
 @foreach($categories as $c)
 <!-- #categoryManageModal -->
-<div class="modal modal-lg fade" id="categoryManageModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryManageLabel" aria-hidden="true">
+<div class="modal fade" id="categoryManageModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryManageLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.categoryManage') }}" class="">
@@ -205,6 +221,11 @@
 						<label for="description" class="form-label">Description</label>
 						<textarea class="form-control" id="description" name="description">{{ $c->description }}</textarea>
 					</div>
+					<div class="mb-3">
+						<label for="order" class="form-label">Order</label>
+						<input class="form-control" type="number" id="order" name="order" value="{{ $c->order }}" style="max-width:150px;" aria-describedby="order_help" required>
+						<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -216,7 +237,7 @@
 </div>
 
 <!-- #categoryDeleteModal -->
-<div class="modal modal-lg fade" id="categoryDeleteModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryDeleteLabel" aria-hidden="true">
+<div class="modal fade" id="categoryDeleteModal-{{ $c->id }}" tabindex="-1" aria-labelledby="categoryDeleteLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form method="post" action="{{ route('controlpanel.categoryDelete') }}" class="">
