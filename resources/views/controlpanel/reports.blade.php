@@ -26,13 +26,15 @@
 		<div class="row">
 			<div class="col">
 				<ul class="list-group list-group-flush reports-all">
-					@foreach($rn as $rn)
+					@forelse($rn as $rn)
 						<a href="/controlpanel/report/{{ $rn->id }}" class="list-group-item list-group-item-action">
 							<h6>Reported {{ $rn->type }}</h6>
 							<p>{{ $rn->summary }}</p>
 							<span>Report {{ $rn->id }}</span><span>Reported: {{ $rn->dateTimeCreated }}</span>
 						</a>
-					@endforeach
+					@empty
+						No new reports.
+					@endforelse
 				</ul>
 			</div>
 		</div>
@@ -41,13 +43,15 @@
 		<div class="row">
 			<div class="col">
 				<ul class="list-group list-group-flush reports-all">
-					@foreach($rh as $rh)
+					@forelse($rh as $rh)
 						<a href="/controlpanel/report/{{ $rh->id }}" class="list-group-item list-group-item-action">
 							<h6>Reported {{ $rh->type }}</h6>
 							<p>{{ $rh->summary }}</p>
 							<span>Report {{ $rh->id }}</span><span>Reported: {{ $rh->dateTimeCreated }}</span><span>Handled: {{ $rh->dateTimeUpdated }}</span>
 						</a>
-					@endforeach
+					@empty
+						No handled reports.
+					@endforelse
 				</ul>
 			</div>
 		</div>

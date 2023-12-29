@@ -177,6 +177,9 @@
 			<br><p><a href="/login">Sign in</a> or <a href="/register">Create account</a> to comment.</p>
 		@endguest
 		
+		<div class="forum-pagination">
+			{{ $comments->links() }}
+		</div>
 
 	@auth
 		<!-- #reportCommentModal -->

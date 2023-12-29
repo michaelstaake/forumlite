@@ -64,7 +64,7 @@ class DiscussionController extends Controller
                     }
                 }
             }
-            $comments = Comment::where('discussion',$discID)->get();
+            $comments = Comment::where('discussion',$discID)->paginate(10);
             foreach ($comments as $comment) {
                 $userID = $comment->member;
                 $user = User::where('id',$userID)->get();

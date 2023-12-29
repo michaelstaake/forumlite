@@ -79,6 +79,10 @@
         No discussions exist in this category.
       @endforelse
     </ul>
+    <div class="forum-pagination">
+    {{ $results->links() }}
+    </div>
+    
 		
 
 

@@ -18,13 +18,15 @@
                         Discussions ({{ $m->numDiscussions }})
                     </div>
                     <ul class="list-group list-group-flush">
-                        @foreach ($m['discussions'] as $d)
+                        @forelse ($m['discussions'] as $d)
                             <li class="list-group-item">
                                 <h6><a href="/discussion/{{ $d->slug }}">{{ $d->title }}</a></h6>
-                                <p>{!! $d->content !!}</p>
+                                <p>{{ $d->content }}</p>
                                 <span timestamp="{{ $d->created_at }}"></span>
                             </li>
-                        @endforeach
+                        @empty
+                            No discussions.
+                        @endforelse
                         
                     </ul>
                 </div>
@@ -35,15 +37,17 @@
                         Comments ({{ $m->numComments }})
                     </div>
                     <ul class="list-group list-group-flush">
-                         @foreach ($m['comments'] as $c)
+                         @forelse ($m['comments'] as $c)
                             <li class="list-group-item">
                                 @foreach ($c['discussion'] as $cd)
                                 <h6>in <a href="/discussion/{{ $cd->slug }}#comment-{{ $c->id }}">{{ $cd->title }}</a></h6>
                                 @endforeach
-                                <p>{!! $c->content !!}</p>
+                                <p>{{ $c->content }}</p>
                                 <span timestamp="{{ $c->created_at }}"></span>
                             </li>
-                        @endforeach
+                            @empty
+                            No discussions.
+                        @endforelse
                     </ul>
                 </div>
             </div>

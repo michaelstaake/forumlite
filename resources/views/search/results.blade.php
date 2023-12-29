@@ -21,7 +21,7 @@
 </nav>-->
 
 <ul class="search-result-list">
-  @foreach($results as $r)
+  @forelse($results as $r)
     @if ($r->type === "discussion")
     <li class="search-result-li">
       <div class="search-result-li-left">
@@ -55,7 +55,9 @@
       <div class="clear"></div>
     </li>
     @endif
-  @endforeach
+  @empty
+    No results found.
+  @endforelse
 </ul>
 
 

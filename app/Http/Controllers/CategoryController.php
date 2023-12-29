@@ -23,7 +23,7 @@ class CategoryController extends Controller
                 $section = Section::where('id',$secID)->get();
                 $cat['section'] = $section;
 			}
-            $results = Discussion::where('category', $catID)->orderBy('updated_at', 'desc')->get();
+            $results = Discussion::where('category', $catID)->orderBy('updated_at', 'desc')->paginate(10);
             foreach ($results as $result) {
                 $userID = $result->member;
                 $user = User::where('id',$userID)->get();

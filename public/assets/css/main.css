@@ -21,6 +21,10 @@
 	content: attr(absolute-timestamp);
 }
 
+.forum-pagination {
+	margin-top: 8px;
+}
+
 /* error page */
 
 .error-image {
