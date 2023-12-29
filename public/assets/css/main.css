@@ -167,6 +167,12 @@
 
 /* discussions */
 
+.forum-signature {
+	border-top: 1px solid #DEE2E6;
+	margin-top: 8px;
+	padding-top: 4px;
+}
+
 .forum-discussion-list {
 	list-style-type: none;
 	list-style: none;

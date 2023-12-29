@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserAvatar;
+use App\Models\Settings;
 use Carbon\Carbon;
 
 class RegisterController extends Controller
@@ -21,7 +22,11 @@ class RegisterController extends Controller
      */
     public function show()
     {
-        return view('register');
+        if (Settings::where('setting', 'can_register')->value('value') != 'yes') {
+            return view('register')->with('error', "can_register_false");
+        } else {
+            return view('register');
+        }
     }
 
     /**
@@ -33,26 +38,31 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request) 
     {
-        $user = User::create($request->validated());
+        if (Settings::where('setting', 'can_register')->value('value') != 'yes') {
+            return redirect('/register')->with('error', "can_register_false");
+        } else {
+            $user = User::create($request->validated());
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        auth()->login($user);
+            auth()->login($user);
 
-        $username = auth()->user()->username;
-        $avatarUsername = Str::slug($username, '-');
-        $avatarFileName = Str::slug($username, '-').'-default.png';
-        $avatar = new Avatar();
-        $avatar->create($avatarUsername)->setTheme('colorful')->setShape('square')->setDimension(200)->setFontSize(120)->save('storage/avatars/'.$avatarFileName);
-        $avatarCreate = UserAvatar::create([
-            'user' => $username,
-            'filename' => $avatarFileName
-        ]);
+            $username = auth()->user()->username;
+            $avatarUsername = Str::slug($username, '-');
+            $avatarFileName = Str::slug($username, '-').'-default.png';
+            $avatar = new Avatar();
+            $avatar->create($avatarUsername)->setTheme('colorful')->setShape('square')->setDimension(200)->setFontSize(120)->save('storage/avatars/'.$avatarFileName);
+            $avatarCreate = UserAvatar::create([
+                'user' => $username,
+                'filename' => $avatarFileName
+            ]);
 
-        $timestamp = Carbon::now()->format('Y-m-d H:i:m');
-        $lastactive = User::where('id', auth()->user()->id)->update(['last_active' => $timestamp]);
+            $timestamp = Carbon::now()->format('Y-m-d H:i:m');
+            $lastactive = User::where('id', auth()->user()->id)->update(['last_active' => $timestamp]);
 
-        return redirect('/email/verify')->with('success', "Account successfully registered.");
+            return redirect('/email/verify')->with('success', "Account successfully registered.");
+        }
+        
     }
 
 }

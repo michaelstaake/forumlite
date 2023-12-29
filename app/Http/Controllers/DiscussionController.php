@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Section;
 use App\Models\Watched;
+use App\Models\Settings;
 use Carbon\Carbon;
 use App\Jobs\NewReplyMail;
 
@@ -25,6 +26,11 @@ class DiscussionController extends Controller
     public function show($slug = null) {
         $count = DB::table('discussions')->where('slug', $slug)->count();
         if ($count == 1) {
+            if (Settings::where('setting', 'can_signature')->value('value') != 'yes') {
+                $can_signature = 'FALSE';
+            } else {
+                $can_signature = 'TRUE';
+            }
             $discussions = Discussion::where('slug',$slug)->get();
             foreach ($discussions as $discussion) {
                 $discID = $discussion->id;
@@ -44,19 +50,19 @@ class DiscussionController extends Controller
                 $discViews = $discussion->views;
                 $discViewsPlus = $discViews + 1;
                 $updateViewCounter = DB::table('discussions')->where('slug', $slug)->update(['views' => $discViewsPlus]);
-                $currentUser = Auth::user()->id;
-                if ($discussion->member == $currentUser) {
-                    $discussion['can_watch'] = 'FALSE';
-                } else {
-                    $count_watched = DB::table('watched')->where('member', $currentUser)->where('discussion', $discID)->count();
-                    if ($count_watched > 0) {
+                if (Auth::check()) {
+                    $currentUser = Auth::user()->id;
+                    if ($discussion->member == $currentUser) {
                         $discussion['can_watch'] = 'FALSE';
                     } else {
-                        $discussion['can_watch'] = 'TRUE';
+                        $count_watched = DB::table('watched')->where('member', $currentUser)->where('discussion', $discID)->count();
+                        if ($count_watched > 0) {
+                            $discussion['can_watch'] = 'FALSE';
+                        } else {
+                            $discussion['can_watch'] = 'TRUE';
+                        }
                     }
                 }
-                
-                
             }
             $comments = Comment::where('discussion',$discID)->get();
             foreach ($comments as $comment) {
@@ -74,7 +80,7 @@ class DiscussionController extends Controller
                 $section_name = $section_id->name;
                 $cats['section_name'] = $section_name;
             }
-            return view('discussion')->with('discussions', $discussions)->with('comments', $comments)->with('categories', $categories);
+            return view('discussion')->with('discussions', $discussions)->with('comments', $comments)->with('categories', $categories)->with('can_signature', $can_signature);
         } else {
             App::abort(404);
         }

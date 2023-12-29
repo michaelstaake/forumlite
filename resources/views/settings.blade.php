@@ -46,6 +46,9 @@
 					<p><strong>Signature</strong></p>
 					<p>Your signature is displayed below your content.</p>
 					<p><textarea class="form-control" aria-label="signature" name="signature">{{ auth()->user()->signature }}</textarea></p>
+					@if ($can_signature == "FALSE")
+					<div class="alert alert-warning" role="alert">Signatures are currently disabled. Your signature will not be displayed.</div>
+					@endif
 					<br>
 					<p><strong>Location</strong></p>
 					<p>This is displayed on your profile page.</p>

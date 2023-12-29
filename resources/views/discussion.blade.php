@@ -46,7 +46,17 @@
 				</div>
 				<div class="clearfix"></div>
 				<div class="reply-content" id="comment-0-content">
-					<p> {!! $d->content !!} </p>
+					<p> {{ $d->content }} </p>
+					@auth
+						@if ($can_signature == "TRUE")
+							@if ($u->signature != "")	
+								<div class="forum-signature">
+									{{ $u->signature }}
+								</div>
+							@endif
+							
+						@endif
+					@endauth
 				</div>
 				@auth
 				<div class="reply-actions">
@@ -87,7 +97,17 @@
 						</div>
 					<div class="clearfix"></div>
 					<div class="reply-content" id="comment-{{ $c->id }}-content">
-					<p>	{!! $c->content !!} </p>
+					<p>	{{ $c->content }} </p>
+					@auth
+						@if ($can_signature == "TRUE")
+							@if ($m->signature != "")	
+								<div class="forum-signature">
+									{{ $m->signature }}
+								</div>
+							@endif
+							
+						@endif
+					@endauth
 					</div>
 					@auth
 					<div class="reply-actions">

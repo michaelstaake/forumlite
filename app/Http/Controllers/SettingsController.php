@@ -12,15 +12,21 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\UserAvatar;
+use App\Models\Settings;
 
 
 class SettingsController extends Controller
 {
     public function show() {
     	if (Auth::check()) {
+            if (Settings::where('setting', 'can_signature')->value('value') != 'yes') {
+                $can_signature = 'FALSE';
+            } else {
+                $can_signature = 'TRUE';
+            }
             $username = Auth::user()->username;
             $avatars = UserAvatar::where('user', $username)->get();
-    		return view('settings', compact('avatars'));
+    		return view('settings', compact('avatars'))->with('can_signature', $can_signature);
     	} else {
     		App::abort(401);
     	}
