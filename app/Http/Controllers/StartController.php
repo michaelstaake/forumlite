@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\UserAvatar;
 use App\Models\Settings;
@@ -38,20 +39,6 @@ class StartController extends Controller
             return view('install');
         }
 
-        $count = DB::table('settings')->where('setting', 'version')->count();
-        if ($count > 0) {
-            $settings = DB::table('settings')->where('setting', 'version')->get();
-            foreach ($settings as $setting) {
-				$dbVersion = $setting->value;
-			}
-            if ($dbVersion >= $version) {
-                return 'error: database version invalid';
-            } else {
-                return view('update');
-            }
-        } else {
-            return view('install');
-        }
     }
 
     public function install(InstallRequest $request) {
@@ -75,6 +62,9 @@ class StartController extends Controller
 
         DB::table('settings')->where('setting', 'maintenance_mode')->update(['value' => 'disabled']);
         DB::table('settings')->where('setting', 'install_complete')->update(['value' => 'yes']);
+        DB::table('settings')->where('setting', 'maintenance_message')->update(['value' => 'Maintenance mode enabled. Please check back later.']);
+        $admin_email = auth()->user()->email;
+        DB::table('settings')->where('setting', 'contact_email')->update(['value' => $admin_email]);
 
         event(new Registered($user));
 
