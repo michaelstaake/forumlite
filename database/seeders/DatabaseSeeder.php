@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ['setting' => 'contact_email', 'value' => 'example@example.com'],
             ['setting' => 'header', 'value' => 'default'],
             ['setting' => 'footer', 'value' => 'default'],
+            ['setting' => 'install_complete', 'value' => 'no'],
             
         ]);
 

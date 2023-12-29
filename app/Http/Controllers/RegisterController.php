@@ -43,8 +43,6 @@ class RegisterController extends Controller
         } else {
             $user = User::create($request->validated());
 
-            event(new Registered($user));
-
             auth()->login($user);
 
             $username = auth()->user()->username;
@@ -59,6 +57,8 @@ class RegisterController extends Controller
 
             $timestamp = Carbon::now()->format('Y-m-d H:i:m');
             $lastactive = User::where('id', auth()->user()->id)->update(['last_active' => $timestamp]);
+
+            event(new Registered($user));
 
             return redirect('/email/verify')->with('success', "Account successfully registered.");
         }
