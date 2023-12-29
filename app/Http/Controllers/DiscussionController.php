@@ -82,7 +82,7 @@ class DiscussionController extends Controller
             }
             return view('discussion')->with('discussions', $discussions)->with('comments', $comments)->with('categories', $categories)->with('can_signature', $can_signature);
         } else {
-            App::abort(404);
+            abort(404);
         }
 
     }
@@ -125,35 +125,41 @@ class DiscussionController extends Controller
                             }
                             return view('newdiscussion', compact('category'));
                         } else {
-                            App::abort(403);
+                            abort(403);
                         }
                     }
                 } else {
-                    App::abort(403);
+                    abort(403);
                 }
             }
         } else {
-            App::abort(401);
+            abort(401);
         }
     }
 
     public function submit(NewDiscussionRequest $request)
     {
-        $discussion = Discussion::create($request->validated());
-        $slug = $discussion->slug;
-        $member = $discussion->member;
-        $id = $discussion->id;
-        $timestamp = Carbon::now()->format('Y-m-d H:i:m');
+        $count = DB::table('discussions')->where('slug', $request->slug)->count();
+        if ($count > 0) {
+            abort(500);
+        } else {
+            $discussion = Discussion::create($request->validated());
+            $slug = $discussion->slug;
+            $member = $discussion->member;
+            $id = $discussion->id;
+            $timestamp = Carbon::now()->format('Y-m-d H:i:m');
 
-        DB::table('watched')->insert([
-            'member' => $member,
-            'discussion' => $id,
-            'created_at' => $timestamp,
-            'type' => 'my',
-        ]);
-        
-        $url = '/discussion/'.$slug;
-        return redirect($url);
+            DB::table('watched')->insert([
+                'member' => $member,
+                'discussion' => $id,
+                'created_at' => $timestamp,
+                'type' => 'my',
+            ]);
+            
+            $url = '/discussion/'.$slug;
+            return redirect($url);
+
+        }    
 
     }
 

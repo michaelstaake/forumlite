@@ -366,14 +366,20 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$name = $request->name;
-				$slug = Str::slug($name, '-');
 				$order = $request->order;
-				$sectionCreate = Section::create([
-					'name' => $name,
-					'slug' => $slug,
-					'order' => $order,
-				]);
-				return redirect('/controlpanel/categories');
+				$slug = Str::slug($name, '-');
+				$count = DB::table('sections')->where('slug', $slug)->count();
+				if ($count > 0) {
+					return redirect('/controlpanel/categories');
+				} else {
+					$sectionCreate = Section::create([
+						'name' => $name,
+						'slug' => $slug,
+						'order' => $order,
+					]);
+					return redirect('/controlpanel/categories');
+				}
+				
 			} else {
 	        	abort(403);
 			}
@@ -452,16 +458,22 @@ class ControlPanelController extends Controller
 				$order = $request->order;
 				$is_readonly = FALSE;
 				$is_hidden = FALSE;
-				$categoryCreate = Category::create([
-					'section' => $section,
-					'name' => $name,
-					'description' => $description,
-					'slug' => $slug,
-					'order' => $order,
-					'is_readonly' => $is_readonly,
-					'is_hidden' => $is_hidden,
-				]);
-				return redirect('/controlpanel/categories');
+				$count = DB::table('categories')->where('slug', $slug)->count();
+				if ($count > 0) {
+					return redirect('/controlpanel/categories');
+				} else {
+					$categoryCreate = Category::create([
+						'section' => $section,
+						'name' => $name,
+						'description' => $description,
+						'slug' => $slug,
+						'order' => $order,
+						'is_readonly' => $is_readonly,
+						'is_hidden' => $is_hidden,
+					]);
+					return redirect('/controlpanel/categories');
+				}
+				
 			} else {
 	        	abort(403);
 			}

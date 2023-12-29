@@ -79,6 +79,17 @@
 			</div>
 		</nav>
 	</div>
+
+    <div class="container">
+        @auth
+            @if (auth()->user()->is_banned == 'TRUE')
+                <div class="alert alert-danger" role="alert">You are currently banned from the forum. To browse the forum as a guest, you may <a href="/logout">log out</a>.</div>
+                @php (exit())
+            @endif
+        @endauth    
+    </div>
+    
+
 	
 </div>
 

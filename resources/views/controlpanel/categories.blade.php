@@ -13,7 +13,7 @@
 	<div class="float-sm-end"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sectionNewModal">New Section</button></div><br>
 </div>
 
-@foreach($sections as $s)
+@foreach($sections->sortBy('order') as $s)
 	<div class="card cp-category-card" id="{{ $s->slug }}">
 		<div class="card-header">
 			Section: <b>{{ $s->name }}</b> <i>({{ $s->slug }})</i> order {{ $s->order }}
@@ -35,7 +35,7 @@
 			
 			<table class="table">
 			  <tbody id="table-{{ $s->slug }}">
-			   @foreach($categories as $c)
+			   @foreach($categories->sortBy('order') as $c)
 					@if ($c->section === "$s->id")
 						<tr>
 							<td>

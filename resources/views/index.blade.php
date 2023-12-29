@@ -12,13 +12,13 @@
 <div class="row">
 	<div class="col-9">
 @endguest
-		@foreach($sections as $s)
+		@foreach($sections->sortBy('order') as $s)
 			<div class="card forum-category-card" id="{{ $s->slug }}">
 				<div class="card-header">
 					{{ $s->name }}
 				</div>
 				<ul class="list-group list-group-flush">
-					@foreach($categories as $c)
+					@foreach($categories->sortBy('order') as $c)
 						@if ($c->section === "$s->id")
 						<a href="/category/{{ $c->slug }}" class="list-group-item list-group-item-action">
 						<h6>{{ $c->name }}</h6>
