@@ -20,7 +20,7 @@ class MessagesController extends Controller
     		if ($m1 == null) {
 	    		return redirect('/messages/inbox');
     		} elseif ($m1 === "inbox") {
-	    		$messages = Message::where('to', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+	    		$messages = Message::where('to', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(10);
 	    		foreach ($messages as $message) {
                     $userID = $message->from;
 					$dateTime = $message->created_at;
@@ -31,7 +31,7 @@ class MessagesController extends Controller
                 }
 	    		return view('messages.inbox',["folder"=>$m1], compact('messages'));
 	    	} elseif ($m1 === "sent") {
-	    		$messages = Message::where('from', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+	    		$messages = Message::where('from', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(10);
 	    		foreach ($messages as $message) {
                     $userID = $message->to;
 					$dateTime = $message->created_at;

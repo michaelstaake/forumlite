@@ -43,6 +43,9 @@
         @endforelse
       </ul>
     </div>
+    <div class="forum-pagination">
+			{{ $messages->links() }}
+		</div>
 	</div>
 </div>
 
