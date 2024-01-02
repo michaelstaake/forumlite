@@ -497,6 +497,7 @@ class ControlPanelController extends Controller
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$category_id = $request->category_id;
+				$section = $request->section;
 				$name = $request->name;
 				$slug = Str::slug($name, '-');
 				$order = $request->order;
@@ -515,6 +516,7 @@ class ControlPanelController extends Controller
 				if ($count == 1) {
 					$category = Category::find($category_id);
 					$category->name = $name;
+					$category->section = $section;
 					$category->slug = $slug;
 					$category->order = $order;
 					$category->description = $description;

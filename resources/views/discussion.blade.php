@@ -333,8 +333,12 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 						<input type="hidden" name="slug" value="{{ $d->slug }}" />
 						<select class="form-select" name="category" aria-label="Category">
-							@foreach ($categories as $cat)
-								<option selected value="{{ $cat->id }}">{{ $cat->section_name }} - {{ $cat->name }}</option>
+							@foreach($categories->sortBy('order') as $cat)
+								@if ($cat->id === "$dc->id")
+									<option selected value="{{ $cat->id }}">{{ $cat->section_name }} - {{ $cat->name }}</option>
+								@else
+									<option value="{{ $cat->id }}">{{ $cat->section_name }} - {{ $cat->name }}</option>
+								@endif
 							@endforeach
 						</select>
 				      </div>

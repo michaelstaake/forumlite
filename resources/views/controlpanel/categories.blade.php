@@ -241,6 +241,17 @@
 						<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
 					</div>
 					<div class="mb-3">
+						<select class="form-select" name="section" aria-label="section">
+							@foreach($sections->sortBy('order') as $s)
+								@if ($c->section === "$s->id")
+									<option selected value="{{ $s->id }}">{{ $s->name }}</option>
+								@else
+									<option value="{{ $s->id }}">{{ $s->name }}</option>
+								@endif
+							@endforeach
+						</select>
+					</div>
+					<div class="mb-3">
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" value="TRUE" name="is_hidden" id="is_hidden" aria-describedby="is_hidden_help" 
 							@if ($c->is_hidden == TRUE)
