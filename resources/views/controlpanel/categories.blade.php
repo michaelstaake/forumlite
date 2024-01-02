@@ -46,10 +46,10 @@
 								@if ($c->is_hidden != NULL)
 									<i class="bi bi-eye-slash"></i>
 								@endif
-									<i>({{ $c->slug }})</i>
-									order {{ $c->order }}
-									<br>
-									<p>{{ $c->description }}</p>
+								<i>({{ $c->slug }})</i>
+								order {{ $c->order }}
+								<br>
+								<p>{{ $c->description }}</p>
 							</td>
 					    	<td>
 								<div class="float-sm-end">
@@ -190,6 +190,20 @@
 				<input class="form-control" type="number" id="order" name="order" style="max-width:150px;" aria-describedby="order_help" required>
 				<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
 			</div>
+			<div class="mb-3">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="TRUE" name="is_hidden" id="is_hidden" aria-describedby="is_hidden_help" >
+					<label class="form-check-label" for="is_hidden">Hidden</label>
+				</div>
+				<div id="is_hidden_help" class="form-text">If a category is hidden, members will not be able to view items here. Only mods and admins can view the category. Items in hidden categories will also not appear in search results for members, only mods and admins.</div>
+			</div>
+			<div class="mb-3">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="TRUE" name="is_readonly" id="is_readonly" aria-describedby="is_readonly_help" >
+					<label class="form-check-label" for="is_readonly">Readonly</label>
+				</div>
+				<div id="is_readonly_help" class="form-text">If a category is readonly, members can view items here, but only mods and admins can create discussions or reply.</div>
+			</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -225,6 +239,28 @@
 						<label for="order" class="form-label">Order</label>
 						<input class="form-control" type="number" id="order" name="order" value="{{ $c->order }}" style="max-width:150px;" aria-describedby="order_help" required>
 						<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
+					</div>
+					<div class="mb-3">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="TRUE" name="is_hidden" id="is_hidden" aria-describedby="is_hidden_help" 
+							@if ($c->is_hidden == TRUE)
+								checked
+							@endif
+							>
+							<label class="form-check-label" for="is_hidden">Hidden</label>
+						</div>
+						<div id="is_hidden_help" class="form-text">If a category is hidden, members will not be able to view items here. Only mods and admins can view the category. Items in hidden categories will also not appear in search results for members, only mods and admins.</div>
+					</div>
+					<div class="mb-3">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="TRUE" name="is_readonly" id="is_readonly" aria-describedby="is_readonly_help" 
+							@if ($c->is_readonly == TRUE)
+								checked
+							@endif
+							>
+							<label class="form-check-label" for="is_readonly">Readonly</label>
+						</div>
+						<div id="is_readonly_help" class="form-text">If a category is readonly, members can view items here, but only mods and admins can create discussions or reply.</div>
 					</div>
 				</div>
 				<div class="modal-footer">

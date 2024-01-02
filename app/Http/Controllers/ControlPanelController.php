@@ -456,8 +456,16 @@ class ControlPanelController extends Controller
 				$description = $request->description;
 				$slug = Str::slug($name, '-');
 				$order = $request->order;
-				$is_readonly = FALSE;
-				$is_hidden = FALSE;
+				if ($request->is_readonly == TRUE) {
+					$is_readonly = TRUE;
+				} else {
+					$is_readonly = FALSE;
+				}
+				if ($request->is_hidden == TRUE) {
+					$is_hidden = TRUE;
+				} else {
+					$is_hidden = FALSE;
+				}
 				$count = DB::table('categories')->where('slug', $slug)->count();
 				if ($count > 0) {
 					return redirect('/controlpanel/categories');
@@ -493,6 +501,16 @@ class ControlPanelController extends Controller
 				$slug = Str::slug($name, '-');
 				$order = $request->order;
 				$description = $request->description;
+				if ($request->is_readonly == TRUE) {
+					$is_readonly = TRUE;
+				} else {
+					$is_readonly = FALSE;
+				}
+				if ($request->is_hidden == TRUE) {
+					$is_hidden = TRUE;
+				} else {
+					$is_hidden = FALSE;
+				}
 				$count = DB::table('categories')->where('id', $category_id)->count();
 				if ($count == 1) {
 					$category = Category::find($category_id);
@@ -500,6 +518,8 @@ class ControlPanelController extends Controller
 					$category->slug = $slug;
 					$category->order = $order;
 					$category->description = $description;
+					$category->is_readonly = $is_readonly;
+					$category->is_hidden = $is_hidden;
 					$category->save();
 					return redirect('/controlpanel/categories');
 				} else {
