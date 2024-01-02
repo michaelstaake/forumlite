@@ -334,7 +334,7 @@
 						<input type="hidden" name="slug" value="{{ $d->slug }}" />
 						<select class="form-select" name="category" aria-label="Category">
 							@foreach($categories->sortBy('order') as $cat)
-								@if ($cat->id === "$dc->id")
+								@if ($cat->id === $dc->id)
 									<option selected value="{{ $cat->id }}">{{ $cat->section_name }} - {{ $cat->name }}</option>
 								@else
 									<option value="{{ $cat->id }}">{{ $cat->section_name }} - {{ $cat->name }}</option>

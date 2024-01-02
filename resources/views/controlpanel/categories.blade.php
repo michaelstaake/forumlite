@@ -241,6 +241,7 @@
 						<div id="order_help" class="form-text">This field dictates the order in which this item will be displayed. Any number is valid, but if multiple items have the same order, the results may be unpredictable. Items are displayed smaller numbers first.</div>
 					</div>
 					<div class="mb-3">
+						<label for="section" class="form-label">Section</label>
 						<select class="form-select" name="section" aria-label="section">
 							@foreach($sections->sortBy('order') as $s)
 								@if ($c->section === "$s->id")
