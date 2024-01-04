@@ -96,12 +96,8 @@ class DiscussionController extends Controller
                 } else {
                     $categories = Category::where('is_readonly',FALSE)->where('is_hidden',FALSE)->get();
                 }
-                foreach ($categories as $cat) {
-                    $secID = $cat->section;
-                    $section = Section::where('id',$secID)->get();
-                    $cat['section'] = $section;
-                }
-                return view('newdiscussion', compact('categories'));
+                $sections = Section::all();
+                return view('newdiscussion', compact('sections'), compact('categories'));
             } else {
                 $count = DB::table('categories')->where('slug', $slug)->count();
                 if ($count == 1) {

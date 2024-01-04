@@ -27,9 +27,12 @@
         <label for="category">Category</label>
           <select class="form-select" name="category" aria-label="Category">
             <option selected disabled>Select a Category</option>
-            @foreach($categories as $c)
-            <option value="{{ $c->id }}">
-              @foreach ($c['section'] as $cs) {{ $cs->name }} @endforeach - {{ $c->name }}</option>
+            @foreach($sections->sortBy('order') as $s)
+              @foreach($categories->sortBy('order') as $c)
+                @if ($c->section === "$s->id")
+                  <option value="{{ $c->id }}">{{ $s->name }} - {{ $c->name }}</option>
+                @endif
+              @endforeach
             @endforeach
           </select>
       </div>

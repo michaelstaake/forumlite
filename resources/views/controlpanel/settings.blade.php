@@ -19,9 +19,9 @@
 	<li class="nav-item" role="presentation">
 		<button class="nav-link" id="pages-tab" data-bs-toggle="tab" data-bs-target="#pages-tab-pane" type="button" role="tab" aria-controls="pages-tab-pane" aria-selected="false">Pages</button>
 	</li>
-	<li class="nav-item" role="presentation">
+	<!--<li class="nav-item" role="presentation">
 		<button class="nav-link" id="integration-tab" data-bs-toggle="tab" data-bs-target="#integration-tab-pane" type="button" role="tab" aria-controls="integration-tab-tab-pane" aria-selected="false">Integration</button>
-	</li>
+	</li>-->
 </ul>
 
 <script type="text/javascript" >
