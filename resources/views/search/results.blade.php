@@ -2,14 +2,12 @@
 @include('includes.header')
 
 <div class="page-title">
-  @if ($type === "searchResults")
-    Search Results for "{{ $query }}"
-  @elseif ($type === "searchUserDiscussions")
+  @if ($type === "searchUserDiscussions")
     <a href="http://localhost/member/{{ $query }}">{{ $query }}</a>'s Discussions
   @elseif ($type === "searchUserComments")
     <a href="http://localhost/member/{{ $query }}">{{ $query }}</a>'s Comments
   @else
-    Search Results
+    Search Results for "{{ $query }}"
   @endif
   <div class="float-sm-end"><a class="btn btn-primary" href="/search" role="button"><i class="bi bi-search"></i> New Search</a></div><br>
 </div>
@@ -67,6 +65,20 @@
     No results found.
   @endforelse
 </ul>
+
+@if ($type === "searchUserDiscussions")
+  <div class="forum-pagination">
+    {{-- $results->links() --}}
+  </div>
+@elseif ($type === "searchUserComments")
+  <div class="forum-pagination">
+    {{-- $results->links() --}}
+  </div>
+@else
+  <div class="forum-pagination">
+    {{-- $results->links() --}}
+  </div>
+@endif
 
 
 @include('includes.footer')

@@ -71,9 +71,9 @@
 						@endif
 
 						@if ($d->is_hidden == TRUE)
-						 	<!--<a href="#" data-bs-toggle="modal" data-bs-target="#discussionUnhideModal">Unhide</a>-->
+						 	<a href="#" data-bs-toggle="modal" data-bs-target="#discussionUnhideModal">Unhide</a>
 						@else
-							<!--<a href="#" data-bs-toggle="modal" data-bs-target="#discussionHideModal">Hide</a>-->
+							<a href="#" data-bs-toggle="modal" data-bs-target="#discussionHideModal">Hide</a>
 						@endif
 						<a href="#" data-bs-toggle="modal" data-bs-target="#discussionDeleteModal">Delete</a>
 					@endif

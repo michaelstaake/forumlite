@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Avatar;
 use App\Http\Requests\SearchRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Discussion;
 use App\Models\Comment;
@@ -26,8 +27,15 @@ class SearchController extends Controller
 			$query = $user;
 			$member = User::where('username', $user)->first();
 			$member_id = $member->id;
-			//here we will need to check if they are admin/mod or member
-			$discussions = Discussion::where('member', $member_id)->get();
+			if (Auth::check()) {
+				if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+                    $discussions = Discussion::where('member', $member_id)->get();
+                } else {
+                    $discussions = Discussion::where('member', $member_id)->where('is_hidden', FALSE)->get();
+                }
+			} else {
+				$discussions = Discussion::where('member', $member_id)->where('is_hidden', FALSE)->get();
+			}
 			foreach ($discussions as $discussion) {
 				$discussion['type'] = 'discussion';
 				$discID = $discussion->id;
@@ -60,8 +68,15 @@ class SearchController extends Controller
 			$query = $user;
 			$member = User::where('username', $user)->first();
 			$member_id = $member->id;
-			//here we will need to check if they are admin/mod or member
-			$comments = Comment::where('member', $member_id)->get();
+			if (Auth::check()) {
+				if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+                    $comments = Comment::where('member', $member_id)->get();
+                } else {
+                    $comments = Comment::where('member', $member_id)->where('is_hidden', FALSE)->get();
+                }
+			} else {
+				$comments = Comment::where('member', $member_id)->where('is_hidden', FALSE)->get();
+			}
 			foreach ($comments as $comment) {
 				$comment['type'] = 'comment';
 				$commID = $comment->id;
@@ -71,6 +86,9 @@ class SearchController extends Controller
 				foreach ($discussion as $disc) {
 					$comment['slug'] = $disc->slug;
 					$comment['title'] = $disc->title;
+					if ($disc->is_hidden == TRUE) {
+						$comment['is_hidden'] = TRUE;
+					}
 				}
 				$user = User::where('id',$userID)->get();
 				$comment['user'] = $user;
@@ -86,7 +104,7 @@ class SearchController extends Controller
 				$comment['datetime'] = $cDateTime->toDayDateTimeString();
 				$comment['content_summary'] = Str::limit($comment->content, 200);
 			}
-			$results = $comments->sortByDesc('created_at');
+			$results = $comments->where('is_hidden', FALSE)->sortByDesc('created_at');
 			return view('search.results')->with('results', $results)->with('type','searchUserComments')->with('query', $query);
 
 		} else {
@@ -97,8 +115,16 @@ class SearchController extends Controller
     public function searchResults(SearchRequest $request) {
 
 		$query = $request->input('query');
-		//here we will need to check if they are admin/mod or member
-    	$discussions = Discussion::search($query)->get();
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$discussions = Discussion::search($query)->get();
+			} else {
+				$discussions = Discussion::search($query)->where('is_hidden', FALSE)->get();
+			}
+		} else {
+			$discussions = Discussion::search($query)->where('is_hidden', FALSE)->get();
+		}
+    	//$discussions = Discussion::search($query)->get();
 		foreach ($discussions as $discussion) {
 			$discussion['type'] = 'discussion';
 			$discID = $discussion->id;
@@ -128,6 +154,9 @@ class SearchController extends Controller
 			foreach ($discussion as $disc) {
 				$comment['slug'] = $disc->slug;
 				$comment['title'] = $disc->title;
+				if ($disc->is_hidden == TRUE) {
+					$comment['is_hidden'] = TRUE;
+				}
 			}
 			$user = User::where('id',$userID)->get();
 			$comment['user'] = $user;
@@ -145,7 +174,7 @@ class SearchController extends Controller
 		}
 		$results = collect();
 		$results = $results->merge($discussions)->merge($comments);
-		$results = $results->sortByDesc('created_at');
+		$results = $results->where('is_hidden', FALSE)->sortByDesc('created_at');
 
 		return view('search.results')->with('results', $results)->with('type','searchResults')->with('query', $query);
     }
