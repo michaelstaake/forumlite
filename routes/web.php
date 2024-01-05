@@ -116,7 +116,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /* Search Routes */
 
     Route::get('/search', 'SearchController@showForm');
-    Route::post('/search', 'SearchController@showResults')->name('search.showResults');
+    Route::get('/search/comments/{user}', 'SearchController@searchUserComments');
+    Route::get('/search/discussions/{user}', 'SearchController@searchUserDiscussions');
+    Route::post('/search/results', 'SearchController@searchResults')->name('search.searchResults');
 
     /* Member Routes */
 

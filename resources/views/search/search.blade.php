@@ -7,7 +7,7 @@
 
 <div class="card search-form">
   <div class="card-body">
-    <form method="post" action="{{ route('search.showResults') }}" class="" role="search">
+    <form method="post" action="{{ route('search.searchResults') }}" class="" role="search">
       <input type="hidden" name="_token" value="{{ csrf_token() }}" />
       <div class="row">
         <div class="col">

@@ -16,7 +16,7 @@ class MessagesController extends Controller
 {
     public function showMessages($m1 = null) 
     {
-    	if (Auth::check())
+    	if (Auth::check()) {
     		if ($m1 == null) {
 	    		return redirect('/messages/inbox');
     		} elseif ($m1 === "inbox") {
@@ -44,14 +44,15 @@ class MessagesController extends Controller
 	    	} else {
 	    		App::abort(404);
 	    	}
-	    else
+		} else {
 	    	App::abort(401);
+		}
         
     }
 
     public function showMessage($m2 = null,$m2r = null) 
     {
-    	if (Auth::check())
+    	if (Auth::check()) {
     		if ($m2 == null) {
 	    		return redirect('/');
     		} elseif ($m2 === "new" && $m2r == null) {
@@ -84,8 +85,9 @@ class MessagesController extends Controller
 
 	    		}
 	    	}
-	    else
+	    } else {
 	    	return redirect('/');
+		}
         
     }
 

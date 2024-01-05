@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Avatar;
 use App\Http\Requests\SearchRequest;
+use Illuminate\Support\Facades\DB;
 use App\Models\Discussion;
 use App\Models\Comment;
 use App\Models\Category;
@@ -19,9 +20,84 @@ class SearchController extends Controller
         return view('search.search');
     }
 
-    public function showResults(SearchRequest $request) {
+	public function searchUserDiscussions($user = null) {
+		$count = DB::table('users')->where('username', $user)->count();
+		if ($count == 1) {
+			$query = $user;
+			$member = User::where('username', $user)->first();
+			$member_id = $member->id;
+			//here we will need to check if they are admin/mod or member
+			$discussions = Discussion::where('member', $member_id)->get();
+			foreach ($discussions as $discussion) {
+				$discussion['type'] = 'discussion';
+				$discID = $discussion->id;
+				$userID = $discussion->member;
+				$user = User::where('id',$userID)->get();
+				$discussion['user'] = $user;
+				$catID = $discussion->category;
+				$category = Category::where('id',$catID)->get();
+				$discussion['category'] = $category;
+				foreach ($category as $cat) {
+					$secID = $cat->section;
+					$section = Section::where('id',$secID)->get();
+					$discussion['section'] = $section;
+				}
+				$dDateTime = $discussion->created_at;
+				$discussion['datetime'] = $dDateTime->toDayDateTimeString();
+				$discussion['content_summary'] = Str::limit($discussion->content, 200);
+			}
+			$results = $discussions->sortByDesc('created_at');
+			return view('search.results')->with('results', $results)->with('type','searchUserDiscussions')->with('query', $query);
+
+		} else {
+			return redirect('/search');
+		}
+	}
+
+	public function searchUserComments($user = null) {
+		$count = DB::table('users')->where('username', $user)->count();
+		if ($count == 1) {
+			$query = $user;
+			$member = User::where('username', $user)->first();
+			$member_id = $member->id;
+			//here we will need to check if they are admin/mod or member
+			$comments = Comment::where('member', $member_id)->get();
+			foreach ($comments as $comment) {
+				$comment['type'] = 'comment';
+				$commID = $comment->id;
+				$discID = $comment->discussion;
+				$userID = $comment->member;
+				$discussion = Discussion::where('id',$discID)->get();
+				foreach ($discussion as $disc) {
+					$comment['slug'] = $disc->slug;
+					$comment['title'] = $disc->title;
+				}
+				$user = User::where('id',$userID)->get();
+				$comment['user'] = $user;
+				$catID = $comment->category;
+				$category = Category::where('id',$catID)->get();
+				$comment['category'] = $category;
+				foreach ($category as $cat) {
+					$secID = $cat->section;
+					$section = Section::where('id',$secID)->get();
+					$comment['section'] = $section;
+				}
+				$cDateTime = $comment->created_at;
+				$comment['datetime'] = $cDateTime->toDayDateTimeString();
+				$comment['content_summary'] = Str::limit($comment->content, 200);
+			}
+			$results = $comments->sortByDesc('created_at');
+			return view('search.results')->with('results', $results)->with('type','searchUserComments')->with('query', $query);
+
+		} else {
+			return redirect('/search');
+		}
+	}
+
+    public function searchResults(SearchRequest $request) {
 
 		$query = $request->input('query');
+		//here we will need to check if they are admin/mod or member
     	$discussions = Discussion::search($query)->get();
 		foreach ($discussions as $discussion) {
 			$discussion['type'] = 'discussion';
@@ -41,6 +117,7 @@ class SearchController extends Controller
 			$discussion['datetime'] = $dDateTime->toDayDateTimeString();
 			$discussion['content_summary'] = Str::limit($discussion->content, 200);
 		}
+		//here we will need to check if they are admin/mod or member
 		$comments = Comment::search($query)->get();
 		foreach ($comments as $comment) {
 			$comment['type'] = 'comment';
@@ -70,6 +147,6 @@ class SearchController extends Controller
 		$results = $results->merge($discussions)->merge($comments);
 		$results = $results->sortByDesc('created_at');
 
-		return view('search.results')->with('results', $results)->with('query', $query);
+		return view('search.results')->with('results', $results)->with('type','searchResults')->with('query', $query);
     }
 }

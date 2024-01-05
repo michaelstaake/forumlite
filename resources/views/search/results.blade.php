@@ -2,7 +2,15 @@
 @include('includes.header')
 
 <div class="page-title">
-	Search Results for "{{ $query }}"
+  @if ($type === "searchResults")
+    Search Results for "{{ $query }}"
+  @elseif ($type === "searchUserDiscussions")
+    <a href="http://localhost/member/{{ $query }}">{{ $query }}</a>'s Discussions
+  @elseif ($type === "searchUserComments")
+    <a href="http://localhost/member/{{ $query }}">{{ $query }}</a>'s Comments
+  @else
+    Search Results
+  @endif
   <div class="float-sm-end"><a class="btn btn-primary" href="/search" role="button"><i class="bi bi-search"></i> New Search</a></div><br>
 </div>
 

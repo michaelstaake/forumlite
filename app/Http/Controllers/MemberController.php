@@ -25,7 +25,7 @@ class MemberController extends Controller
                 $m['numDiscussions'] = $numDiscussions;
                 $numComments = DB::table('comments')->where('member', $memberID)->count();
                 $m['numComments'] = $numComments;
-
+                //here we will need to check if they are admin/mod or member
                 $discussions = Discussion::where('member',$memberID)->orderBy('updated_at', 'desc')->get();
                 $m['discussions'] = $discussions;
                 foreach ($discussions as $discussion) {
@@ -33,7 +33,7 @@ class MemberController extends Controller
                     $discussion['datetime'] = $dDateTime->toDayDateTimeString();
                     $discussion['content'] = Str::limit($discussion->content, 200, ' ...');
                 }
-
+                //here we will need to check if they are admin/mod or member
                 $comments = Comment::where('member',$memberID)->orderBy('updated_at', 'desc')->get();
                 $m['comments'] = $comments;
                 foreach ($comments as $comment) {

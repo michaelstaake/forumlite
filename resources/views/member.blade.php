@@ -19,16 +19,23 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         @forelse ($m['discussions'] as $d)
-                            <li class="list-group-item">
-                                <h6><a href="/discussion/{{ $d->slug }}">{{ $d->title }}</a></h6>
-                                <p>{{ $d->content }}</p>
-                                <span timestamp="{{ $d->created_at }}"></span>
-                            </li>
+                            @if($loop->index < 5)
+                                <li class="list-group-item">
+                                    <h6><a href="/discussion/{{ $d->slug }}">{{ $d->title }}</a></h6>
+                                    <p>{{ $d->content }}</p>
+                                    <span timestamp="{{ $d->created_at }}"></span>
+                                </li>
+                            @endif
                         @empty
                             No discussions.
                         @endforelse
                         
                     </ul>
+                    @if ($m->numDiscussions > 0)
+                        <div class="card-footer">
+                            <a href="/search/discussions/{{ $m->username }}">View all discussions</a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="col">
@@ -38,17 +45,24 @@
                     </div>
                     <ul class="list-group list-group-flush">
                          @forelse ($m['comments'] as $c)
-                            <li class="list-group-item">
-                                @foreach ($c['discussion'] as $cd)
-                                <h6>in <a href="/discussion/{{ $cd->slug }}#comment-{{ $c->id }}">{{ $cd->title }}</a></h6>
-                                @endforeach
-                                <p>{{ $c->content }}</p>
-                                <span timestamp="{{ $c->created_at }}"></span>
-                            </li>
-                            @empty
+                            @if($loop->index < 5)
+                                <li class="list-group-item">
+                                    @foreach ($c['discussion'] as $cd)
+                                    <h6>in <a href="/discussion/{{ $cd->slug }}#comment-{{ $c->id }}">{{ $cd->title }}</a></h6>
+                                    @endforeach
+                                    <p>{{ $c->content }}</p>
+                                    <span timestamp="{{ $c->created_at }}"></span>
+                                </li>
+                            @endif
+                        @empty
                             No discussions.
                         @endforelse
                     </ul>
+                    @if ($m->numComments > 0)
+                        <div class="card-footer">
+                            <a href="/search/comments/{{ $m->username }}">View all comments</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
