@@ -54,7 +54,7 @@ class SearchController extends Controller
 				$discussion['datetime'] = $dDateTime->toDayDateTimeString();
 				$discussion['content_summary'] = Str::limit($discussion->content, 200);
 			}
-			$results = $discussions->sortByDesc('created_at');
+			$results = $discussions->sortByDesc('created_at')->paginate(10);
 			return view('search.results')->with('results', $results)->with('type','searchUserDiscussions')->with('query', $query);
 
 		} else {
@@ -104,7 +104,7 @@ class SearchController extends Controller
 				$comment['datetime'] = $cDateTime->toDayDateTimeString();
 				$comment['content_summary'] = Str::limit($comment->content, 200);
 			}
-			$results = $comments->where('is_hidden', FALSE)->sortByDesc('created_at');
+			$results = $comments->where('is_hidden', FALSE)->sortByDesc('created_at')->paginate(10);
 			return view('search.results')->with('results', $results)->with('type','searchUserComments')->with('query', $query);
 
 		} else {
@@ -174,7 +174,7 @@ class SearchController extends Controller
 		}
 		$results = collect();
 		$results = $results->merge($discussions)->merge($comments);
-		$results = $results->where('is_hidden', FALSE)->sortByDesc('created_at');
+		$results = $results->where('is_hidden', FALSE)->sortByDesc('created_at')->paginate(10);
 
 		return view('search.results')->with('results', $results)->with('type','searchResults')->with('query', $query);
     }

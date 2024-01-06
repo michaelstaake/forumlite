@@ -66,19 +66,9 @@
   @endforelse
 </ul>
 
-@if ($type === "searchUserDiscussions")
-  <div class="forum-pagination">
-    {{-- $results->links() --}}
+<div class="forum-pagination">
+    {{ $results->links() }}
   </div>
-@elseif ($type === "searchUserComments")
-  <div class="forum-pagination">
-    {{-- $results->links() --}}
-  </div>
-@else
-  <div class="forum-pagination">
-    {{-- $results->links() --}}
-  </div>
-@endif
 
 
 @include('includes.footer')
