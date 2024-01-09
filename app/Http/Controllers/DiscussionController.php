@@ -17,6 +17,7 @@ use App\Models\Watched;
 use App\Models\Settings;
 use Carbon\Carbon;
 use App\Jobs\NewReplyMail;
+use App\Jobs\NewNotification;
 
 class DiscussionController extends Controller
 {
@@ -169,6 +170,7 @@ class DiscussionController extends Controller
         foreach ($watched as $w) {
             $member = $w->member;
             if ($member != $comment->member) {
+                NewNotification::dispatch($member,'comment',$comment->id);
                 NewReplyMail::dispatch($member,$comment->id);
             }
             

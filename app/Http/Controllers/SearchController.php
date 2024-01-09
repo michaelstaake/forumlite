@@ -112,6 +112,16 @@ class SearchController extends Controller
 		}
 	}
 
+	public function searchNewPosts() {
+		$user = auth()->user()->username;
+		$count = DB::table('users')->where('username', $user)->count();
+		if ($count == 1) {
+			return view('search.results')->with('results', $results)->with('type','searchNewPosts')->with('query', $query);
+		} else {
+			return redirect('/search');
+		}
+	}
+
     public function searchResults(SearchRequest $request) {
 
 		$query = $request->input('query');
@@ -124,7 +134,6 @@ class SearchController extends Controller
 		} else {
 			$discussions = Discussion::search($query)->where('is_hidden', FALSE)->get();
 		}
-    	//$discussions = Discussion::search($query)->get();
 		foreach ($discussions as $discussion) {
 			$discussion['type'] = 'discussion';
 			$discID = $discussion->id;

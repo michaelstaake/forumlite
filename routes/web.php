@@ -54,6 +54,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::get('/notifications', 'NotificationsController@show');
     Route::get('/notifications/clear', 'NotificationsController@clear');
+    Route::get('/notification/{notification}', 'NotificationsController@view');
 
     /* Category Routes */
 
@@ -120,6 +121,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/search/discussions/{user}', 'SearchController@searchUserDiscussions');
     //Route::get('/search/results', 'SearchController@searchResults');
     Route::post('/search/results', 'SearchController@searchResults')->name('search.searchResults');
+    Route::group(['middleware' => ['auth', 'verified']], function() {
+        Route::get('/search/newposts', 'SearchController@searchNewPosts');
+    });
 
     /* Member Routes */
 

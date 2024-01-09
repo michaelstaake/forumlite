@@ -39,17 +39,20 @@
                         </li>
                         
                         @auth
-                            @if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/controlpanel"><i class="bi bi-speedometer2"></i> Control Panel <span class="badge text-bg-danger" id="reports-badge"></span></a>
-                                </li>
-                            @endif
+                            <!--<li class="nav-item">
+                                <a class="nav-link" href="/search/newposts"><i class="bi bi-chat-left-text"></i> New Posts</a>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" href="/notifications"><i class="bi bi-bell"></i> Notifications <span class="badge text-bg-primary" id="notifications-badge"></span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/messages"><i class="bi bi-envelope"></i> Messages <span class="badge text-bg-primary" id="messages-badge"></span></a>
                             </li>
+                            @if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/controlpanel"><i class="bi bi-speedometer2"></i> Control Panel <span class="badge text-bg-danger" id="reports-badge"></span></a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown ms-auto">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img class="header-avatar" src="{{asset('storage/avatars')}}/{{auth()->user()->avatar}}" /> {{auth()->user()->username}}

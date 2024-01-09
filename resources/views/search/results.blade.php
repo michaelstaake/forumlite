@@ -6,6 +6,8 @@
     <a href="http://localhost/member/{{ $query }}">{{ $query }}</a>'s Discussions
   @elseif ($type === "searchUserComments")
     <a href="http://localhost/member/{{ $query }}">{{ $query }}</a>'s Comments
+  @elseif ($type === "searchNewPosts")
+    New Posts
   @else
     Search Results for "{{ $query }}"
   @endif
@@ -67,8 +69,8 @@
 </ul>
 
 <div class="forum-pagination">
-    {{ $results->links() }}
-  </div>
+  {{ $results->links() }}
+</div>
 
 
 @include('includes.footer')
