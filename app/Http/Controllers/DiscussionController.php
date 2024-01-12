@@ -34,6 +34,18 @@ class DiscussionController extends Controller
             }
             $discussions = Discussion::where('slug',$slug)->get();
             foreach ($discussions as $discussion) {
+                $disc_is_hidden = $discussion->is_hidden;
+                if ($disc_is_hidden == TRUE) {
+                    if (Auth::check()) {
+                        if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+                            
+                        } else {
+                            abort(403);
+                        }
+                    } else {
+                        abort(403);
+                    }
+                }
                 $discID = $discussion->id;
                 $userID = $discussion->member;
                 $user = User::where('id',$userID)->get();

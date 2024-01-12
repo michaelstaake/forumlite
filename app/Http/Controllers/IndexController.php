@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Discussion;
 use App\Models\Comment;
+use App\Models\Settings;
 
 class IndexController extends Controller
 {
@@ -30,6 +31,12 @@ class IndexController extends Controller
 	        $numComments = DB::table('comments')->where('category', $categoryID)->count();
             $category['numComments'] = $numComments;
 	    }
-    	return view('index', compact('sections'), compact('categories'));
+		$maintenance_mode = Settings::where('setting', 'maintenance_mode')->first();
+		$maintenance_mode = $maintenance_mode->value;
+		if ($maintenance_mode === "enabled") {
+			return view('index', compact('sections'), compact('categories'))->with('maintenance_mode', 'enabled');
+		} else {
+			return view('index', compact('sections'), compact('categories'));
+		}
     }
 }

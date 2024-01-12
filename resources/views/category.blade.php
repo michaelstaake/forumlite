@@ -24,20 +24,6 @@
   @endauth
 </div>
 
-    <!--<nav class="page-navigation">
-      <ul class="pagination pagination-sm justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link">&laquo;</a>
-        </li>
-        <li class="page-item"><a class="page-link active" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">&raquo;</a>
-        </li>
-      </ul>
-    </nav> -->
-
     <ul class="forum-discussion-list">
       @forelse($results as $r)
         <li class="forum-discussion-li">
@@ -51,6 +37,9 @@
               <a href="/discussion/{{ $r->slug }}">{{ $r->title }}</a>
               @if ($r->is_locked == TRUE)
                 <span class="badge bg-secondary" style="color:#FFFFFF;">Closed</span>
+              @endif
+              @if ($r->is_hidden == TRUE)
+                <span class="badge bg-secondary" style="color:#FFFFFF;">Hidden</span>
               @endif
             </h6>
             <span timestamp="{{ $r->created_at }}" >Started by <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> on </span>
@@ -80,7 +69,7 @@
       @endforelse
     </ul>
     <div class="forum-pagination">
-    {{ $results->links() }}
+      {{ $results->links() }}
     </div>
     
 		

@@ -23,7 +23,15 @@ class CategoryController extends Controller
                 $section = Section::where('id',$secID)->get();
                 $cat['section'] = $section;
 			}
-            $results = Discussion::where('category', $catID)->orderBy('updated_at', 'desc')->paginate(10);
+            if (Auth::check()) {
+                if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+                    $results = Discussion::where('category', $catID)->orderBy('updated_at', 'desc')->paginate(10);
+                } else {
+                    $results = Discussion::where('category', $catID)->where('is_hidden', FALSE)->orderBy('updated_at', 'desc')->paginate(10);
+                }
+            } else {
+                $results = Discussion::where('category', $catID)->where('is_hidden', FALSE)->orderBy('updated_at', 'desc')->paginate(10);
+            }
             foreach ($results as $result) {
                 $userID = $result->member;
                 $user = User::where('id',$userID)->get();

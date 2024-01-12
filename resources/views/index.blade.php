@@ -1,5 +1,12 @@
 @php ($pageTitle = "Home")
+
 @include('includes.header')
+
+@if (isset($maintenance_mode) && $maintenance_mode === "enabled")
+	<div class="alert alert-danger" role="alert">
+		<h4 class="alert-heading">Maintenance mode is enabled!</h4>
+	</div>
+@endif
 
 <div class="page-title">
 	{{ config('app.name'); }}

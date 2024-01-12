@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\CaptchaServiceController;
 use App\Http\Controllers\UserSearchController;
 use App\Http\Controllers\BadgeController;
+use App\Http\Middleware\MaintenanceMode;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,13 @@ use App\Http\Controllers\BadgeController;
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {   
 
+    /* Maintenance Mode  */
+
+    Route::get('/maintenancemode', 'MaintenanceModeController@view')->name('maintenancemode');
+
     /* Index Routes */
 
-    Route::get('/', 'IndexController@show');
+    Route::get('/', 'IndexController@show')->middleware(MaintenanceMode::class);
 
     Route::get('/index', function () {
         return redirect('/');
@@ -53,7 +58,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     /* Notifications Routes */
 
-    Route::get('/notifications', 'NotificationsController@show');
+    Route::get('/notifications', 'NotificationsController@show')->middleware(MaintenanceMode::class);
     Route::get('/notifications/clear', 'NotificationsController@clear');
     Route::get('/notification/{notification}', 'NotificationsController@view');
 
@@ -62,7 +67,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/category', function () {
         App::abort(404);
     });
-    Route::get('/category/{c}', 'CategoryController@show');
+    Route::get('/category/{c}', 'CategoryController@show')->middleware(MaintenanceMode::class);
 
     /* Report Routes */
 
@@ -102,13 +107,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/messages', function () {
             return redirect('/messages/inbox');
-        });
+        })->middleware(MaintenanceMode::class);
         Route::get('/message', function () {
             App::abort(404);
-        });
-        Route::get('/messages/{m1}', 'MessagesController@showMessages');
-        Route::get('/message/{m2}', 'MessagesController@showMessage');
-        Route::get('/message/{m2}/{m2r}', 'MessagesController@showMessage');
+        })->middleware(MaintenanceMode::class);
+        Route::get('/messages/{m1}', 'MessagesController@showMessages')->middleware(MaintenanceMode::class);
+        Route::get('/message/{m2}', 'MessagesController@showMessage')->middleware(MaintenanceMode::class);
+        Route::get('/message/{m2}/{m2r}', 'MessagesController@showMessage')->middleware(MaintenanceMode::class);
     });
 
     Route::get('/usersearch', [UserSearchController::class, 'userSearch']);
@@ -117,7 +122,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     
     /* Search Routes */
 
-    Route::get('/search', 'SearchController@showForm');
+    Route::get('/search', 'SearchController@showForm')->middleware(MaintenanceMode::class);
     Route::get('/search/comments/{user}', 'SearchController@searchUserComments');
     Route::get('/search/discussions/{user}', 'SearchController@searchUserDiscussions');
     //Route::get('/search/results', 'SearchController@searchResults');
@@ -132,12 +137,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         App::abort(404);
     });
 
-    Route::get('/member/{username}', 'MemberController@show');
+    Route::get('/member/{username}', 'MemberController@show')->middleware(MaintenanceMode::class);
 
     /* Settings Routes */
 
     Route::group(['middleware' => ['auth', 'verified']], function() {
-        Route::get('/settings', 'SettingsController@show');
+        Route::get('/settings', 'SettingsController@show')->middleware(MaintenanceMode::class);
         Route::post('/settings/submit', 'SettingsController@submitSettings')->name('settings.submit');
         Route::post('/settings/avatar', 'SettingsController@uploadAvatar')->name('avatar.upload');
         Route::post('/settings/avatardelete', 'SettingsController@deleteAvatar')->name('avatar.delete');
@@ -146,7 +151,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /* Watched Routes */
 
     Route::group(['middleware' => ['auth', 'verified']], function() {
-        Route::get('/watched', 'WatchedController@show');
+        Route::get('/watched', 'WatchedController@show')->middleware(MaintenanceMode::class);
         Route::post('/watched/unwatch', 'WatchedController@unwatch')->name('watched.unwatch');
         Route::get('/watch/{slug}', 'WatchedController@watch');
     });
@@ -155,7 +160,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /* New Discussion Routes */
 
     Route::group(['middleware' => ['auth', 'verified']], function() {
-        Route::get('/newdiscussion', 'DiscussionController@showNew');
+        Route::get('/newdiscussion', 'DiscussionController@showNew')->middleware(MaintenanceMode::class);
         Route::get('/newdiscussion/{slug}', 'DiscussionController@showNew');
         Route::post('/newdiscussion', 'DiscussionController@submit')->name('discussion.submit');
     });
@@ -166,7 +171,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         App::abort(404);
     });
 
-    Route::get('/discussion/{slug}', 'DiscussionController@show');
+    Route::get('/discussion/{slug}', 'DiscussionController@show')->middleware(MaintenanceMode::class);
 
     Route::post('/discussion', 'DiscussionController@submitReply')->name('discussion.reply');
     Route::post('/discussion-lock', 'DiscussionController@lock')->name('discussion.lock');
@@ -183,7 +188,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['middleware' => ['guest']], function() {
 
-        Route::get('/register', 'RegisterController@show')->name('register.show');
+        Route::get('/register', 'RegisterController@show')->name('register.show')->middleware(MaintenanceMode::class);
         Route::post('/register', 'RegisterController@register')->name('register.perform');
 
         Route::get('/login', 'LoginController@show')->name('login.show');

@@ -152,7 +152,6 @@ class SearchController extends Controller
 			$discussion['datetime'] = $dDateTime->toDayDateTimeString();
 			$discussion['content_summary'] = Str::limit($discussion->content, 200);
 		}
-		//here we will need to check if they are admin/mod or member
 		$comments = Comment::search($query)->get();
 		foreach ($comments as $comment) {
 			$comment['type'] = 'comment';
@@ -165,6 +164,8 @@ class SearchController extends Controller
 				$comment['title'] = $disc->title;
 				if ($disc->is_hidden == TRUE) {
 					$comment['is_hidden'] = TRUE;
+				} else {
+					$comment['is_hidden'] = FALSE;
 				}
 			}
 			$user = User::where('id',$userID)->get();
@@ -183,7 +184,15 @@ class SearchController extends Controller
 		}
 		$results = collect();
 		$results = $results->merge($discussions)->merge($comments);
-		$results = $results->where('is_hidden', FALSE)->sortByDesc('created_at')->paginate(10);
+		if (Auth::check()) {
+			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+				$results = $results->sortByDesc('created_at')->paginate(10);
+			} else {
+				$results = $results->where('is_hidden', FALSE)->sortByDesc('created_at')->paginate(10);
+			}
+		} else {
+			$results = $results->where('is_hidden', FALSE)->sortByDesc('created_at')->paginate(10);
+		}
 
 		return view('search.results')->with('results', $results)->with('type','searchResults')->with('query', $query);
     }
