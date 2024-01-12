@@ -43,6 +43,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::get('/contact', 'ContactController@show');
     Route::post('/contact', 'ContactController@submit')->name('contact.submit');
+    Route::get('/contact/sent', 'ContactController@sent');
 
     /* Install Routes */
 

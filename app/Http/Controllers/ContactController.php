@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactFormRequest;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Settings;
+use App\Mail\NewContactEmail;
+
 
 class ContactController extends Controller
 {
@@ -21,10 +24,23 @@ class ContactController extends Controller
 		
 	}
 
+	public function sent() {
+		return view('pages.contact')->with('success', 'Your message has been sent!');
+	}
+
 	public function submit(ContactFormRequest $request) {
-		$email = $request->email;
-		$content = $request->content;
 		
+		$contact_email = Settings::where('setting', 'contact_email')->first();
+		$contact_email = $contact_email->value;
+
+		$data = [
+            'email' => $request->email,
+            'content' => $request->content,
+        ];
+
+		Mail::to($contact_email)->send(new NewContactEmail($data));
+
+		return redirect('/contact/sent');
 
 		
 	}
