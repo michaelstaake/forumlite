@@ -161,7 +161,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/newdiscussion', 'DiscussionController@showNew')->middleware(MaintenanceMode::class);
-        Route::get('/newdiscussion/{slug}', 'DiscussionController@showNew');
+        Route::get('/newdiscussion/{slug}', 'DiscussionController@showNew')->middleware(MaintenanceMode::class);
         Route::post('/newdiscussion', 'DiscussionController@submit')->name('discussion.submit');
     });
 

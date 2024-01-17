@@ -253,6 +253,7 @@
 
 .forum-discussion-reply:first-child {
 	border-top: solid 1px #dee2e6;
+	border-bottom: solid 2px #dee2e6;
 }
 
 .forum-discussion-reply a {
