@@ -100,6 +100,35 @@ class DiscussionController extends Controller
 
     }
 
+    /* show last reply on last page */
+
+    public function showLast($slug = null) {
+        $count = DB::table('discussions')->where('slug', $slug)->count();
+        if ($count == 1) {
+            $discussions = Discussion::where('slug',$slug)->get();
+            foreach ($discussions as $discussion) {
+                $disc_is_hidden = $discussion->is_hidden;
+                if ($disc_is_hidden == TRUE) {
+                    if (Auth::check()) {
+                        if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+                            
+                        } else {
+                            abort(403);
+                        }
+                    } else {
+                        abort(403);
+                    }
+                }
+                $discID = $discussion->id;
+                $comments = Comment::where('discussion',$discID)->paginate(10);
+                return redirect('/discussion/'.$slug.'?page='.$comments->lastPage().'#lastreply');
+            }
+
+        } else {
+            abort(404);
+        }
+    }
+
     /* show new discussion page */
     public function showNew($slug = null) {
         if (Auth::check()) {
@@ -187,7 +216,7 @@ class DiscussionController extends Controller
             }
             
         }
-        $url = '/discussion/'.$slug.'#lastreply';
+        $url = '/discussion/'.$slug.'/lastreply';
         return redirect($url);
 
     }

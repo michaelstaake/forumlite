@@ -172,6 +172,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     Route::get('/discussion/{slug}', 'DiscussionController@show')->middleware(MaintenanceMode::class);
+    Route::get('/discussion/{slug}/lastreply', 'DiscussionController@showLast')->middleware(MaintenanceMode::class);
 
     Route::post('/discussion', 'DiscussionController@submitReply')->name('discussion.reply');
     Route::post('/discussion-lock', 'DiscussionController@lock')->name('discussion.lock');

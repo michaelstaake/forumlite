@@ -59,7 +59,7 @@
                 comments
               @endif
             </span>
-            <span timestamp="{{ $r->updated_at }}"><a href="/discussion/{{ $r->slug }}#lastreply">Most recent reply</a> on </span>
+            <span timestamp="{{ $r->updated_at }}"><a href="/discussion/{{ $r->slug }}/lastreply">Most recent reply</a> on </span>
           </div>
           <div class="clear"></div>
           
