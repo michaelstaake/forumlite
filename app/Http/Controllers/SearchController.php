@@ -122,9 +122,12 @@ class SearchController extends Controller
 		}
 	}
 
-    public function searchResults(SearchRequest $request) {
+	public function search(SearchRequest $request) {
+		return redirect('/search/results/'.$request->input('query'));
+	}
 
-		$query = $request->input('query');
+    public function searchResults($query = null) {
+
 		if (Auth::check()) {
 			if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
 				$discussions = Discussion::search($query)->get();
@@ -147,6 +150,11 @@ class SearchController extends Controller
 				$secID = $cat->section;
 				$section = Section::where('id',$secID)->get();
 				$discussion['section'] = $section;
+				if ($cat->is_hidden == TRUE) {
+					$discussion['is_hidden'] = TRUE;
+				} else {
+					$discussion['is_hidden'] = FALSE;
+				}
 			}
 			$dDateTime = $discussion->created_at;
 			$discussion['datetime'] = $dDateTime->toDayDateTimeString();

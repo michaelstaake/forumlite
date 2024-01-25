@@ -125,8 +125,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/search', 'SearchController@showForm')->middleware(MaintenanceMode::class);
     Route::get('/search/comments/{user}', 'SearchController@searchUserComments');
     Route::get('/search/discussions/{user}', 'SearchController@searchUserDiscussions');
-    //Route::get('/search/results', 'SearchController@searchResults');
-    Route::post('/search/results', 'SearchController@searchResults')->name('search.searchResults');
+    Route::get('/search/results/{query}', 'SearchController@searchResults');
+    Route::post('/search', 'SearchController@search')->name('search.search');
     Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::get('/search/newposts', 'SearchController@searchNewPosts');
     });
