@@ -48,7 +48,7 @@
                             @if($loop->index < 5)
                                 <li class="list-group-item">
                                     @foreach ($c['discussion'] as $cd)
-                                    <h6>in <a href="/discussion/{{ $cd->slug }}#comment-{{ $c->id }}">{{ $cd->title }}</a></h6>
+                                    <h6>Comment in <a href="/discussion/{{ $cd->slug }}/comment/{{ $c->id }}">{{ $cd->title }}</a></h6>
                                     @endforeach
                                     <p>{{ $c->content }}</p>
                                     <span timestamp="{{ $c->created_at }}"></span>

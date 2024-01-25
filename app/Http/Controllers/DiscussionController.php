@@ -8,6 +8,7 @@ use App\Http\Requests\ManageDiscussionRequest;
 use App\Http\Requests\NewCommentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Discussion;
 use App\Models\Comment;
 use App\Models\User;
@@ -122,6 +123,59 @@ class DiscussionController extends Controller
                 $discID = $discussion->id;
                 $comments = Comment::where('discussion',$discID)->paginate(10);
                 return redirect('/discussion/'.$slug.'?page='.$comments->lastPage().'#lastreply');
+            }
+
+        } else {
+            abort(404);
+        }
+    }
+
+    /* show a specific page of a discussion by comment */
+
+    public function showComment($slug = null, $comment = null) {
+        $count1 = DB::table('discussions')->where('slug', $slug)->count();
+        if ($count1 == 1) {
+            $discussions = Discussion::where('slug',$slug)->get();
+            foreach ($discussions as $discussion) {
+                $disc_is_hidden = $discussion->is_hidden;
+                if ($disc_is_hidden == TRUE) {
+                    if (Auth::check()) {
+                        if (auth()->user()->group === "admin" || auth()->user()->group === "mod") {
+                            
+                        } else {
+                            abort(403);
+                        }
+                    } else {
+                        abort(403);
+                    }
+                }
+                $discID = $discussion->id;
+                $count2 = DB::table('comments')->where('id', $comment)->where('discussion', $discID)->count();
+                if ($count2 == 1) {
+                    $comments = Comment::where('discussion',$discID)->get();
+
+                    $i = 0;
+
+                    foreach ($comments as $item) {
+                        if ($item->id != $comment) {
+                            $i++;
+                        } else {
+                            $i++;
+                            break;
+                        }
+                    }
+
+                    $page = ceil($i/10);
+
+                    if ($page == 1) {
+                        return redirect('/discussion/'.$slug.'#comment-'.$comment);
+                    } else {
+                        return redirect('/discussion/'.$slug.'?page='.$page.'#comment-'.$comment);
+                    }
+
+                } else {
+                    abort(404);
+                }
             }
 
         } else {

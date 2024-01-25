@@ -55,7 +55,7 @@
       </div>
       <div class="search-result-li-right">
         <h6>
-          <a href="/discussion/{{ $r->slug }}#comment-{{ $r->id }}">{{ $r->title }}</a>
+          <a href="/discussion/{{ $r->slug }}/comment/{{ $r->id }}">{{ $r->title }}</a>
         </h6>
         <p>{{ $r->content_summary }}</p>
         <span timestamp="{{ $r->created_at }}">Comment by <a href="/member/{{ $ru->username }}">{{ $ru->username }}</a> in @foreach ($r['section'] as $rs) <a href="/#{{ $rs->slug }}">{{ $rs->name }}</a> @endforeach / @foreach ($r['category'] as $rc) <a href="/category/{{ $rc->slug }}">{{ $rc->name }}</a> @endforeach on </span>
