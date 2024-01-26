@@ -14,8 +14,9 @@
 
 <form class="cp-user-search" role="search">
   <input type="text" class="form-control" placeholder="Search Users" aria-label="Search Users" aria-describedby="searchHelp">
-  <div id="searchHelp" class="form-text">Search by Username, Email, or User Group</div>
+  <div id="searchHelp" class="form-text">Search by Username</div>
 </form>
+
 <table class="table control-panel-user-table">
   <thead>
     <tr>
