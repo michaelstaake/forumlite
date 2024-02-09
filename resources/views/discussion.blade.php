@@ -388,7 +388,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="edit" class="form-label">Content</label>
-							<textarea class="form-control" id="edit" name="content" rows="4">{!! $d->content !!}</textarea>
+							<textarea class="form-control" id="edit" name="content" rows="4">{{ $d->content }}</textarea>
 						</div>
 						
 						<input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -455,11 +455,6 @@
 		@endif
 	@endauth
 
-	<script type="text/javascript" >
-	   $(document).ready(function() {
-	      $("#reply").markItUp(mySettings);
-	   });
-	</script>
 	<script>
 		function quote(comment) {
 			var quoteUsername = document.getElementById('comment-' + comment + '-username').innerHTML;
