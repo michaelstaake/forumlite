@@ -60,7 +60,7 @@
 				</div>
 				@auth
 				<div class="reply-actions">
-					<a href="#leavecomment" onclick="quote('0')">Quote</a>
+					<!--<a href="#leavecomment" onclick="quote('0')">Quote</a>-->
 					@if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
 						<a href="#" data-bs-toggle="modal" data-bs-target="#discussionEditModal">Edit</a>
 						<a href="#" data-bs-toggle="modal" data-bs-target="#discussionMoveModal">Move</a>
@@ -96,8 +96,8 @@
 							</div>
 						</div>
 					<div class="clearfix"></div>
-					<div class="reply-content" id="comment-{{ $c->id }}-content">
-					<p>	{{ $c->content }} </p>
+					<div class="reply-content">
+					<p id="comment-{{ $c->id }}-content">{{ $c->content }}</p>
 					@auth
 						@if ($can_signature == "TRUE")
 							@if ($m->signature != "")	
@@ -111,7 +111,7 @@
 					</div>
 					@auth
 					<div class="reply-actions">
-						<a href="#leavecomment" onclick="quote('{{ $c->id }}')">Quote</a>
+						<!--<a href="#leavecomment" onclick="quote('{{ $c->id }}')">Quote</a>-->
 						@if (auth()->user()->group === "admin" || auth()->user()->group === "mod")
 							<a href="#" data-bs-toggle="modal" data-bs-target="#commentEditModal" data-bs-comment="{{ $c->id }}">Edit</a>
 							<a href="#" data-bs-toggle="modal" data-bs-target="#commentDeleteModal" data-bs-comment="{{ $c->id }}">Delete</a>
@@ -165,7 +165,7 @@
 
 
 							<textarea class="form-control" id="reply" name="content" rows="4"></textarea>
-							<button class="btn btn-primary float-end discussion-comment-button" type="submit"><i class="bi bi-reply"></i> Submit</button>
+							<button class="btn btn-primary float-end discussion-comment-button" type="submit" id="replySubmit" ><i class="bi bi-reply"></i> Submit</button>
 						</form>		
 						
 					</div>
@@ -456,13 +456,35 @@
 	@endauth
 
 	<script>
-		function quote(comment) {
-			var quoteUsername = document.getElementById('comment-' + comment + '-username').innerHTML;
-			var quoteContent = document.getElementById('comment-' + comment + '-content').innerHTML;
-			var quote = '<blockquote><p><a href="#comment-' + comment + '">' + quoteUsername + '</a>:</p>' + quoteContent + '</blockquote><p></p>';
-			var textarea = document.getElementById("reply");
-			textarea.insertAdjacentHTML("afterbegin",quote);
+
+
+		const replyTextarea = document.getElementById('reply');
+		const replySubmitButton = document.getElementById('replySubmit');
+
+		window.addEventListener('load', () => {
+			replySubmitButton.disabled = true;
+		});
+
+		replyTextarea.addEventListener('input', () => {
+		if (replyTextarea.value.length >= 10) {
+			replySubmitButton.disabled = false;
+		} else {
+			replySubmitButton.disabled = true;
 		}
+		});
+
+
+	</script>
+
+
+	<script>
+		// function quote(comment) {
+		// 	var quoteUsername = document.getElementById('comment-' + comment + '-username').innerHTML;
+		// 	var quoteContent = document.getElementById('comment-' + comment + '-content').innerHTML;
+		// 	var quote = '<blockquote><p><a href="#comment-' + comment + '">' + quoteUsername + '</a>:</p>' + quoteContent + '</blockquote><p></p>';
+		// 	var textarea = document.getElementById("reply");
+		// 	textarea.insertAdjacentHTML("afterbegin",quote);
+		// }
 
 	</script>
 	<script>
